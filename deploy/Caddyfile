@@ -1,0 +1,55 @@
+# ARCHITECTURE.md §11, SRS §9.1 — üretim ters vekili. Ortam değişkenleri /etc/vasquez/caddy.env:
+#   SITE_DOMAIN     ör. vasquez.dev
+#   ACME_EMAIL      sertifika bildirimleri
+#   CSP_SCRIPT_SRC  frontend/dist/csp-hashes.json → scriptSrc (deploy.sh yazar)
+#   VASQUEZ_DIST    /srv/vasquez/frontend/dist
+{
+	email {$ACME_EMAIL}
+}
+
+{$SITE_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		X-Frame-Options "DENY"
+		-Server
+	}
+
+	# API ve medya → Node (tek hop; Express TRUST_PROXY=1). API kendi sıkı CSP başlığını döner.
+	@backend path /api/* /media/*
+	handle @backend {
+		# flush_interval -1: canlı durum akışı (SSE, FR-INT-09) tamponlanmadan iletilir.
+		reverse_proxy 127.0.0.1:4000 {
+			flush_interval -1
+		}
+	}
+
+	# SPA: statik dosyalar; bilinmeyen yollar index.html'e.
+	handle {
+		root * {$VASQUEZ_DIST}
+		header Content-Security-Policy "default-src 'self'; script-src {$CSP_SCRIPT_SRC}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.discordapp.com https://media.discordapp.net https://i.scdn.co https://*.spotifycdn.com https://avatars.githubusercontent.com; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		@html path / /index.html
+		header @html Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+
+	log {
+		output file /var/log/caddy/vasquez.access.log {
+			roll_size 20MiB
+			roll_keep 10
+		}
+		format json
+	}
+}
+
+www.{$SITE_DOMAIN} {
+	redir https://{$SITE_DOMAIN}{uri} permanent
+}

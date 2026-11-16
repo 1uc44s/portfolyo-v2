@@ -1,0 +1,4 @@
+/* RULES.md §8.3 — self-host (KVKK: üçüncü taraf font CDN'i yok). latin + latin-ext alt kümeleri. */
+@import '@fontsource-variable/bricolage-grotesque/index.css';
+@import '@fontsource-variable/geist/index.css';
+@import '@fontsource-variable/geist-mono/index.css';

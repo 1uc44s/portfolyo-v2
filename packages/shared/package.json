@@ -1,0 +1,17 @@
+{
+  "name": "@vasquez/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Frontend ve backend ortak sabitler, Zod şemaları ve metin yardımcıları (Node/DOM bağımsız).",
+  "exports": {
+    ".": "./src/index.js",
+    "./constants/*": "./src/constants/*.js",
+    "./validation/*": "./src/validation/*.js",
+    "./text/*": "./src/text/*.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

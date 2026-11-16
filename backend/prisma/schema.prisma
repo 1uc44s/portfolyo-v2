@@ -1,0 +1,736 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ───────────────────────────── Enum'lar ─────────────────────────────
+enum AdminRole {
+  SUPER_ADMIN
+  EDITOR
+}
+
+enum MediaKind {
+  BACKGROUND
+  MUSIC_AUDIO
+  MUSIC_COVER
+  PROFILE
+  CURSOR
+  PROJECT_IMAGE
+  LINK_IMAGE
+  FAVICON
+  TECH_STACK_IMAGE
+  NAME_OVERLAY
+  FALLING_IMAGE
+}
+
+enum MediaType {
+  IMAGE
+  ANIMATED_IMAGE
+  VIDEO
+  AUDIO
+  CURSOR
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum RotationCategory {
+  BACKGROUND
+  MUSIC
+  PFP
+  CURSOR
+  NAME_OVERLAY
+}
+
+enum NameEffect {
+  NEON
+  GRADIENT
+  GRADIENT_ANIMATED
+  OVERLAY
+}
+
+enum FallingKind {
+  IMAGE
+  TEXT
+}
+
+enum ProfileMode {
+  ROTATION
+  FIXED
+}
+
+enum IntegrationProvider {
+  DISCORD
+  SPOTIFY
+  GITHUB
+}
+
+enum IntegrationStatus {
+  DISCONNECTED
+  CONNECTED
+  ERROR
+}
+
+enum ContactStatus {
+  PENDING
+  REPLIED
+}
+
+enum DownloadTarget {
+  WALLPAPER
+  PFP
+}
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  PROJECT_VIEW
+}
+
+enum TemplateChannel {
+  EMAIL
+  WHATSAPP
+}
+
+enum TemplateKey {
+  PASSWORD_RESET
+  CONTACT_NOTIFICATION
+  SMTP_TEST
+  CONTACT_REPLY_EMAIL
+  CONTACT_REPLY_WHATSAPP
+}
+
+enum LegalDocKey {
+  KVKK_NOTICE
+  COOKIE_POLICY
+}
+
+// ───────────────────────────── Kimlik & Oturum ─────────────────────────────
+model AdminUser {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                String    @unique // küçük harfe normalize
+  displayName          String?   @map("display_name") @db.VarChar(80)
+  passwordHash         String    @map("password_hash") // argon2id PHC string
+  role                 AdminRole @default(SUPER_ADMIN)
+  permissions          String[]  @default([]) // EDITOR modül kapsamları (ADMIN.md §4)
+  isActive             Boolean   @default(true) @map("is_active")
+  mustChangePassword   Boolean   @default(false) @map("must_change_password")
+  passwordChangedAt    DateTime? @map("password_changed_at") @db.Timestamptz(3)
+  totpEnabled          Boolean   @default(false) @map("totp_enabled")
+  totpSecretEnc        String?   @map("totp_secret_enc") // aktif TOTP secret (şifreli)
+  totpPendingSecretEnc String?   @map("totp_pending_secret_enc") // kurulum sürerken geçici secret
+  lastTotpStep         BigInt?   @map("last_totp_step") // replay koruması
+  failedLoginCount     Int       @default(0) @map("failed_login_count")
+  lockedUntil          DateTime? @map("locked_until") @db.Timestamptz(3)
+  lastLoginAt          DateTime? @map("last_login_at") @db.Timestamptz(3)
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  sessions       AdminSession[]
+  resetTokens    PasswordResetToken[]
+  recoveryCodes  RecoveryCode[]
+  auditLogs      AuditLog[]
+  uploadedAssets MediaAsset[]         @relation("UploadedBy")
+  overrides      ContentOverride[]
+
+  @@map("admin_users")
+}
+
+model AdminSession {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminId          String    @map("admin_id") @db.Uuid
+  familyId         String    @map("family_id") @db.Uuid // rotasyon zinciri
+  refreshTokenHash String    @unique @map("refresh_token_hash") // sha256(token) hex
+  rememberMe       Boolean   @default(false) @map("remember_me")
+  expiresAt        DateTime  @map("expires_at") @db.Timestamptz(3)
+  lastUsedAt       DateTime  @default(now()) @map("last_used_at") @db.Timestamptz(3)
+  rotatedAt        DateTime? @map("rotated_at") @db.Timestamptz(3) // yenisiyle değiştirildi
+  revokedAt        DateTime? @map("revoked_at") @db.Timestamptz(3)
+  revokedReason    String?   @map("revoked_reason") @db.VarChar(40) // LOGOUT | ADMIN_REVOKE | REUSE | PASSWORD_CHANGE | EXPIRED
+  ipAddress        String?   @map("ip_address") @db.VarChar(45)
+  userAgent        String?   @map("user_agent") @db.VarChar(400)
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([familyId])
+  @@index([expiresAt])
+  @@map("admin_sessions")
+}
+
+model PasswordResetToken {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminId       String    @map("admin_id") @db.Uuid
+  tokenHash     String    @unique @map("token_hash")
+  expiresAt     DateTime  @map("expires_at") @db.Timestamptz(3)
+  usedAt        DateTime? @map("used_at") @db.Timestamptz(3)
+  requestIpHash String?   @map("request_ip_hash") @db.VarChar(64)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model RecoveryCode {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminId   String    @map("admin_id") @db.Uuid
+  codeHash  String    @map("code_hash") // sha256(normalize(code))
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@unique([adminId, codeHash])
+  @@map("recovery_codes")
+}
+
+model MailSettings {
+  id              Int       @id @default(1)
+  smtpHost        String?   @map("smtp_host") @db.VarChar(255)
+  smtpPort        Int?      @map("smtp_port")
+  smtpSecure      Boolean   @default(true) @map("smtp_secure")
+  smtpUser        String?   @map("smtp_user") @db.VarChar(255)
+  appPasswordEnc  String?   @map("app_password_enc") // mail uygulama anahtarı (şifreli)
+  fromName        String?   @map("from_name") @db.VarChar(80)
+  fromEmail       String?   @map("from_email") @db.VarChar(254)
+  notifyOnContact Boolean   @default(false) @map("notify_on_contact")
+  notifyEmail     String?   @map("notify_email") @db.VarChar(254)
+  lastTestAt      DateTime? @map("last_test_at") @db.Timestamptz(3)
+  lastTestOk      Boolean?  @map("last_test_ok")
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("mail_settings")
+}
+
+// ───────────────────────────── Site içeriği (tekil) ─────────────────────────────
+model SiteSettings {
+  id                   Int      @id @default(1)
+  navbarTitle          String   @default("1uc44s GitHub") @map("navbar_title") @db.VarChar(40)
+  faviconAssetId       String?  @map("favicon_asset_id") @db.Uuid
+  footerTechs          Json     @default("[]") @map("footer_techs") // [{ "label": "React", "icon": "SiReact" }]
+  techStackPublished   Boolean  @default(false) @map("tech_stack_published") // en son faz; o zamana kadar false
+  techStackTitleTop    String   @default("7") @map("tech_stack_title_top") @db.VarChar(20)
+  techStackTitleMain   String   @default("Tech") @map("tech_stack_title_main") @db.VarChar(40)
+  techStackTitleBottom String   @default("Stack") @map("tech_stack_title_bottom") @db.VarChar(40)
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  favicon MediaAsset? @relation("Favicon", fields: [faviconAssetId], references: [id], onDelete: SetNull)
+
+  @@map("site_settings")
+}
+
+model HeroSettings {
+  id                  Int          @id @default(1)
+  displayName         String       @default("Lucas Vasquez") @map("display_name") @db.VarChar(60)
+  tagline             String?      @db.VarChar(160)
+  location            String?      @default("Samsung Galaxy") @db.VarChar(80)
+  nameEffects         NameEffect[] @default([]) @map("name_effects")
+  gradientFrom        String       @default("#a78bfa") @map("gradient_from") @db.VarChar(7)
+  gradientTo          String       @default("#f472b6") @map("gradient_to") @db.VarChar(7)
+  profileMode         ProfileMode  @default(ROTATION) @map("profile_mode")
+  fixedProfileMediaId Int?         @map("fixed_profile_media_id")
+  updatedAt           DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  fixedProfileMedia ProfileMedia? @relation("HeroFixedProfile", fields: [fixedProfileMediaId], references: [id], onDelete: SetNull)
+
+  @@map("hero_settings")
+}
+
+model AboutContent {
+  id           Int      @id @default(1)
+  title        String   @default("Hakkımda") @db.VarChar(80)
+  bodyMarkdown String   @default("") @map("body_markdown") @db.Text // ≤ 20 000 karakter (uygulama)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("about_content")
+}
+
+model LegalDocument {
+  id           Int         @id @default(autoincrement())
+  key          LegalDocKey @unique
+  title        String      @db.VarChar(120)
+  bodyMarkdown String      @map("body_markdown") @db.Text
+  version      Int         @default(1) // COOKIE_POLICY sürümü banner'ı tetikler
+  updatedAt    DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("legal_documents")
+}
+
+model MessageTemplate {
+  id        Int             @id @default(autoincrement())
+  key       TemplateKey     @unique
+  channel   TemplateChannel
+  subject   String?         @db.VarChar(200) // EMAIL için
+  body      String          @db.Text
+  isSystem  Boolean         @default(true) @map("is_system") // silinemez, varsayılana sıfırlanabilir
+  updatedAt DateTime        @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("message_templates")
+}
+
+// ───────────────────────────── Medya ─────────────────────────────
+model MediaAsset {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kind             MediaKind
+  mediaType        MediaType        @map("media_type")
+  storageKey       String           @unique @map("storage_key") // ör. bg/2b1e...c9.webp
+  posterKey        String?          @map("poster_key") // video poster (webp)
+  thumbnailKey     String?          @map("thumbnail_key") // küçük önizleme (webp)
+  downloadKey      String?          @map("download_key") // indirme için ayrı varyant (duvar kağıdı olabilen background)
+  originalFilename String           @map("original_filename") @db.VarChar(255) // yalnızca gösterim
+  safeFilename     String           @map("safe_filename") @db.VarChar(100) // indirme adı (slug)
+  mimeType         String           @map("mime_type") @db.VarChar(100)
+  extension        String           @db.VarChar(10)
+  sizeBytes        Int              @map("size_bytes")
+  totalBytes       Int              @default(0) @map("total_bytes") // tüm varyantların toplamı (depolama özeti)
+  sha256           String           @db.Char(64)
+  width            Int?
+  height           Int?
+  durationMs       Int?             @map("duration_ms")
+  processingStatus ProcessingStatus @default(PENDING) @map("processing_status")
+  processingError  String?          @map("processing_error") @db.VarChar(500)
+  metadata         Json? // codec, bitrate vb. (kişisel veri yok)
+  uploadedById     String?          @map("uploaded_by_id") @db.Uuid
+  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime         @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  // Sahip tablolardaki FK'ler @unique olduğu için ilişkiler 1:1'dir (ters taraf tekil ve opsiyonel).
+  uploadedBy    AdminUser?     @relation("UploadedBy", fields: [uploadedById], references: [id], onDelete: SetNull)
+  background    Background?
+  musicAudio    Music?         @relation("MusicAudio")
+  musicCover    Music?         @relation("MusicCover")
+  profileMedia  ProfileMedia?
+  cursorNormal  CursorSet?     @relation("CursorNormal")
+  cursorClick   CursorSet?     @relation("CursorClick")
+  projectImage  ProjectImage?
+  linkItem      LinkItem?
+  faviconOf     SiteSettings[] @relation("Favicon")
+  nameOverlay   NameOverlay?
+  fallingItem   FallingItem?
+  techStackItem TechStackItem?
+
+  @@index([kind, createdAt(sort: Desc)])
+  @@index([sha256])
+  @@index([processingStatus])
+  @@map("media_assets")
+}
+
+model StorageDeletionJob {
+  id          BigInt    @id @default(autoincrement())
+  storageKey  String    @map("storage_key")
+  attempts    Int       @default(0)
+  lastError   String?   @map("last_error") @db.VarChar(500)
+  nextRunAt   DateTime  @default(now()) @map("next_run_at") @db.Timestamptz(3)
+  processedAt DateTime? @map("processed_at") @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([processedAt, nextRunAt])
+  @@map("storage_deletion_jobs")
+}
+
+// ───────────────────────────── Rotasyon içerikleri ─────────────────────────────
+model Background {
+  id              Int      @id @default(autoincrement())
+  publicId        String   @unique @default(cuid()) @map("public_id")
+  title           String   @db.VarChar(120)
+  assetId         String   @unique @map("asset_id") @db.Uuid
+  isActive        Boolean  @default(true) @map("is_active")
+  rotationEnabled Boolean  @default(true) @map("rotation_enabled")
+  isWallpaper     Boolean  @default(false) @map("is_wallpaper") // true: /wallpapers'ta listelenir ve indirilir
+  downloadCount   Int      @default(0) @map("download_count")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  asset      MediaAsset              @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  selections DailyContentSelection[]
+  overrides  ContentOverride[]
+  downloads  DownloadEvent[]
+
+  @@index([isActive, rotationEnabled])
+  @@index([isActive, isWallpaper, id])
+  @@map("backgrounds")
+}
+
+model Music {
+  id              Int      @id @default(autoincrement())
+  publicId        String   @unique @default(cuid()) @map("public_id")
+  title           String   @db.VarChar(120)
+  artist          String?  @db.VarChar(120)
+  audioAssetId    String   @unique @map("audio_asset_id") @db.Uuid
+  coverAssetId    String   @unique @map("cover_asset_id") @db.Uuid // kapak zorunlu (Şartname §12.2)
+  durationMs      Int?     @map("duration_ms")
+  isActive        Boolean  @default(true) @map("is_active")
+  rotationEnabled Boolean  @default(true) @map("rotation_enabled")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  audio      MediaAsset              @relation("MusicAudio", fields: [audioAssetId], references: [id], onDelete: Restrict)
+  cover      MediaAsset              @relation("MusicCover", fields: [coverAssetId], references: [id], onDelete: Restrict)
+  selections DailyContentSelection[]
+  overrides  ContentOverride[]
+
+  @@index([isActive, rotationEnabled])
+  @@map("musics")
+}
+
+model ProfileMedia {
+  id              Int      @id @default(autoincrement())
+  publicId        String   @unique @default(cuid()) @map("public_id")
+  title           String   @db.VarChar(120)
+  assetId         String   @unique @map("asset_id") @db.Uuid
+  isActive        Boolean  @default(true) @map("is_active")
+  isDownloadable  Boolean  @default(false) @map("is_downloadable")
+  rotationEnabled Boolean  @default(true) @map("rotation_enabled") // hero rotasyon havuzunda mı
+  downloadCount   Int      @default(0) @map("download_count")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  asset       MediaAsset              @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  selections  DailyContentSelection[]
+  overrides   ContentOverride[]
+  downloads   DownloadEvent[]
+  heroFixedOf HeroSettings[]          @relation("HeroFixedProfile")
+
+  @@index([isActive, isDownloadable, id])
+  @@index([isActive, rotationEnabled])
+  @@map("profile_media")
+}
+
+model CursorSet {
+  id              Int      @id @default(autoincrement())
+  publicId        String   @unique @default(cuid()) @map("public_id")
+  title           String   @db.VarChar(120)
+  normalAssetId   String   @unique @map("normal_asset_id") @db.Uuid
+  clickAssetId    String   @unique @map("click_asset_id") @db.Uuid
+  normalHotspotX  Int      @default(0) @map("normal_hotspot_x")
+  normalHotspotY  Int      @default(0) @map("normal_hotspot_y")
+  clickHotspotX   Int      @default(0) @map("click_hotspot_x")
+  clickHotspotY   Int      @default(0) @map("click_hotspot_y")
+  isActive        Boolean  @default(true) @map("is_active")
+  rotationEnabled Boolean  @default(true) @map("rotation_enabled")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  normal     MediaAsset              @relation("CursorNormal", fields: [normalAssetId], references: [id], onDelete: Restrict)
+  click      MediaAsset              @relation("CursorClick", fields: [clickAssetId], references: [id], onDelete: Restrict)
+  selections DailyContentSelection[]
+  overrides  ContentOverride[]
+
+  @@index([isActive, rotationEnabled])
+  @@map("cursor_sets")
+}
+
+// 2026-11-16 — Hero isim GIF katmanı (rotasyonlu, yalnızca GIF).
+model NameOverlay {
+  id              Int      @id @default(autoincrement())
+  publicId        String   @unique @default(cuid()) @map("public_id")
+  title           String   @db.VarChar(120)
+  assetId         String   @unique @map("asset_id") @db.Uuid
+  isActive        Boolean  @default(true) @map("is_active")
+  rotationEnabled Boolean  @default(true) @map("rotation_enabled")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  asset      MediaAsset              @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  selections DailyContentSelection[]
+  overrides  ContentOverride[]
+
+  @@index([isActive, rotationEnabled])
+  @@map("name_overlays")
+}
+
+// 2026-11-16 — Public sayfalarda yukarıdan yağan görsel/metin öğeleri.
+model FallingItem {
+  id           Int         @id @default(autoincrement())
+  kind         FallingKind
+  text         String?     @db.VarChar(16)
+  imageAssetId String?     @unique @map("image_asset_id") @db.Uuid
+  size         Int         @default(24) // px, 12–64 (CHECK)
+  isActive     Boolean     @default(true) @map("is_active")
+  sortOrder    Int         @default(0) @map("sort_order")
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  image MediaAsset? @relation(fields: [imageAssetId], references: [id], onDelete: Restrict)
+
+  @@index([isActive, sortOrder, id])
+  @@map("falling_items")
+}
+
+model DailyContentSelection {
+  id             Int              @id @default(autoincrement())
+  category       RotationCategory
+  selectedDate   DateTime         @map("selected_date") @db.Date // Europe/Istanbul takvim günü
+  cycleNumber    Int              @map("cycle_number")
+  backgroundId   Int?             @map("background_id")
+  musicId        Int?             @map("music_id")
+  profileMediaId Int?             @map("profile_media_id")
+  cursorSetId    Int?             @map("cursor_set_id")
+  nameOverlayId  Int?             @map("name_overlay_id")
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  background   Background?   @relation(fields: [backgroundId], references: [id], onDelete: SetNull)
+  music        Music?        @relation(fields: [musicId], references: [id], onDelete: SetNull)
+  profileMedia ProfileMedia? @relation(fields: [profileMediaId], references: [id], onDelete: SetNull)
+  cursorSet    CursorSet?    @relation(fields: [cursorSetId], references: [id], onDelete: SetNull)
+  nameOverlay  NameOverlay?  @relation(fields: [nameOverlayId], references: [id], onDelete: SetNull)
+
+  @@unique([category, selectedDate])
+  @@index([category, cycleNumber])
+  @@map("daily_content_selections")
+}
+
+model ContentOverride {
+  id             Int              @id @default(autoincrement())
+  category       RotationCategory @unique // kategori başına en fazla 1
+  backgroundId   Int?             @map("background_id")
+  musicId        Int?             @map("music_id")
+  profileMediaId Int?             @map("profile_media_id")
+  cursorSetId    Int?             @map("cursor_set_id")
+  nameOverlayId  Int?             @map("name_overlay_id")
+  validUntil     DateTime         @map("valid_until") @db.Timestamptz(3) // bir sonraki 00:00 Europe/Istanbul
+  createdById    String?          @map("created_by_id") @db.Uuid
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  background   Background?   @relation(fields: [backgroundId], references: [id], onDelete: Cascade)
+  music        Music?        @relation(fields: [musicId], references: [id], onDelete: Cascade)
+  profileMedia ProfileMedia? @relation(fields: [profileMediaId], references: [id], onDelete: Cascade)
+  cursorSet    CursorSet?    @relation(fields: [cursorSetId], references: [id], onDelete: Cascade)
+  nameOverlay  NameOverlay?  @relation(fields: [nameOverlayId], references: [id], onDelete: Cascade)
+  createdBy    AdminUser?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@map("content_overrides")
+}
+
+// ───────────────────────────── Projeler ─────────────────────────────
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(60)
+  nameKey   String   @unique @map("name_key") @db.VarChar(60) // normalizeKey(name) — §4.1
+  isActive  Boolean  @default(true) @map("is_active")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  projects ProjectCategory[]
+
+  @@index([isActive, sortOrder])
+  @@map("categories")
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(120)
+  title       String    @db.VarChar(120)
+  description String    @db.Text // Markdown, ≤ 20 000
+  demoUrl     String?   @map("demo_url") @db.VarChar(2048)
+  videoUrl    String?   @map("video_url") @db.VarChar(2048)
+  githubUrl   String?   @map("github_url") @db.VarChar(2048)
+  isPublished Boolean   @default(false) @map("is_published")
+  sortOrder   Int       @default(0) @map("sort_order")
+  viewCount   Int       @default(0) @map("view_count")
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  categories      ProjectCategory[]
+  images          ProjectImage[]
+  analyticsEvents AnalyticsEvent[]
+
+  @@index([isPublished, sortOrder, id])
+  @@map("projects")
+}
+
+model ProjectCategory {
+  projectId  Int      @map("project_id")
+  categoryId Int      @map("category_id")
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(3)
+
+  project  Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@id([projectId, categoryId])
+  @@index([categoryId])
+  @@map("project_categories")
+}
+
+model ProjectImage {
+  id        Int      @id @default(autoincrement())
+  projectId Int      @map("project_id")
+  assetId   String   @unique @map("asset_id") @db.Uuid
+  alt       String?  @db.VarChar(160)
+  sortOrder Int      @default(0) @map("sort_order") // 0 = kapak
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  project Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  asset   MediaAsset @relation(fields: [assetId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, sortOrder])
+  @@map("project_images")
+}
+
+// ───────────────────────────── Linkler ─────────────────────────────
+model LinkItem {
+  id           Int      @id @default(autoincrement())
+  title        String   @db.VarChar(80) // benzersiz DEĞİL
+  url          String   @db.VarChar(2048)
+  imageAssetId String   @unique @map("image_asset_id") @db.Uuid
+  isActive     Boolean  @default(true) @map("is_active")
+  sortOrder    Int      @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  image MediaAsset @relation(fields: [imageAssetId], references: [id], onDelete: Restrict)
+
+  @@index([isActive, sortOrder, id])
+  @@map("link_items")
+}
+
+// ───────────────────────────── Entegrasyonlar ─────────────────────────────
+model IntegrationSetting {
+  id             Int                 @id @default(autoincrement())
+  provider       IntegrationProvider @unique
+  isEnabled      Boolean             @default(false) @map("is_enabled")
+  config         Json                @default("{}") // gizli olmayan: discordUserId, githubUsername, spotifyClientId
+  secretsEnc     String?             @map("secrets_enc") // JSON → AES-GCM: botToken, clientSecret, refreshToken
+  status         IntegrationStatus   @default(DISCONNECTED)
+  lastSyncAt     DateTime?           @map("last_sync_at") @db.Timestamptz(3)
+  lastSuccessAt  DateTime?           @map("last_success_at") @db.Timestamptz(3)
+  lastError      String?             @map("last_error") @db.VarChar(500) // secret içermez
+  publicSnapshot Json?               @map("public_snapshot") // yalnızca public alanlar
+  snapshotAt     DateTime?           @map("snapshot_at") @db.Timestamptz(3)
+  updatedAt      DateTime            @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("integration_settings")
+}
+
+// ───────────────────────────── Tech Stack (F21) ─────────────────────────────
+model TechStackItem {
+  id           Int      @id @default(autoincrement())
+  label        String   @db.VarChar(40)
+  description  String   @default("") @db.Text // ≤ 2000, düz metin
+  imageAssetId String?  @unique @map("image_asset_id") @db.Uuid
+  isActive     Boolean  @default(true) @map("is_active")
+  sortOrder    Int      @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  image MediaAsset? @relation(fields: [imageAssetId], references: [id], onDelete: Restrict)
+
+  @@index([isActive, sortOrder, id])
+  @@map("tech_stack_items")
+}
+
+// ───────────────────────────── İletişim ─────────────────────────────
+model ContactMessage {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName      String        @map("first_name") @db.VarChar(60)
+  lastName       String        @map("last_name") @db.VarChar(60)
+  phone          String?       @db.VarChar(20) // E.164 normalize; opsiyonel
+  email          String        @db.VarChar(254)
+  subject        String        @db.VarChar(120)
+  message        String        @db.Text
+  isRead         Boolean       @default(false) @map("is_read")
+  readAt         DateTime?     @map("read_at") @db.Timestamptz(3)
+  status         ContactStatus @default(PENDING)
+  repliedAt      DateTime?     @map("replied_at") @db.Timestamptz(3)
+  isSpam         Boolean       @default(false) @map("is_spam")
+  ipHash         String?       @map("ip_hash") @db.VarChar(64) // HMAC(dailySalt, ip) — ham IP yok
+  userAgent      String?       @map("user_agent") @db.VarChar(400)
+  retentionUntil DateTime      @map("retention_until") @db.Timestamptz(3) // createdAt + 12 ay
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([isSpam, isRead, createdAt(sort: Desc)])
+  @@index([status])
+  @@index([retentionUntil])
+  @@map("contact_messages")
+}
+
+// ───────────────────────────── Olaylar & Log ─────────────────────────────
+model DownloadEvent {
+  id             BigInt         @id @default(autoincrement())
+  target         DownloadTarget
+  backgroundId   Int?           @map("background_id")
+  profileMediaId Int?           @map("profile_media_id")
+  visitorHash    String?        @map("visitor_hash") @db.VarChar(64) // 90 gün sonra NULL
+  counted        Boolean
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  background   Background?   @relation(fields: [backgroundId], references: [id], onDelete: SetNull)
+  profileMedia ProfileMedia? @relation(fields: [profileMediaId], references: [id], onDelete: SetNull)
+
+  @@index([backgroundId, visitorHash, createdAt])
+  @@index([profileMediaId, visitorHash, createdAt])
+  @@index([createdAt])
+  @@map("download_events")
+}
+
+model AnalyticsEvent {
+  id          BigInt             @id @default(autoincrement())
+  type        AnalyticsEventType
+  path        String             @db.VarChar(200)
+  projectId   Int?               @map("project_id")
+  visitorHash String             @map("visitor_hash") @db.VarChar(64)
+  day         DateTime           @db.Date // Europe/Istanbul günü
+  createdAt   DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@index([type, day])
+  @@index([day, visitorHash])
+  @@index([projectId, day])
+  @@map("analytics_events")
+}
+
+model CookieConsentRecord {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // istemcideki consentId
+  version   Int
+  analytics Boolean
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("cookie_consent_records")
+}
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  adminId    String?  @map("admin_id") @db.Uuid
+  action     String   @db.VarChar(60)
+  entityType String?  @map("entity_type") @db.VarChar(40)
+  entityId   String?  @map("entity_id") @db.VarChar(64)
+  metadata   Json? // redaction'dan geçmiş
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+  userAgent  String?  @map("user_agent") @db.VarChar(400)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  admin AdminUser? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt(sort: Desc)])
+  @@index([adminId, createdAt(sort: Desc)])
+  @@index([entityType, entityId])
+  @@index([action, createdAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+model SystemState {
+  key       String   @id @db.VarChar(60) // ör. "daily_salt", "rotation_last_run"
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("system_state")
+}

@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: TypeScript dosyası yok (RULES.md §1)
+        run: npm run check:no-ts
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run build
+      - name: Bağımlılık güvenlik taraması (SRS SEC-16)
+        run: npm audit --audit-level=high --omit=dev

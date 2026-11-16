@@ -1,0 +1,39 @@
+# ARCHITECTURE.md §11 — API systemd servisi → /etc/systemd/system/vasquez-api.service
+[Unit]
+Description=vasquez portfolyo API (Express)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vasquez
+Group=vasquez
+WorkingDirectory=/srv/vasquez/backend
+EnvironmentFile=/etc/vasquez/backend.env
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=5
+# server.js 10 sn içinde zarif kapanır
+KillSignal=SIGTERM
+TimeoutStopSec=15
+
+# Sertleştirme
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+ReadWritePaths=/var/lib/vasquez/storage
+UMask=0027
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

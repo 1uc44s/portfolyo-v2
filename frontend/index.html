@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="tr" data-theme="dark" data-surface="glass" data-effects="full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>1uc44s GitHub</title>
+    <meta
+      name="description"
+      content="Projeler, duvar kağıtları, canlı durumlar ve iletişim — kişisel portfolyo."
+    />
+    <!-- SRS FR-THM-02: React'tan önce tercihleri uygula (FOUC önleme). CSP hash'i F4'te build adımında üretilir. -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        function read(k) {
+          try {
+            return localStorage.getItem(k);
+          } catch (e) {
+            return null;
+          }
+        }
+        var mq = function (q) {
+          return window.matchMedia && window.matchMedia(q).matches;
+        };
+        var theme = read('theme');
+        if (theme !== 'dark' && theme !== 'light')
+          theme = mq('(prefers-color-scheme: light)') ? 'light' : 'dark';
+        var surface = read('surface') === 'classic' ? 'classic' : 'glass';
+        var effects = read('effects');
+        if (effects !== 'full' && effects !== 'low')
+          effects = mq('(prefers-reduced-motion: reduce)') ? 'low' : 'full';
+        d.dataset.theme = theme;
+        d.dataset.surface = surface;
+        d.dataset.effects = effects;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
