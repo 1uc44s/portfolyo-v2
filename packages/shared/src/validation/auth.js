@@ -1,6 +1,14 @@
 // SRS §3.1 — kimlik doğrulama ve hesap formları (istemci + sunucu aynı şema).
 import { z } from 'zod';
 
+/** Cloudflare Turnstile — iletişim formu ve admin girişi (FR-CNT-05, SEC). */
+export const CAPTCHA_REQUIRED_MESSAGE = 'Doğrulamayı tamamla.';
+export const turnstileTokenField = () =>
+  z
+    .string({ error: CAPTCHA_REQUIRED_MESSAGE })
+    .min(1, CAPTCHA_REQUIRED_MESSAGE)
+    .max(2048, CAPTCHA_REQUIRED_MESSAGE);
+
 export const PASSWORD_MIN_LENGTH = 12;
 export const PASSWORD_MAX_LENGTH = 128;
 
@@ -49,6 +57,7 @@ export const loginSchema = z
     email: emailField(),
     password: currentPasswordField(),
     rememberMe: z.boolean().default(false),
+    turnstileToken: turnstileTokenField(),
   })
   .strict();
 

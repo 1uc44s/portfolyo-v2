@@ -59,7 +59,13 @@ export function refreshSession(staleToken = null) {
       channel?.postMessage({ type: 'session', ...session });
       return session.accessToken;
     } catch (error) {
-      useAuthStore.getState().clear();
+      // Yalnızca sunucu oturumu reddederse çıkış: ağ kesintisi, timeout veya 5xx'te oturum
+      // korunur (form verisi kaybolmaz); istek hatası çağırana iletilir.
+      // Açılıştaki ilk yenilemede (durum 'unknown') geri yüklenecek oturum yoktur: her hatada
+      // giriş ekranına düşülür, yoksa sayfa yükleme iskeletinde kalırdı.
+      const status = error?.response?.status;
+      const booting = useAuthStore.getState().status === 'unknown';
+      if (booting || status === 401 || status === 403) useAuthStore.getState().clear();
       throw error;
     }
   }).finally(() => {

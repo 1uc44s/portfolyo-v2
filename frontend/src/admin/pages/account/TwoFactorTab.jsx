@@ -58,10 +58,13 @@ function RecoveryCodes({ codes, onDone }) {
     const url = URL.createObjectURL(new Blob([`${text}\n`], { type: 'text/plain' }));
     const link = Object.assign(document.createElement('a'), {
       href: url,
-      download: 'vasquez-kurtarma-kodlari.txt',
+      download: 'kurtarma-kodlari.txt',
     });
+    // Firefox/Safari: bağlantı DOM'da olmalı; URL indirme başladıktan sonra serbest bırakılır.
+    document.body.append(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   return (
     <div className="grid gap-5">

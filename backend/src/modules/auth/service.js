@@ -65,8 +65,11 @@ async function completeLogin(admin, rememberMe, ctx, method) {
  * FR-AUTH-01, US-20 — kilit, numaralandırma koruması, 2FA ayrımı.
  * @param {{ email: string, password: string, rememberMe: boolean }} input
  * @param {{ ipAddress?: string|null, userAgent?: string|null }} ctx
+ * @param {{ cleanSource?: boolean }} [opts] cleanSource: bu IP'den bu hesaba pencere içinde
+ *   başka deneme yok. Kilitliyken doğru şifre yalnızca temiz kaynaktan kabul edilir; böylece
+ *   başka IP'lerden yapılan yanlış denemeler gerçek sahibini dışarıda tutamaz.
  */
-export async function login({ email, password, rememberMe }, ctx) {
+export async function login({ email, password, rememberMe }, ctx, { cleanSource = false } = {}) {
   const admin = await prisma.adminUser.findUnique({ where: { email } });
   if (!admin) {
     await verifyDummyPassword(password);
@@ -77,7 +80,10 @@ export async function login({ email, password, rememberMe }, ctx) {
   const passwordOk = await verifyPassword(admin.passwordHash, password);
   const now = Date.now();
 
-  if (admin.lockedUntil && admin.lockedUntil.getTime() > now) {
+  const locked = Boolean(admin.lockedUntil && admin.lockedUntil.getTime() > now);
+  if (locked && passwordOk && cleanSource) {
+    await writeAudit({ adminId: admin.id, action: 'AUTH_LOCK_BYPASSED', ctx });
+  } else if (locked) {
     await writeAudit({
       adminId: admin.id,
       action: 'AUTH_LOGIN_FAILED',

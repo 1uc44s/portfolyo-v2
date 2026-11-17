@@ -42,6 +42,7 @@ export function uploadForm(method, url, { files = {}, fields = {} }, { onProgres
 
 export const authApi = {
   login: (body) => unwrap(api.post('/admin/auth/login', body)),
+  captcha: () => unwrap(api.get('/admin/auth/captcha')),
   verifySecondFactor: (body) => unwrap(api.post('/admin/auth/2fa/verify', body)),
   forgotPassword: (body) => unwrap(api.post('/admin/auth/forgot-password', body)),
   resetPassword: (body) => unwrap(api.post('/admin/auth/reset-password', body)),

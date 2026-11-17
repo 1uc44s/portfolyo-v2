@@ -113,7 +113,7 @@ dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için [AR
 | `CSRF_SECRET` | CSRF ve imzalı state çerezleri |
 | `APP_ENCRYPTION_KEY` | AES-256-GCM anahtarı (base64, 32 byte) — entegrasyon secret'ları, 2FA, mail şifresi |
 | `PUBLIC_ORIGIN` / `CORS_ORIGINS` | Site adresi; origin ve yönlendirme kontrolü |
-| `TURNSTILE_*` | Cloudflare Turnstile (iletişim formu CAPTCHA) |
+| `TURNSTILE_*` | Cloudflare Turnstile — iletişim formu ve admin girişi bot doğrulaması. Geliştirmede boşsa Cloudflare'in her zaman geçen test anahtarları kullanılır; **prod'da zorunlu** |
 
 ---
 
@@ -166,7 +166,7 @@ deploy/            Üretim: Caddyfile, systemd servisi, deploy/backup/smoke beti
 - **Oturum:** kısa ömürlü erişim token'ı + `__Host-` önekli, `HttpOnly`, `SameSite` refresh/CSRF çerezleri;
   token ailesi yeniden kullanım tespiti; 2FA (TOTP + kurtarma kodları).
 - **İstek koruması:** güvenlik başlıkları (CSP, HSTS, nosniff…), origin/referer kontrolü, uca özel rate limit,
-  iletişim formunda Turnstile. SQL yalnızca Prisma üzerinden (ham/`$queryRawUnsafe` yok).
+  iletişim formunda ve admin girişinde Turnstile (sunucuda Cloudflare `siteverify`, şifre kontrolünden önce). SQL yalnızca Prisma üzerinden (ham/`$queryRawUnsafe` yok).
 - **Veritabanı:** geliştirmede Docker PostgreSQL yalnızca `127.0.0.1`'e bağlıdır (`127.0.0.1:5447:5432`) —
   dışarıdan/ağdan erişilemez. Mailpit de yalnızca localhost.
 - **Dosya sunumu:** depo anahtarı kök dışına çıkamaz (path traversal koruması); yalnızca yayında/aktif sahibi

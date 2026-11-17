@@ -41,12 +41,39 @@ export function auditRoutes() {
       const stamp = new Date().toISOString().slice(0, 10);
       res.setHeader('Content-Type', 'text/csv; charset=utf-8');
       res.setHeader('Content-Disposition', `attachment; filename="audit-log-${stamp}.csv"`);
-      for await (const chunk of auditCsvChunks(req.valid.query, {
-        maxRows: AUDIT_EXPORT_MAX_ROWS,
-      })) {
-        if (!res.write(chunk)) await new Promise((resolve) => res.once('drain', resolve));
+
+      // İstemci bağlantıyı keserse sorgular durur; 'drain' beklerken askıda kalınmaz.
+      let closed = false;
+      const onClose = () => {
+        closed = true;
+      };
+      res.once('close', onClose);
+      const writable = () =>
+        new Promise((resolve) => {
+          const done = () => {
+            res.off('drain', done);
+            res.off('close', done);
+            resolve();
+          };
+          res.once('drain', done);
+          res.once('close', done);
+        });
+
+      try {
+        for await (const chunk of auditCsvChunks(req.valid.query, {
+          maxRows: AUDIT_EXPORT_MAX_ROWS,
+        })) {
+          if (closed) break;
+          if (!res.write(chunk)) await writable();
+        }
+        if (!closed) res.end();
+      } catch (err) {
+        // Başlıklar gönderildi: JSON hata yanıtı yazılamaz; bağlantı kesilir, hata loglanır.
+        req.log?.error({ err }, 'Audit CSV dışa aktarımı yarıda kaldı');
+        res.destroy(err);
+      } finally {
+        res.off('close', onClose);
       }
-      res.end();
     },
   );
 

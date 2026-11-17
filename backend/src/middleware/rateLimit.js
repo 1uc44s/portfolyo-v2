@@ -34,8 +34,8 @@ export function createRateLimiters(overrides = {}) {
   );
 }
 
-/** @param {RateLimiterRes} res */
-const rateLimitedError = (res) => {
+/** @param {{ msBeforeNext: number }} res */
+export const rateLimitedError = (res) => {
   const retryAfter = Math.max(1, Math.ceil(res.msBeforeNext / 1000));
   return new AppError(429, 'RATE_LIMITED', 'Çok fazla deneme yaptın. Biraz sonra tekrar dene.', {
     headers: { 'Retry-After': String(retryAfter) },
@@ -46,10 +46,11 @@ const rateLimitedError = (res) => {
 /**
  * Sayaçtan bir puan düşer; limit aşıldıysa 429 fırlatır.
  * @param {RateLimiterMemory} limiter @param {string} key
+ * @returns {Promise<RateLimiterRes>} consumedPoints / remainingPoints
  */
 export async function consume(limiter, key) {
   try {
-    await limiter.consume(key);
+    return await limiter.consume(key);
   } catch (err) {
     if (err instanceof RateLimiterRes) throw rateLimitedError(err);
     throw err;

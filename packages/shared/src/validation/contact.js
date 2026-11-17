@@ -1,7 +1,7 @@
 // FR-CNT-01, FR-MSG-01/03 — iletişim formu (istemci + sunucu aynı şema) ve gelen kutusu sorguları.
 // Telefonun E.164 geçerliliği sunucuda libphonenumber-js ile ayrıca denetlenir (FR-CNT-01 notu).
 import { z } from 'zod';
-import { emailField } from './auth.js';
+import { emailField, turnstileTokenField } from './auth.js';
 
 export const CONTACT_LIMITS = Object.freeze({
   firstName: 60,
@@ -61,8 +61,6 @@ export const optionalPhoneField = () =>
     )
     .transform((v) => v ?? null);
 
-export const CAPTCHA_REQUIRED_MESSAGE = 'Doğrulamayı tamamla.';
-
 export const contactSchema = z
   .object({
     firstName: text({
@@ -92,10 +90,7 @@ export const contactSchema = z
       maxMessage: `Mesaj en fazla ${CONTACT_LIMITS.message} karakter olabilir.`,
       multiline: true,
     }),
-    turnstileToken: z
-      .string({ error: CAPTCHA_REQUIRED_MESSAGE })
-      .min(1, CAPTCHA_REQUIRED_MESSAGE)
-      .max(2048, CAPTCHA_REQUIRED_MESSAGE),
+    turnstileToken: turnstileTokenField(),
     // Honeypot: insan için görünmez. Doluysa sunucu sessizce başarı döner (FR-CNT-01).
     website: z.string().max(200).optional(),
   })

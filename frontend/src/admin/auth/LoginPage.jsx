@@ -1,5 +1,6 @@
 // US-20 — `Hoşgeldiniz...` girişi: e-posta, şifre, beni 7 gün hatırla, şifremi unuttum.
-import { useState } from 'react';
+import { useCallback, useId, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
@@ -10,6 +11,7 @@ import { SubmitButton } from '@/components/common/SubmitButton.jsx';
 import { Checkbox } from '@/components/ui/checkbox.jsx';
 import { Input } from '@/components/ui/input.jsx';
 import { Label } from '@/components/ui/label.jsx';
+import { CaptchaField } from '@/features/contact/TurnstileWidget.jsx';
 import { getErrorMessage } from '@/lib/api/client.js';
 import { startSession } from '@/lib/auth/session.js';
 import { authApi } from '../lib/adminApi.js';
@@ -23,16 +25,30 @@ export function LoginPage() {
   const next = safeNextPath(params.get('next'));
   const notice = location.state?.notice ?? null;
   const [formError, setFormError] = useState(null);
+  const [captchaReset, setCaptchaReset] = useState(0);
+  const captchaErrorId = useId();
+  const captcha = useQuery({
+    queryKey: ['admin', 'auth', 'captcha'],
+    queryFn: authApi.captcha,
+    staleTime: Infinity,
+    retry: 1,
+  });
 
   const {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '', rememberMe: false },
+    defaultValues: { email: '', password: '', rememberMe: false, turnstileToken: '' },
   });
+
+  const onToken = useCallback(
+    (token) => setValue('turnstileToken', token ?? '', { shouldValidate: Boolean(token) }),
+    [setValue],
+  );
 
   const onSubmit = async (values) => {
     setFormError(null);
@@ -48,6 +64,8 @@ export function LoginPage() {
       });
     } catch (error) {
       setFormError(getErrorMessage(error));
+      // Turnstile token'ı tek kullanımlık: her başarısız denemeden sonra yeni doğrulama gerekir.
+      setCaptchaReset((n) => n + 1);
     }
   };
 
@@ -100,6 +118,17 @@ export function LoginPage() {
               </Label>
             </div>
           )}
+        />
+
+        <CaptchaField
+          siteKey={captcha.data?.siteKey}
+          loading={captcha.isPending}
+          failed={captcha.isError}
+          onRetry={() => captcha.refetch()}
+          onToken={onToken}
+          resetKey={captchaReset}
+          error={errors.turnstileToken?.message}
+          errorId={captchaErrorId}
         />
 
         <FormAlert>{formError}</FormAlert>

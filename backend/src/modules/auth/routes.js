@@ -10,7 +10,9 @@ import { sha256Hex } from '../../lib/hash.js';
 import { passwordGate, requireAuth } from '../../middleware/auth.js';
 import { consume, rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';
+import { publicCaptchaConfig } from '../../lib/turnstile.js';
 import { requestContext } from '../audit/service.js';
+import { assertCaptcha } from '../contact/service.js';
 import { clearSessionCookies, CSRF_COOKIE, REFRESH_COOKIE, setSessionCookies } from './cookies.js';
 import { requestPasswordReset, resetPassword } from './passwordReset.js';
 import { getMe, login, logout, refreshSession, verifySecondFactor } from './service.js';
@@ -32,16 +34,29 @@ const cookieCredentials = (req) => ({
 export function authRoutes({ limiters }) {
   const router = Router();
 
+  // Giriş ekranı için Turnstile site anahtarı (gizli değildir).
+  router.get('/captcha', (_req, res) => {
+    res.json({ data: publicCaptchaConfig() });
+  });
+
   router.post('/login', validate({ body: loginSchema }), async (req, res) => {
-    const { email } = req.valid.body;
+    const { email, turnstileToken, ...credentials } = req.valid.body;
+    // E-posta sayacı IP ile birlikte tutulur: e-postayı bilen biri başka IP'lerden gerçek
+    // sahibini kilitleyemez (hesap kilidi DoS'u). IP başına toplam sınır loginIp'tedir.
+    const emailKey = `${email}|${req.ip}`;
     await consume(limiters.loginIp, req.ip);
-    await consume(limiters.loginEmail, email);
-    const result = await login(req.valid.body, requestContext(req));
+    const attempt = await consume(limiters.loginEmail, emailKey);
+    // Bot doğrulaması şifre kontrolünden önce: otomatik denemeler argon2'ye ulaşmaz.
+    // Sayaçlardan sonra: siteverify çağrıları da hız sınırına tabidir.
+    await assertCaptcha(turnstileToken, req.ip);
+    const result = await login({ email, ...credentials }, requestContext(req), {
+      cleanSource: attempt.consumedPoints === 1,
+    });
     if (result.mfaRequired) {
       res.json({ data: { mfaRequired: true, mfaToken: result.mfaToken } });
       return;
     }
-    await limiters.loginEmail.delete(email);
+    await limiters.loginEmail.delete(emailKey);
     sessionResponse(res, result);
   });
 

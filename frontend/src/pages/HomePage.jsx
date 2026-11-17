@@ -20,7 +20,7 @@ const AboutSection = lazy(() => import('@/features/about/AboutSection.jsx'));
 const ContactSection = lazy(() => import('@/features/contact/ContactSection.jsx'));
 
 export function HomePage() {
-  const { data, isPending } = useSite();
+  const { data, isPending, isError, refetch } = useSite();
   // FR-TAB-01 — sekme başlığı navbar başlığından harf harf + rastgele emoji.
   useAnimatedTitle(data?.navbarTitle);
 
@@ -92,7 +92,12 @@ export function HomePage() {
       <ErrorBoundary>
         <Suspense fallback={<div aria-hidden="true" className="min-h-[900px] sm:min-h-[640px]" />}>
           <Reveal>
-            <ContactSection captcha={data?.captcha} />
+            <ContactSection
+              captcha={data?.captcha}
+              captchaLoading={isPending}
+              captchaFailed={isError}
+              onCaptchaRetry={() => refetch()}
+            />
           </Reveal>
         </Suspense>
       </ErrorBoundary>

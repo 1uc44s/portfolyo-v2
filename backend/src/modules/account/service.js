@@ -1,5 +1,6 @@
 // ROUTES.md §4.2 — Hesap Ayarları (yalnızca kendi hesabı) + SMTP ayarları.
 import QRCode from 'qrcode';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { decrypt, encrypt } from '../../lib/crypto.js';
 import { AppError, ConflictError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
@@ -9,6 +10,7 @@ import {
   isMailConfigured,
   sendTemplatedEmail,
 } from '../../mail/transport.js';
+import { rateLimitedError } from '../../middleware/rateLimit.js';
 import { writeAudit } from '../audit/service.js';
 import { assertStrongPassword, hashPassword, verifyPassword } from '../auth/password.js';
 import { consumeRecoveryCode, replaceRecoveryCodes } from '../auth/recoveryCodes.js';
@@ -32,8 +34,39 @@ async function loadAdmin(adminId) {
   return admin;
 }
 
-async function requireCurrentPassword(admin, currentPassword) {
-  if (!(await verifyPassword(admin.passwordHash, currentPassword))) throw wrongCurrentPassword();
+/**
+ * Yeniden doğrulama (mevcut şifre / 2FA kodu) hataları: admin başına 15 dk'da 5. Açık kalmış ya da
+ * çalınmış bir oturumla şifre tahmin edilip e-posta/şifre/2FA değiştirilmesini önler.
+ */
+export const REAUTH_MAX_FAILURES = 5;
+const reauthFailures = new RateLimiterMemory({
+  keyPrefix: 'reauth',
+  points: REAUTH_MAX_FAILURES,
+  duration: 15 * 60,
+});
+
+async function assertReauthAllowed(admin) {
+  const res = await reauthFailures.get(admin.id);
+  if (res && res.consumedPoints >= REAUTH_MAX_FAILURES) throw rateLimitedError(res);
+}
+
+/** Hatayı sayar, audit'e yazar ve verilen hatayı fırlatır. */
+async function failReauth(admin, ctx, error) {
+  await reauthFailures.penalty(admin.id, 1);
+  await writeAudit({
+    adminId: admin.id,
+    action: 'AUTH_REAUTH_FAILED',
+    metadata: { field: error.details?.[0]?.path ?? null },
+    ctx,
+  });
+  throw error;
+}
+
+async function requireCurrentPassword(admin, currentPassword, ctx) {
+  await assertReauthAllowed(admin);
+  if (!(await verifyPassword(admin.passwordHash, currentPassword))) {
+    await failReauth(admin, ctx, wrongCurrentPassword());
+  }
 }
 
 /** TOTP doğrular ve adımı kaydeder (replay koruması). */
@@ -67,7 +100,7 @@ export async function updateProfile(adminId, { displayName }, ctx) {
 
 export async function changeEmail(adminId, { newEmail, currentPassword }, ctx) {
   const admin = await loadAdmin(adminId);
-  await requireCurrentPassword(admin, currentPassword);
+  await requireCurrentPassword(admin, currentPassword, ctx);
   if (newEmail === admin.email) return toPublicAdmin(admin);
   try {
     const updated = await prisma.adminUser.update({
@@ -86,7 +119,7 @@ export async function changeEmail(adminId, { newEmail, currentPassword }, ctx) {
 /** FR-AUTH-08 — mevcut oturum hariç tüm oturumlar kapanır. */
 export async function changePassword(adminId, familyId, { currentPassword, newPassword }, ctx) {
   const admin = await loadAdmin(adminId);
-  await requireCurrentPassword(admin, currentPassword);
+  await requireCurrentPassword(admin, currentPassword, ctx);
   assertStrongPassword(newPassword, admin);
   const updated = await prisma.adminUser.update({
     where: { id: adminId },
@@ -103,9 +136,9 @@ export async function changePassword(adminId, familyId, { currentPassword, newPa
 }
 
 /** FR-AUTH-12 — kurulum: geçici secret şifreli saklanır, QR döner. */
-export async function setupTwoFactor(adminId, { currentPassword }) {
+export async function setupTwoFactor(adminId, { currentPassword }, ctx) {
   const admin = await loadAdmin(adminId);
-  await requireCurrentPassword(admin, currentPassword);
+  await requireCurrentPassword(admin, currentPassword, ctx);
   if (admin.totpEnabled) throw new ConflictError('İki aşamalı doğrulama zaten açık.');
 
   const secret = generateTotpSecret();
@@ -128,7 +161,10 @@ export async function enableTwoFactor(adminId, familyId, { code }, ctx) {
   if (!admin.totpPendingSecretEnc) {
     throw new AppError(409, 'CONFLICT', 'Önce kurulumu başlatmalısın.');
   }
-  if (!(await consumeTotp(admin, admin.totpPendingSecretEnc, code))) throw wrongCode();
+  await assertReauthAllowed(admin);
+  if (!(await consumeTotp(admin, admin.totpPendingSecretEnc, code))) {
+    await failReauth(admin, ctx, wrongCode());
+  }
 
   const recoveryCodes = await prisma.$transaction(async (tx) => {
     await tx.adminUser.update({
@@ -147,18 +183,19 @@ export async function enableTwoFactor(adminId, familyId, { code }, ctx) {
   return { recoveryCodes };
 }
 
-async function requireSecondFactor(admin, { code, recoveryCode }) {
+async function requireSecondFactor(admin, { code, recoveryCode }, ctx) {
+  await assertReauthAllowed(admin);
   const ok = code
     ? await consumeTotp(admin, admin.totpSecretEnc, code)
     : await consumeRecoveryCode(admin.id, recoveryCode);
-  if (!ok) throw wrongCode(code ? 'code' : 'recoveryCode');
+  if (!ok) await failReauth(admin, ctx, wrongCode(code ? 'code' : 'recoveryCode'));
 }
 
 export async function disableTwoFactor(adminId, familyId, input, ctx) {
   const admin = await loadAdmin(adminId);
   if (!admin.totpEnabled) throw new ConflictError('İki aşamalı doğrulama zaten kapalı.');
-  await requireCurrentPassword(admin, input.currentPassword);
-  await requireSecondFactor(admin, input);
+  await requireCurrentPassword(admin, input.currentPassword, ctx);
+  await requireSecondFactor(admin, input, ctx);
 
   await prisma.$transaction([
     prisma.adminUser.update({
@@ -180,8 +217,10 @@ export async function disableTwoFactor(adminId, familyId, input, ctx) {
 export async function regenerateRecoveryCodes(adminId, { currentPassword, code }, ctx) {
   const admin = await loadAdmin(adminId);
   if (!admin.totpEnabled) throw new ConflictError('İki aşamalı doğrulama kapalı.');
-  await requireCurrentPassword(admin, currentPassword);
-  if (!(await consumeTotp(admin, admin.totpSecretEnc, code))) throw wrongCode();
+  await requireCurrentPassword(admin, currentPassword, ctx);
+  if (!(await consumeTotp(admin, admin.totpSecretEnc, code))) {
+    await failReauth(admin, ctx, wrongCode());
+  }
   const recoveryCodes = await replaceRecoveryCodes(adminId);
   await writeAudit({ adminId, action: '2FA_RECOVERY_REGENERATED', ctx });
   return { recoveryCodes };

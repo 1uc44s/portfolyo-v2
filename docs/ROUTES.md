@@ -158,7 +158,8 @@ Ortak: tüm uçlar `noStore`. Liste uçları `?page=1&pageSize=20&q=&sort=field:
 
 | Metod | Path | Katman | Rate limit | Gövde / Not |
 |---|---|---|---|---|
-| POST | `/login` | L1 | `login` | `{email, password, rememberMe}` → `{accessToken, admin}` veya `{mfaRequired, mfaToken}` |
+| GET | `/captcha` | L1 | — | `{provider: 'turnstile', siteKey}` — giriş ekranının Turnstile widget'ı için (gizli değildir) |
+| POST | `/login` | L1 | `login` | `{email, password, rememberMe, turnstileToken}` → `{accessToken, admin}` veya `{mfaRequired, mfaToken}`. Sıra: şema → IP / e-posta+IP sayaçları → **Turnstile** (fail-closed; 422 `turnstileToken`, servis yoksa 503) → şifre |
 | POST | `/2fa/verify` | L1 | `mfa` | `{mfaToken, code}` veya `{mfaToken, recoveryCode}` |
 | POST | `/refresh` | L2 | `refresh` (IP 60/dk) | Cookie → `{accessToken, admin}` + yeni cookie'ler |
 | POST | `/logout` | L2 | — | Mevcut oturumu revoke, cookie temizle → `204` |
@@ -375,7 +376,7 @@ Public: `GET /api/public/tech-stack` → yayında değilse `{published:false}`; 
 | Yetkisiz admin isteği | `401` (token yok/süresi dolmuş) · `403` (izin yok) |
 | Upload türü geçersiz | `415` · boyut `413` · alan `422` · FFmpeg yok (video) `503 MEDIA_PROCESSOR_UNAVAILABLE` |
 | Kullanımdaki kategori/medya | `409 IN_USE` |
-| Login kilidi | `423 ACCOUNT_LOCKED` + `retryAfter` (kilit durumu ancak doğru şifre girilirse açıklanır; aksi hâlde genel 401) |
+| Login kilidi | `423 ACCOUNT_LOCKED` + `retryAfter` (kilit durumu ancak doğru şifre girilirse açıklanır; aksi hâlde genel 401). Kilitliyken doğru şifre, pencere içinde o hesaba başka deneme yapmamış bir IP'den gelirse kabul edilir (audit `AUTH_LOCK_BYPASSED`): başka IP'lerden yapılan yanlış denemeler sahibini dışarıda tutamaz |
 
 ---
 
@@ -384,7 +385,7 @@ Public: `GET /api/public/tech-stack` → yayında değilse `{published:false}`; 
 | Ad | Anahtar | Limit |
 |---|---|---|
 | `publicGlobal` | IP | 300 / dk |
-| `login` | IP · e-posta | 10 / 15 dk · 5 / 15 dk |
+| `login` | IP · e-posta+IP | 10 / 15 dk · 5 / 15 dk |
 | `mfa` | mfaToken jti | 5 / 15 dk |
 | `refresh` | IP | 60 / dk |
 | `forgot` | IP · e-posta | 3 / saat · 3 / saat |
@@ -395,5 +396,6 @@ Public: `GET /api/public/tech-stack` → yayında değilse `{published:false}`; 
 | `consent` | IP | 20 / saat |
 | `adminApi` | adminId | 600 / dk |
 | `upload` | adminId | 60 / 10 dk |
+| `reauth` (yalnızca hatalar) | adminId | 5 / 15 dk — mevcut şifre / 2FA kodu isteyen hesap uçları; her hata audit `AUTH_REAUTH_FAILED` |
 
 429 yanıtları `Retry-After` header'ı içerir; audit'e yalnızca `login`/`mfa`/`forgot` için `RATE_LIMITED` yazılır.

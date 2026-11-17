@@ -45,6 +45,8 @@ export const ACTION_LABELS = {
   AUTH_LOGOUT: 'Çıkış',
   AUTH_2FA_FAILED: '2FA doğrulaması başarısız',
   AUTH_LOCKED: 'Hesap geçici kilitlendi',
+  AUTH_LOCK_BYPASSED: 'Kilit temiz kaynaktan doğru şifreyle açıldı',
+  AUTH_REAUTH_FAILED: 'Hesap doğrulaması başarısız (şifre/2FA)',
   UNKNOWN_ACCOUNT: 'Bilinmeyen hesapla giriş denemesi',
   RATE_LIMITED: 'İstek sınırı aşıldı',
   SESSION_REVOKED: 'Oturum sonlandırıldı',

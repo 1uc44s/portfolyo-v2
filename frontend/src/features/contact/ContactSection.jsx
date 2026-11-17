@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input.jsx';
 import { Textarea } from '@/components/ui/textarea.jsx';
 import { getErrorMessage } from '@/lib/api/client.js';
 import { sendContact } from '@/lib/api/publicApi.js';
-import { TurnstileWidget } from './TurnstileWidget.jsx';
+import { CaptchaField } from './TurnstileWidget.jsx';
 
 export const CONTACT_SUCCESS = 'Mesajın ulaştı. En kısa sürede dönüş yapacağım.';
 const FIELDS = ['firstName', 'lastName', 'phone', 'email', 'subject', 'message', 'turnstileToken'];
@@ -42,7 +42,16 @@ export function contactErrorMessage(error) {
   return getErrorMessage(error, 'Mesaj gönderilemedi. Biraz sonra tekrar dene.');
 }
 
-export default function ContactSection({ captcha }) {
+/**
+ * @param {{ captcha?: { siteKey?: string }, captchaLoading?: boolean, captchaFailed?: boolean,
+ *   onCaptchaRetry?: () => void }} props
+ */
+export default function ContactSection({
+  captcha,
+  captchaLoading = !captcha,
+  captchaFailed = false,
+  onCaptchaRetry,
+}) {
   const [sent, setSent] = useState(false);
   const [failure, setFailure] = useState(null);
   const [resetKey, setResetKey] = useState(0);
@@ -170,24 +179,16 @@ export default function ContactSection({ captcha }) {
         </div>
 
         <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-end sm:justify-between">
-          <div className="grid gap-1">
-            {captcha?.siteKey ? (
-              <TurnstileWidget
-                siteKey={captcha.siteKey}
-                onToken={onToken}
-                resetKey={resetKey}
-                invalid={Boolean(errors.turnstileToken)}
-                describedBy={errors.turnstileToken ? captchaErrorId : undefined}
-              />
-            ) : (
-              <p className="text-muted-foreground text-xs">Doğrulama aracı hazırlanıyor…</p>
-            )}
-            {errors.turnstileToken && (
-              <p id={captchaErrorId} className="text-danger text-xs font-medium">
-                {errors.turnstileToken.message}
-              </p>
-            )}
-          </div>
+          <CaptchaField
+            siteKey={captcha?.siteKey}
+            loading={captchaLoading && !captchaFailed}
+            failed={captchaFailed}
+            onRetry={onCaptchaRetry}
+            onToken={onToken}
+            resetKey={resetKey}
+            error={errors.turnstileToken?.message}
+            errorId={captchaErrorId}
+          />
           <Button type="submit" size="lg" disabled={isSubmitting} className="sm:min-w-40">
             <Send aria-hidden="true" />
             {isSubmitting ? 'Gönderiliyor…' : 'Gönder'}

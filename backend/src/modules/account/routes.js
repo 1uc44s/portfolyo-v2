@@ -57,6 +57,7 @@ export function accountRoutes() {
     const { otpauthUrl, qrDataUrl, secret } = await account.setupTwoFactor(
       req.admin.id,
       req.valid.body,
+      ctx(req),
     );
     res.json({ data: { otpauthUrl, qrDataUrl, secret } });
   });

@@ -104,3 +104,63 @@ export function TurnstileWidget({ siteKey, onToken, resetKey = 0, describedBy, i
     </div>
   );
 }
+
+/**
+ * Widget + durumlar: site anahtarı yüklenirken bekleme, yüklenemezse tekrar dene, doğrulama hatası.
+ * @param {{ siteKey?: string, loading?: boolean, failed?: boolean, onRetry?: () => void,
+ *   onToken: (token: string|null) => void, resetKey?: number, error?: string, errorId?: string }} props
+ */
+export function CaptchaField({
+  siteKey,
+  loading,
+  failed,
+  onRetry,
+  onToken,
+  resetKey,
+  error,
+  errorId,
+}) {
+  let body;
+  if (siteKey) {
+    body = (
+      <TurnstileWidget
+        siteKey={siteKey}
+        onToken={onToken}
+        resetKey={resetKey}
+        invalid={Boolean(error)}
+        describedBy={error ? errorId : undefined}
+      />
+    );
+  } else if (loading) {
+    body = (
+      <p className="text-muted-foreground text-xs" role="status">
+        Doğrulama aracı hazırlanıyor…
+      </p>
+    );
+  } else {
+    body = (
+      <p role="alert" className="text-danger text-xs font-medium">
+        Doğrulama aracı yüklenemedi.{' '}
+        {onRetry && (
+          <button
+            type="button"
+            onClick={onRetry}
+            className="text-foreground underline underline-offset-4"
+          >
+            Tekrar dene
+          </button>
+        )}
+      </p>
+    );
+  }
+  return (
+    <div className="grid gap-1">
+      {body}
+      {error && (siteKey || !failed) && (
+        <p id={errorId} className="text-danger text-xs font-medium">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
