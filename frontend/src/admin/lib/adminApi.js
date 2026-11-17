@@ -154,6 +154,16 @@ export const messagesApi = {
   remove: (id) => api.delete(`/admin/contact-messages/${id}`),
 };
 
+/** ROUTES.md §4.13 — audit log (salt okunur). CSV yalnızca SUPER_ADMIN; Bearer gerektiği için blob. */
+export const auditApi = {
+  list: (params) => api.get('/admin/audit-logs', { params }).then((res) => res.data),
+  filters: () => unwrap(api.get('/admin/audit-logs/filters')),
+  exportCsv: (params) =>
+    api
+      .get('/admin/audit-logs/export.csv', { params, responseType: 'blob', timeout: 120_000 })
+      .then((res) => res.data),
+};
+
 /** ROUTES.md §4.7 — entegrasyonlar. Secret değerleri hiçbir yanıtta dönmez. */
 export const integrationsApi = {
   list: () => unwrap(api.get('/admin/integrations')),
@@ -203,6 +213,8 @@ export const systemApi = {
 };
 
 export const adminKeys = {
+  audit: (params) => ['admin', 'audit', ...(params ? [params] : [])],
+  auditFilters: ['admin', 'audit-filters'],
   integrations: ['admin', 'integrations'],
   dashboard: (range) => ['admin', 'dashboard', range],
   legal: ['admin', 'system', 'legal'],

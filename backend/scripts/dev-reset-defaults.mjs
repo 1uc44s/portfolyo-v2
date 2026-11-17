@@ -140,6 +140,6 @@ await runCli(async () => {
       `${cursors.length} cursor, ${tech.length} tech stack, ${overlays.length} isim efekti, ` +
       `${falling.length} yağan öğe. Ziyaretçi/indirme kayıtları, entegrasyon token/snapshot'ları silindi. ` +
       `Hero, başlıklar, Tech Stack, Hakkımda varsayılan. ${created} varsayılan link eklendi. ` +
-      `Admin e-postası ayarlandı (şifreyi admin:dev-set ile ayarla).`,
+      `Admin e-postası ayarlandı (varsayılan şifre için: npm run admin:dev-set -w backend -- --default).`,
   );
 });

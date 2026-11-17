@@ -72,11 +72,24 @@ npm run db:seed -w backend    # sistem kayıtları + varsayılan linkler (idempo
 npm run dev                   # backend (watch) + frontend birlikte
 ```
 
-İlk yönetici (geliştirme):
+İlk yönetici (geliştirme) — varsayılan süper admin:
 
 ```bash
-npm run admin:dev-set -w backend -- --email you@example.com
+npm run admin:dev-set -w backend -- --default
 ```
+
+| Alan | Varsayılan değer |
+|---|---|
+| E-posta | `1uc44s@github.com` |
+| Şifre | `CreatedWithAiByLucas` |
+| Rol | `SUPER_ADMIN` |
+
+Komut hesap yoksa oluşturur, varsa şifresini bu değere sıfırlar (oturumlar kapanır). Farklı bir hesap için:
+`npm run admin:dev-set -w backend -- --email you@example.com` (şifre gizli sorulur).
+
+> **Uyarı:** Bu şifre depoda açık yazılıdır; yalnızca yerel geliştirme içindir ve komut
+> `NODE_ENV=production` iken çalışmaz. Üretimde ilk yöneticiyi `admin:create` ile güçlü, benzersiz bir
+> şifreyle oluştur ([DEPLOY.md §5](docs/DEPLOY.md)).
 
 Adresler:
 
@@ -119,7 +132,7 @@ dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için [AR
 | `npm run db:migrate -w backend` | Şema değişikliğinden yeni migration üretir ve uygular (dev) |
 | `npm run db:seed -w backend` | Sistem kayıtlarını oluşturur (idempotent, mevcut içeriği ezmez) |
 | `npm run db:studio -w backend` | Prisma Studio |
-| `npm run admin:dev-set -w backend` | Geliştirme: yönetici oluştur / şifre ayarla |
+| `npm run admin:dev-set -w backend -- --default` | Geliştirme: varsayılan admini (`1uc44s@github.com`) oluştur / şifresini sıfırla |
 | `npm run admin:create -w backend` | İlk süper admin (prod kurulumu, [DEPLOY.md §5](docs/DEPLOY.md)) |
 | `bash scripts/restore-rehearsal.sh` | Yedekten geri yükleme provası (dev DB, kaynağa yazmaz) |
 
@@ -210,7 +223,8 @@ Medya içeren oluşturma/güncelleme uçları `multipart/form-data`. Tam tablo: 
   `/falling-items`, `/projects`, `/categories`, `/links` — CRUD + sıralama + dosya değiştirme
 - **Site / Hero** `/api/admin/settings`, `/api/admin/hero` — başlık, footer teknolojileri, hero alanları
 - **Durumlar** `/api/admin/integrations/:provider` — aç/kapat, config, secret'lar (L5), test, senkron
-- **Sistem** yasal metinler; **Audit** `/api/admin/audit` (okuma)
+- **Sistem** yasal metinler; **Audit** `/api/admin/audit-logs` (okuma, filtre, sayfalama), `/audit-logs/filters`,
+  `/audit-logs/export.csv` (yalnızca SUPER_ADMIN)
 
 **Oturum akışı:** login → access token (gövde) + refresh/CSRF çerezleri → `Authorization: Bearer` ile istek →
 süre dolunca `/auth/refresh` (çerez + `X-CSRF-Token`). Yabancı origin/CSRF başarısız → 403.

@@ -1,14 +1,14 @@
 # Yalnızca geliştirme ortamı. Prod topolojisi: ARCHITECTURE.md §11.
-name: vasquez
+name: portfolyo-v2
 
 services:
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-vasquez}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vasquez_dev_password}
-      POSTGRES_DB: ${POSTGRES_DB:-vasquez}
+      POSTGRES_USER: ${POSTGRES_USER:-portfolyo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portfolyo_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-portfolyo_db}
       TZ: Europe/Istanbul
     ports:
       - '127.0.0.1:${POSTGRES_PORT:-5447}:5432'

@@ -121,7 +121,7 @@ export const NAV_GROUPS = [
         label: 'Güvenlik ve İşlem Logları',
         icon: ScrollText,
         permission: 'audit:read',
-        phase: 'F19',
+        phase: null,
       },
     ],
   },

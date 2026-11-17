@@ -892,7 +892,7 @@ PUBLIC_ORIGIN=http://localhost:5173        # prod: https://alanadi.com
 CORS_ORIGINS=http://localhost:5173
 TRUST_PROXY=1                              # Caddy arkasında
 
-DATABASE_URL=postgresql://vasquez:CHANGE_ME@localhost:5447/vasquez
+DATABASE_URL=postgresql://portfolyo:CHANGE_ME@localhost:5447/portfolyo_db
 
 JWT_ACCESS_SECRET=                         # ≥ 64 byte rastgele
 CSRF_SECRET=                               # ≥ 32 byte rastgele

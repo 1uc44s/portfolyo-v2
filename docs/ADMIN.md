@@ -46,7 +46,7 @@ Ziyaretçi (anonim) bir rol değildir; yalnızca L0 public uçlarına erişir.
 
 Tüm CLI işlemleri audit log'a `actor: "cli"` metadata'sıyla yazılır.
 
-**Yalnızca geliştirme:** `npm run admin:dev-set -w backend -- --email <e>` — şifre stdin'den (gizli) okunur. Hesap yoksa SUPER_ADMIN oluşturur, varsa şifresini değiştirir; `mustChangePassword=false`, tüm oturumlar kapanır. Uzunluk kuralı 12 yerine **8** karakter (2026-11-15 kullanıcı kararı); zxcvbn güç kontrolü aynen uygulanır. `NODE_ENV=production` ise çalışmaz. Prod şifre kuralı (≥ 12) değişmez; dev şifresi prod'da kullanılamaz.
+**Yalnızca geliştirme:** `npm run admin:dev-set -w backend -- --default` varsayılan admini (`1uc44s@github.com` / `CreatedWithAiByLucas`) oluşturur ya da şifresini sıfırlar. `--email <e>` ile başka hesap: şifre stdin'den (gizli) okunur. Hesap yoksa SUPER_ADMIN oluşturur, varsa şifresini değiştirir; `mustChangePassword=false`, tüm oturumlar kapanır. Uzunluk kuralı 12 yerine **8** karakter (2026-11-15 kullanıcı kararı); zxcvbn güç kontrolü aynen uygulanır. `NODE_ENV=production` ise çalışmaz. Prod şifre kuralı (≥ 12) değişmez; dev şifresi prod'da kullanılamaz.
 
 ---
 

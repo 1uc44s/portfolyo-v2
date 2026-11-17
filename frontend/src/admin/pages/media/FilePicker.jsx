@@ -15,10 +15,16 @@ export function useLocalUrl(file) {
 
 function LocalPreview({ file, url }) {
   if (file.type.startsWith('image/') || /\.(cur|ico)$/i.test(file.name)) {
-    return <img src={url} alt="" className="size-12 rounded-[var(--radius-sm)] object-contain" />;
+    return (
+      <img
+        src={url}
+        alt=""
+        className="size-12 shrink-0 rounded-[var(--radius-sm)] object-contain"
+      />
+    );
   }
   const Icon = file.type.startsWith('audio/') ? FileAudio : FileVideo;
-  return <Icon aria-hidden="true" className="text-muted-foreground size-8" />;
+  return <Icon aria-hidden="true" className="text-muted-foreground size-8 shrink-0" />;
 }
 
 /**
@@ -42,16 +48,18 @@ export function FilePicker({ kind, label, hint, file, required, error, disabled,
   }
 
   return (
-    <div className="grid gap-2">
+    <div className="grid min-w-0 gap-2">
       <span id={`${id}-label`} className="text-sm leading-none font-medium">
         {label}
         {required && <span className="text-muted-foreground font-normal"> (zorunlu)</span>}
       </span>
       {file ? (
-        <div className="flex items-center gap-3 rounded-[var(--radius-md)] border p-2">
+        <div className="flex min-w-0 items-center gap-3 overflow-hidden rounded-[var(--radius-md)] border p-2">
           <LocalPreview file={file} url={url} />
           <div className="min-w-0 flex-1 text-sm">
-            <p className="truncate font-medium">{file.name}</p>
+            <p className="truncate font-medium" title={file.name}>
+              {file.name}
+            </p>
             <p className="text-muted-foreground type-meta">{formatBytes(file.size)}</p>
           </div>
           <Button
@@ -59,6 +67,7 @@ export function FilePicker({ kind, label, hint, file, required, error, disabled,
             variant="ghost"
             size="icon"
             disabled={disabled}
+            className="shrink-0"
             aria-label={`${label}: seçimi kaldır`}
             onClick={() => onChange(null)}
           >
@@ -79,7 +88,7 @@ export function FilePicker({ kind, label, hint, file, required, error, disabled,
             if (!disabled) pick(e.dataTransfer.files?.[0]);
           }}
           className={cn(
-            'bg-surface-2/40 flex cursor-pointer flex-col items-center gap-1 rounded-[var(--radius-md)] border border-dashed px-4 py-4 text-center transition-colors',
+            'bg-surface-2/40 flex min-w-0 cursor-pointer flex-col items-center gap-1 rounded-[var(--radius-md)] border border-dashed px-4 py-4 text-center break-words transition-colors',
             'focus-within:ring-ring/50 focus-within:ring-[3px]',
             dragging && 'border-primary bg-primary/5',
             message && 'border-danger/60',

@@ -169,8 +169,8 @@ function ContentForm({ tab, item, onClose }) {
   });
 
   return (
-    <form noValidate onSubmit={onSubmit} className="grid gap-5">
-      <fieldset disabled={isSubmitting} className="grid gap-5">
+    <form noValidate onSubmit={onSubmit} className="grid min-w-0 gap-5">
+      <fieldset disabled={isSubmitting} className="grid min-w-0 gap-5">
         <FormField label="Başlık" error={errors.title?.message}>
           <Input maxLength={120} autoComplete="off" {...form.register('title')} />
         </FormField>
@@ -185,7 +185,7 @@ function ContentForm({ tab, item, onClose }) {
           <div className="grid gap-2 border-t pt-4">
             <p className="text-sm font-medium">Mevcut dosya</p>
             {tab.slots.map((s) => (
-              <p key={s.field} className="text-muted-foreground type-meta">
+              <p key={s.field} className="text-muted-foreground type-meta break-all">
                 {s.label}: {item.files[s.field].originalFilename} · {assetMeta(item.files[s.field])}
               </p>
             ))}
@@ -199,7 +199,13 @@ function ContentForm({ tab, item, onClose }) {
             </p>
           </div>
         )}
-        <div className={tab.slots.length > 1 ? 'grid gap-4 sm:grid-cols-2' : 'grid gap-4'}>
+        <div
+          className={
+            tab.slots.length > 1
+              ? 'grid gap-4 sm:grid-cols-[repeat(2,minmax(0,1fr))]'
+              : 'grid gap-4'
+          }
+        >
           {tab.slots.map((s) => (
             <FilePicker
               key={s.field}

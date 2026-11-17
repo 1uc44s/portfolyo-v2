@@ -6,9 +6,9 @@ set -euo pipefail
 # Git Bash (Windows) /tmp yolunu yerel yola çevirmesin.
 export MSYS_NO_PATHCONV=1
 
-CONTAINER="${1:-vasquez-postgres-1}"
-DB="${2:-vasquez}"
-USER_NAME="${3:-vasquez}"
+CONTAINER="${1:-portfolyo-v2-postgres-1}"
+DB="${2:-portfolyo_db}"
+USER_NAME="${3:-portfolyo}"
 CHECK_DB="${DB}_restore_check"
 DUMP="/tmp/${DB}-rehearsal.dump"
 

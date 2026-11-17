@@ -358,6 +358,7 @@ Public: `GET /api/public/tech-stack` → yayında değilse `{published:false}`; 
 | Metod | Path | Not |
 |---|---|---|
 | GET | `/api/admin/audit-logs` | `?from, to, adminId, action, entityType, entityId` (sayfalı, `createdAt DESC`) |
+| GET | `/api/admin/audit-logs/filters` | Filtre seçenekleri: kayıtlarda geçen `actions`, `entityTypes` ve `admins` |
 | GET | `/api/admin/audit-logs/export.csv` | L5 · aynı filtreler, maks. 50 000 satır, stream |
 
 ---

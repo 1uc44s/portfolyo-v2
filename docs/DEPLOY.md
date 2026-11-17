@@ -25,8 +25,8 @@ sudo mkdir -p /etc/vasquez /var/lib/vasquez/storage /var/log/vasquez /var/backup
 sudo chown vasquez:vasquez /var/lib/vasquez/storage /var/log/vasquez /var/backups/vasquez
 sudo chmod 750 /var/lib/vasquez/storage /var/backups/vasquez
 sudo apt install -y postgresql-17 caddy ffmpeg age restic rclone
-sudo -u postgres createuser --pwprompt vasquez      # şifre parola yöneticisinden
-sudo -u postgres createdb -O vasquez vasquez
+sudo -u postgres createuser --pwprompt portfolyo     # şifre parola yöneticisinden
+sudo -u postgres createdb -O portfolyo portfolyo_db
 ```
 
 `deploy.sh`'ın yalnızca gerekli komutları çalıştırabilmesi için `/etc/sudoers.d/vasquez`:
@@ -92,8 +92,8 @@ sudo -E -u vasquez npm run admin:create -w backend      # e-posta + şifre etkil
   ```
   `/etc/vasquez/backup.env` (mod 600, sahip vasquez):
   ```dotenv
-  PGDATABASE=vasquez
-  PGUSER=vasquez
+  PGDATABASE=portfolyo_db
+  PGUSER=portfolyo
   BACKUP_DIR=/var/backups/vasquez
   AGE_RECIPIENT=age1...            # yalnızca açık anahtar
   STORAGE_ROOT=/var/lib/vasquez/storage
@@ -111,8 +111,8 @@ Aylık prova (cron hatırlatır). Kaynak veritabanına yazmadan:
 
 ```bash
 age -d -i ~/vasquez-backup.key vasquez-YYYY-MM-DD.dump.age > /tmp/v.dump
-createdb vasquez_restore_check && pg_restore -d vasquez_restore_check --no-owner /tmp/v.dump
-# satır sayılarını karşılaştır, sonra: dropdb vasquez_restore_check && rm /tmp/v.dump
+createdb portfolyo_db_restore_check && pg_restore -d portfolyo_db_restore_check --no-owner /tmp/v.dump
+# satır sayılarını karşılaştır, sonra: dropdb portfolyo_db_restore_check && rm /tmp/v.dump
 restic -r <repo> restore latest --target /tmp/media-check   # sha256 karşılaştırması
 ```
 

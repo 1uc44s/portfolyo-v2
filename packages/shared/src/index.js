@@ -12,3 +12,4 @@ export * from './validation/integrations.js';
 export * from './validation/analytics.js';
 export * from './validation/techstack.js';
 export * from './validation/falling.js';
+export * from './validation/audit.js';

@@ -834,7 +834,7 @@ CREATE INDEX contact_unread_idx       ON contact_messages (created_at DESC) WHER
 - Geliştirme: `npm run db:migrate -w backend` (`prisma migrate dev`). Prod: yalnızca `npm run db:deploy -w backend` (`prisma migrate deploy`, CI/CD adımı).
 - Mevcut migration'lar: `20261113221953_init` (şema), `20261113222008_constraints` (§6).
 - Seed: `npm run db:seed -w backend` — idempotent, mevcut kaydı ezmez (`upsert` + boş `update`).
-- **Test veritabanı:** Testler `DATABASE_URL`'den türetilen ve adı `_test` ile biten ayrı veritabanında çalışır (yerelde `vasquez_test`; `TEST_DATABASE_URL` ile ezilebilir). Vitest `globalSetup` veritabanını yoksa oluşturur, `migrate deploy` + seed uygular. Testler içerik tablolarını çocuktan ebeveyne `deleteMany` ile boşaltır; `TRUNCATE ... CASCADE` kullanılmaz (FK zinciri tekil ayar satırlarını silerdi).
+- **Test veritabanı:** Testler `DATABASE_URL`'den türetilen ve adı `_test` ile biten ayrı veritabanında çalışır (yerelde `portfolyo_db_test`; `TEST_DATABASE_URL` ile ezilebilir). Vitest `globalSetup` veritabanını yoksa oluşturur, `migrate deploy` + seed uygular. Testler içerik tablolarını çocuktan ebeveyne `deleteMany` ile boşaltır; `TRUNCATE ... CASCADE` kullanılmaz (FK zinciri tekil ayar satırlarını silerdi).
 - Geliştirme Postgres'i Docker'da **5447** portundadır (5432 yerel kurulum, 5433+ diğer projelerle çakışıyordu).
 - Yıkıcı değişiklik (sütun silme/yeniden adlandırma) iki aşamalı yapılır: genişlet → veriyi taşı → daralt.
 - Her migration PR'ında bu doküman ve ERD.md aynı commit'te güncellenir.

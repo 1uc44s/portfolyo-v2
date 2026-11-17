@@ -39,6 +39,7 @@ const ProjectEditorPage = page(
 );
 const ProjectsPage = page(() => import('./pages/projects/ProjectsPage.jsx'), 'ProjectsPage');
 const SiteSettingsPage = page(() => import('./pages/SiteSettingsPage.jsx'), 'SiteSettingsPage');
+const AuditLogPage = page(() => import('./pages/audit/AuditLogPage.jsx'), 'AuditLogPage');
 
 /** Sayfa chunk'ı yüklenirken içerik alanında hafif iskelet. */
 const lazyPage = (el) => (
@@ -136,6 +137,7 @@ function AdminRoutes() {
         <Route path="status" element={lazyPage(<IntegrationsPage />)} />
         <Route path="system" element={lazyPage(<SystemPage />)} />
         <Route path="tech-stack" element={lazyPage(<TechStackPage />)} />
+        <Route path="audit" element={lazyPage(<AuditLogPage />)} />
         {placeholders.map((item) => (
           <Route
             key={item.to}

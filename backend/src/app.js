@@ -32,6 +32,7 @@ import { mediaRoutes } from './modules/media/routes.js';
 import { rotationRoutes } from './modules/rotation/routes.js';
 import { contentRoutes } from './modules/content/routes.js';
 import { mediaServeRoutes } from './modules/media/serve.js';
+import { auditRoutes } from './modules/audit/routes.js';
 
 /**
  * @param {{
@@ -100,6 +101,7 @@ export function createApp({ readinessCheck = async () => {}, rateLimitOverrides 
   admin.use('/system', systemRoutes());
   admin.use('/tech-stack', techStackRoutes({ limiters }));
   admin.use('/falling-items', fallingRoutes({ limiters }));
+  admin.use('/audit-logs', auditRoutes());
   app.use('/api/admin', admin);
 
   app.use(notFound);
