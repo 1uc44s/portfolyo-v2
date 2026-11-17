@@ -106,7 +106,7 @@ function SettingsForm({ data, canEdit }) {
           />
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
-          <FormField label="Üst satır (ör. 7)" error={errors.titleTop}>
+          <FormField label="Üst satır (ör. My)" error={errors.titleTop}>
             <Input
               value={form.titleTop}
               maxLength={TECH_STACK_LIMITS.titleTop}

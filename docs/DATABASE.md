@@ -191,7 +191,7 @@ model SiteSettings {
   faviconAssetId     String?   @db.Uuid
   footerTechs        Json      @default("[]")           // [{ "label": "React", "icon": "SiReact" }]
   techStackPublished Boolean   @default(false)          // en son faz; o zamana kadar false
-  techStackTitleTop    String  @default("7")     @db.VarChar(20)  // F21 merkez başlık 1. satır
+  techStackTitleTop    String  @default("My")    @db.VarChar(20)  // F21 merkez başlık 1. satır
   techStackTitleMain   String  @default("Tech")  @db.VarChar(40)  // 2. satır (eğik çizgi üzerinde)
   techStackTitleBottom String  @default("Stack") @db.VarChar(40)  // 3. satır (taranmış)
   updatedAt          DateTime  @updatedAt @db.Timestamptz(3)

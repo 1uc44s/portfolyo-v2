@@ -219,7 +219,7 @@ model SiteSettings {
   faviconAssetId       String?  @map("favicon_asset_id") @db.Uuid
   footerTechs          Json     @default("[]") @map("footer_techs") // [{ "label": "React", "icon": "SiReact" }]
   techStackPublished   Boolean  @default(false) @map("tech_stack_published") // en son faz; o zamana kadar false
-  techStackTitleTop    String   @default("7") @map("tech_stack_title_top") @db.VarChar(20)
+  techStackTitleTop    String   @default("My") @map("tech_stack_title_top") @db.VarChar(20)
   techStackTitleMain   String   @default("Tech") @map("tech_stack_title_main") @db.VarChar(40)
   techStackTitleBottom String   @default("Stack") @map("tech_stack_title_bottom") @db.VarChar(40)
   updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)

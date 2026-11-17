@@ -104,7 +104,7 @@ await runCli(async () => {
         navbarTitle: '1uc44s GitHub',
         footerTechs: [],
         techStackPublished: false,
-        techStackTitleTop: '7',
+        techStackTitleTop: 'My',
         techStackTitleMain: 'Tech',
         techStackTitleBottom: 'Stack',
       },
