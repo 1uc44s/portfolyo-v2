@@ -20,7 +20,9 @@ export const OWNER_INCLUDE = {
   },
   linkItem: titled,
   faviconOf: { select: { id: true } },
-  techStackItem: { select: { id: true, label: true, isActive: true } },
+  techStackItem: {
+    select: { id: true, label: true, isActive: true, group: { select: { published: true } } },
+  },
   nameOverlay: titled,
   fallingItem: { select: { id: true, kind: true, isActive: true } },
 };
@@ -68,24 +70,16 @@ export function isPubliclyVisible(asset) {
   ];
   if (owners.some((o) => o?.isActive)) return true;
   if (asset.projectImage?.project?.isPublished) return true;
-  // F21 — Tech Stack: bölüm yayındaysa aktif öğe görseli.
-  if (asset.techStackItem?.isActive && asset.techStackPublished) return true;
+  // F21 — Tech Stack: öğenin bölümü yayındaysa aktif öğe görseli.
+  if (asset.techStackItem?.isActive && asset.techStackItem.group?.published) return true;
   return (asset.faviconOf?.length ?? 0) > 0;
 }
 
 // Not: çoklu ilişki include'u interaktif transaction içinde kullanılmaz (adapter-pg paralel
 // sorgu uyarısı); silmede koşullu deleteMany yeterli atomiklik sağlar.
 export async function findAssetWithOwners(id) {
-  const asset = await prisma.mediaAsset.findUnique({ where: { id }, include: OWNER_INCLUDE });
-  // F21 — öğe görseli yalnızca Tech Stack bölümü yayındaysa public.
-  if (asset?.techStackItem) {
-    const site = await prisma.siteSettings.findUnique({
-      where: { id: 1 },
-      select: { techStackPublished: true },
-    });
-    asset.techStackPublished = Boolean(site?.techStackPublished);
-  }
-  return asset;
+  // F21 — öğe görseli yalnızca öğenin Tech Stack bölümü yayındaysa public (OWNER_INCLUDE.group).
+  return prisma.mediaAsset.findUnique({ where: { id }, include: OWNER_INCLUDE });
 }
 
 /** @param {{ kind?: string, status?: string, orphan?: boolean, limit: number, cursor?: string }} query */

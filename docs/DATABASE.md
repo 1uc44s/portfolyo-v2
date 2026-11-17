@@ -190,10 +190,7 @@ model SiteSettings {
   navbarTitle        String    @default("1uc44s GitHub") @db.VarChar(40)
   faviconAssetId     String?   @db.Uuid
   footerTechs        Json      @default("[]")           // [{ "label": "React", "icon": "SiReact" }]
-  techStackPublished Boolean   @default(false)          // en son faz; o zamana kadar false
-  techStackTitleTop    String  @default("My")    @db.VarChar(20)  // F21 merkez başlık 1. satır
-  techStackTitleMain   String  @default("Tech")  @db.VarChar(40)  // 2. satır (eğik çizgi üzerinde)
-  techStackTitleBottom String  @default("Stack") @db.VarChar(40)  // 3. satır (taranmış)
+  // Tech Stack yayın bayrağı ve başlığı 2026-11-17'de TechStackGroup'a taşındı (çoğaltılabilir bölümler).
   updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
 
   favicon MediaAsset? @relation("Favicon", fields: [faviconAssetId], references: [id], onDelete: SetNull)
@@ -545,8 +542,26 @@ model IntegrationSetting {
 }
 
 // ───────────────────────────── Tech Stack (F21) ─────────────────────────────
+// Çoğaltılabilir bölümler (2026-11-17, migration 20261117170000_tech_stack_groups): eski tekil
+// SiteSettings.techStack* alanları ilk bölüme taşındı, mevcut öğeler ona bağlandı; varsayılan ikinci
+// bölüm "My Security Skill" (yayında değil) eklendi. Ana sayfada her yayındaki bölüm ayrı halka.
+model TechStackGroup {
+  id          Int      @id @default(autoincrement())
+  titleTop    String   @default("My")       @db.VarChar(20)  // merkez başlık 1. satır
+  titleMain   String   @default("Security") @db.VarChar(40)  // 2. satır (eğik çizgi üzerinde)
+  titleBottom String   @default("Skill")    @db.VarChar(40)  // 3. satır (taranmış)
+  published   Boolean  @default(false)                       // yayın için ≥ 3 aktif öğe (uygulama)
+  sortOrder   Int      @default(0)                           // sayfadaki sıra
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+  items       TechStackItem[]
+  @@index([published, sortOrder, id])
+  // en fazla 6 bölüm (uygulama); bölüm silinince öğeleri ve görselleri servis katmanında silinir
+}
+
 model TechStackItem {
   id           Int      @id @default(autoincrement())
+  groupId      Int                                // → TechStackGroup (onDelete: Restrict)
   label        String   @db.VarChar(40)           // ör. "React", "Rest API / AXIOS"
   description  String   @default("") @db.Text     // ≤ 2000, düz metin (satır sonları korunur)
   imageAssetId String?  @unique @db.Uuid          // TECH_STACK_IMAGE (daire içi çizim); yoksa baş harf
@@ -554,7 +569,8 @@ model TechStackItem {
   sortOrder    Int      @default(0)               // numara rozeti = sıra + 1
   createdAt    DateTime @default(now()) @db.Timestamptz(3)
   updatedAt    DateTime @updatedAt @db.Timestamptz(3)
-  // en fazla 9 öğe (uygulama); MediaKind'e TECH_STACK_IMAGE eklenir (png/jpg/webp/gif, ≤ 5 MB)
+  // bölüm başına en fazla 9 öğe (uygulama); MediaKind'e TECH_STACK_IMAGE eklenir (png/jpg/webp/gif, ≤ 5 MB)
+  @@index([groupId, isActive, sortOrder, id])
 }
 
 // ───────────────────────────── İletişim ─────────────────────────────

@@ -125,12 +125,25 @@ const TECH_STACK_ITEMS = [
   ],
 ];
 
+// Varsayılan bölümler (migration da oluşturur; boş veritabanında seed tamamlar).
+const TECH_STACK_GROUPS = [
+  { titleTop: 'My', titleMain: 'Tech', titleBottom: 'Stack', sortOrder: 0 },
+  { titleTop: 'My', titleMain: 'Security', titleBottom: 'Skill', sortOrder: 10 },
+];
+
 async function seedTechStackOnce() {
+  if ((await prisma.techStackGroup.count()) === 0) {
+    await prisma.techStackGroup.createMany({ data: TECH_STACK_GROUPS });
+  }
   const flag = await prisma.systemState.findUnique({ where: { key: 'tech_stack_seeded' } });
   if (flag) return 0;
   if ((await prisma.techStackItem.count()) === 0) {
+    const first = await prisma.techStackGroup.findFirst({
+      orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
+    });
     await prisma.techStackItem.createMany({
       data: TECH_STACK_ITEMS.map(([label, description], i) => ({
+        groupId: first.id,
         label,
         description,
         sortOrder: i * 10,

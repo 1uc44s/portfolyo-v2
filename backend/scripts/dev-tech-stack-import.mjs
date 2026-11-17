@@ -1,5 +1,5 @@
 // F21 — YALNIZCA GELİŞTİRME: referans "7 Tech Stack" görselinden (976×1092 düzeni) 7 daire çizimini
-// keser ve Tech Stack öğelerine sırayla (sortOrder) atar.
+// keser ve ilk Tech Stack bölümünün öğelerine sırayla (sortOrder) atar.
 // Normal yol admin panelinden yüklemektir; bu betik ilk kurulumu hızlandırır.
 // Kullanım: npm run tech-stack:import -w backend -- --source <görsel> [--dry-run]
 import { mkdtemp, rm, stat } from 'node:fs/promises';
@@ -63,9 +63,15 @@ await runCli(async () => {
   }
   const dir = await mkdtemp(path.join(os.tmpdir(), 'techstack-'));
   try {
-    const items = await prisma.techStackItem.findMany({
+    const group = await prisma.techStackGroup.findFirst({
       orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
     });
+    const items = group
+      ? await prisma.techStackItem.findMany({
+          where: { groupId: group.id },
+          orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
+        })
+      : [];
     const admin = await prisma.adminUser.findFirst({ where: { role: 'SUPER_ADMIN' } });
     const ctx = { adminId: admin?.id ?? null, ctx: { ipAddress: null, userAgent: 'cli' } };
     for (let i = 0; i < CIRCLES.length; i += 1) {

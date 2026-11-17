@@ -123,7 +123,10 @@ async function buildSite() {
     falling: await listPublicFalling(),
     about: aboutBody ? { title: about.title, bodyMarkdown: about.bodyMarkdown } : null,
     footer: { techs: site?.footerTechs ?? [], ownerName: displayName },
-    techStack: { published: site?.techStackPublished ?? false },
+    // Çoğaltılabilir bölümler: herhangi biri yayındaysa halka(lar) yüklenir (ayrıntı /tech-stack).
+    techStack: {
+      published: (await prisma.techStackGroup.count({ where: { published: true } })) > 0,
+    },
     integrations: {
       discord: enabled('DISCORD'),
       spotify: enabled('SPOTIFY'),

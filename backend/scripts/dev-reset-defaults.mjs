@@ -16,6 +16,11 @@ const { values } = parseArgs({
 
 const DEFAULT_EMAIL = '1uc44s@github.com';
 
+const DEFAULT_TECH_STACK_GROUPS = [
+  { titleTop: 'My', titleMain: 'Tech', titleBottom: 'Stack', published: false, sortOrder: 0 },
+  { titleTop: 'My', titleMain: 'Security', titleBottom: 'Skill', published: false, sortOrder: 10 },
+];
+
 await runCli(async () => {
   if (process.env.NODE_ENV === 'production') throw new Error('Yalnızca geliştirme ortamında.');
   if (!values.yes) throw new Error('Geri alınamaz. Onay için --yes ver.');
@@ -103,12 +108,11 @@ await runCli(async () => {
       data: {
         navbarTitle: '1uc44s GitHub',
         footerTechs: [],
-        techStackPublished: false,
-        techStackTitleTop: 'My',
-        techStackTitleMain: 'Tech',
-        techStackTitleBottom: 'Stack',
       },
     });
+    // Tech Stack bölümleri varsayılana: "My Tech Stack" + "My Security Skill" (ikisi de yayında değil).
+    await tx.techStackGroup.deleteMany({});
+    await tx.techStackGroup.createMany({ data: DEFAULT_TECH_STACK_GROUPS });
     await tx.aboutContent.update({
       where: { id: 1 },
       data: { title: 'Hakkımda', bodyMarkdown: '' },

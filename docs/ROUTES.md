@@ -325,17 +325,24 @@ Kütüphane uçları:
 
 ### 4.13 Tech Stack — `settings:*` (F21)
 
+Çoğaltılabilir bölümler (2026-11-17): "My Tech Stack", "My Security Skill"… Her bölümün kendi başlığı,
+yayın bayrağı ve öğeleri vardır; ana sayfada ayrı halka olarak `sortOrder` sırasıyla gösterilir.
+En fazla 6 bölüm, bölüm başına en fazla 9 öğe; yayın için bölümde en az 3 aktif öğe.
+
 | Metod | Path | Not |
 |---|---|---|
-| GET | `/api/admin/tech-stack` | `{published, title:{top,main,bottom}, items:[{id,label,description,isActive,sortOrder,image}]}` |
-| PUT | `/api/admin/tech-stack/settings` | `{published, titleTop (≤ 20), titleMain (1–40), titleBottom (≤ 40)}` |
-| POST | `/api/admin/tech-stack/items` | multipart: `label` (1–40), `description` (≤ 2000, düz metin), `isActive`, opsiyonel `image`. En fazla 9 öğe (409) |
+| GET | `/api/admin/tech-stack` | `{groups:[{id, published, sortOrder, title:{top,main,bottom}, items:[{id,groupId,label,description,isActive,sortOrder,image}]}], limits}` |
+| POST | `/api/admin/tech-stack/groups` | `{titleTop?, titleMain?, titleBottom?}` — verilmezse "My / Security / Skill"; yayında değil başlar. 6 bölümden sonra 409 |
+| PUT | `/api/admin/tech-stack/groups/:groupId` | `{published, titleTop (≤ 20), titleMain (1–40), titleBottom (≤ 40)}`; < 3 aktif öğeyle yayın → 422 |
+| PATCH | `/api/admin/tech-stack/groups/reorder` | `{ids}` (tüm bölümler, sayfadaki sıra) |
+| DELETE | `/api/admin/tech-stack/groups/:groupId` | Bölüm + öğeleri + görselleri (silme kuyruğuna) |
+| POST | `/api/admin/tech-stack/groups/:groupId/items` | multipart: `label` (1–40), `description` (≤ 2000, düz metin), `isActive`, opsiyonel `image`. Bölüm başına en fazla 9 öğe (409) |
+| PATCH | `/api/admin/tech-stack/groups/:groupId/items/reorder` | `{ids}` (o bölümün tam listesi; başka bölümün öğesi → 422) |
 | PATCH | `/api/admin/tech-stack/items/:id` | `{label?, description?, isActive?}` |
 | PUT / DELETE | `/api/admin/tech-stack/items/:id/image` | Görsel değiştir / kaldır |
-| PATCH | `/api/admin/tech-stack/items/reorder` | `{ids}` (tam liste) |
 | DELETE | `/api/admin/tech-stack/items/:id` | Öğe + görsel silme kuyruğuna |
 
-Public: `GET /api/public/tech-stack` → yayında değilse `{published:false}`; yayındaysa `{published:true, title, items:[{id,label,description,image:{url,width,height}|null}]}` (yalnızca aktif öğeler, `sortOrder`).
+Public: `GET /api/public/tech-stack` → `{published, groups:[{id, title:{top,main,bottom}, items:[{id,label,description,image:{url,width,height}|null}]}]}` — yalnızca yayındaki ve en az bir aktif öğesi olan bölümler, aktif öğeler; ikisi de `sortOrder` sırasıyla. `/api/public/site` içindeki `techStack.published` herhangi bir bölüm yayındaysa `true`. Öğe görseli yalnızca öğe aktif ve bölümü yayındaysa `/media` üzerinden public sunulur.
 
 ### 4.12 Sistem — karışık (ADMIN.md §3.13)
 

@@ -19,7 +19,7 @@ Public sitedeki her parça bir CMS kaynağına bağlıdır. Sabit metin yalnızc
 | Müzik | Rotasyon MUSIC | Medya > Müzikler | Oynatıcı yok |
 | İmleç | Rotasyon CURSOR | Medya > Cursor setleri | Sistem imleci |
 | Durum kartları | `IntegrationSetting` | Durumlar | Kart yok |
-| Tech Stack | `SiteSettings.techStackPublished` + başlık alanları + `TechStackItem` | Tech Stack (admin) | Yayında değilse başlık + `Coming soon` |
+| Tech Stack bölümleri | `TechStackGroup` (başlık, yayın, sıra) + `TechStackItem` (bölüm başına) | Tech Stack (admin; bölüm sekmeleri) | Hiçbir bölüm yayında değilse başlık + `Coming soon`; yayındaki her bölüm ayrı halka |
 | Projeler | `Project` + `Category` | Projeler / Kategoriler | Bölüm yok |
 | Hakkımda | `AboutContent` | Site Ayarları | Bölüm yok |
 | Linkler | `LinkItem` | Linkler | Bölüm yok |

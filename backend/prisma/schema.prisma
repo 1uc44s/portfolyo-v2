@@ -214,15 +214,11 @@ model MailSettings {
 
 // ───────────────────────────── Site içeriği (tekil) ─────────────────────────────
 model SiteSettings {
-  id                   Int      @id @default(1)
-  navbarTitle          String   @default("1uc44s GitHub") @map("navbar_title") @db.VarChar(40)
-  faviconAssetId       String?  @map("favicon_asset_id") @db.Uuid
-  footerTechs          Json     @default("[]") @map("footer_techs") // [{ "label": "React", "icon": "SiReact" }]
-  techStackPublished   Boolean  @default(false) @map("tech_stack_published") // en son faz; o zamana kadar false
-  techStackTitleTop    String   @default("My") @map("tech_stack_title_top") @db.VarChar(20)
-  techStackTitleMain   String   @default("Tech") @map("tech_stack_title_main") @db.VarChar(40)
-  techStackTitleBottom String   @default("Stack") @map("tech_stack_title_bottom") @db.VarChar(40)
-  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  id             Int      @id @default(1)
+  navbarTitle    String   @default("1uc44s GitHub") @map("navbar_title") @db.VarChar(40)
+  faviconAssetId String?  @map("favicon_asset_id") @db.Uuid
+  footerTechs    Json     @default("[]") @map("footer_techs") // [{ "label": "React", "icon": "SiReact" }]
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   favicon MediaAsset? @relation("Favicon", fields: [faviconAssetId], references: [id], onDelete: SetNull)
 
@@ -620,8 +616,27 @@ model IntegrationSetting {
 }
 
 // ───────────────────────────── Tech Stack (F21) ─────────────────────────────
+// Tech Stack bölümleri ("My Tech Stack", "My Security Skill"…): her biri kendi başlığı, yayın
+// bayrağı ve öğeleriyle ana sayfada ayrı bir halka. Sıra = sayfadaki sıra.
+model TechStackGroup {
+  id          Int      @id @default(autoincrement())
+  titleTop    String   @default("My") @map("title_top") @db.VarChar(20)
+  titleMain   String   @default("Security") @map("title_main") @db.VarChar(40)
+  titleBottom String   @default("Skill") @map("title_bottom") @db.VarChar(40)
+  published   Boolean  @default(false)
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  items TechStackItem[]
+
+  @@index([published, sortOrder, id])
+  @@map("tech_stack_groups")
+}
+
 model TechStackItem {
   id           Int      @id @default(autoincrement())
+  groupId      Int      @map("group_id")
   label        String   @db.VarChar(40)
   description  String   @default("") @db.Text // ≤ 2000, düz metin
   imageAssetId String?  @unique @map("image_asset_id") @db.Uuid
@@ -630,9 +645,10 @@ model TechStackItem {
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  image MediaAsset? @relation(fields: [imageAssetId], references: [id], onDelete: Restrict)
+  image MediaAsset?    @relation(fields: [imageAssetId], references: [id], onDelete: Restrict)
+  group TechStackGroup @relation(fields: [groupId], references: [id], onDelete: Restrict)
 
-  @@index([isActive, sortOrder, id])
+  @@index([groupId, isActive, sortOrder, id])
   @@map("tech_stack_items")
 }
 

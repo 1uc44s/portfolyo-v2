@@ -1,9 +1,11 @@
-// F21 — ROUTES.md §4.13, SRS FR-PUB-04B: Tech Stack başlığı ve öğeleri (istemci + sunucu aynı şema).
+// F21 — ROUTES.md §4.13, SRS FR-PUB-04B: Tech Stack bölümleri ("My Tech Stack", "My Security Skill"…),
+// başlıkları ve öğeleri (istemci + sunucu aynı şema).
 import { z } from 'zod';
 
 export const TECH_STACK_LIMITS = Object.freeze({
   minItems: 3,
   maxItems: 9,
+  maxGroups: 6,
   label: 40,
   description: 2000,
   titleTop: 20,
@@ -40,13 +42,31 @@ const description = z
 
 const flag = z.union([z.boolean(), z.enum(['true', 'false']).transform((v) => v === 'true')]);
 
-export const techStackSettingsSchema = z
+/** Yeni bölüm eklerken önerilen başlık ("My Security Skill"). */
+export const TECH_STACK_GROUP_DEFAULTS = Object.freeze({
+  titleTop: 'My',
+  titleMain: 'Security',
+  titleBottom: 'Skill',
+});
+
+const groupTitles = {
+  titleTop: inline(TECH_STACK_LIMITS.titleTop),
+  titleMain: inline(TECH_STACK_LIMITS.titleMain, 'Ana başlık zorunlu.'),
+  titleBottom: inline(TECH_STACK_LIMITS.titleBottom),
+};
+
+/** Bölüm oluşturma: başlık verilmezse varsayılan "My Security Skill"; yayında değil başlar. */
+export const techStackGroupCreateSchema = z
   .object({
-    published: z.boolean(),
-    titleTop: inline(TECH_STACK_LIMITS.titleTop),
-    titleMain: inline(TECH_STACK_LIMITS.titleMain, 'Ana başlık zorunlu.'),
-    titleBottom: inline(TECH_STACK_LIMITS.titleBottom),
+    titleTop: groupTitles.titleTop.optional().default(TECH_STACK_GROUP_DEFAULTS.titleTop),
+    titleMain: groupTitles.titleMain.optional().default(TECH_STACK_GROUP_DEFAULTS.titleMain),
+    titleBottom: groupTitles.titleBottom.optional().default(TECH_STACK_GROUP_DEFAULTS.titleBottom),
   })
+  .strict();
+
+/** Bölüm ayarları: yayın + üç satırlık başlık. */
+export const techStackGroupUpdateSchema = z
+  .object({ published: z.boolean(), ...groupTitles })
   .strict();
 
 /** Oluşturma multipart (alanlar metin gelir); görsel opsiyonel. */

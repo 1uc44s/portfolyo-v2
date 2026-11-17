@@ -105,6 +105,7 @@ export const ENTITY_LABELS = {
   Project: 'Proje',
   SiteSettings: 'Site ayarları',
   TechStack: 'Tech Stack',
+  TechStackGroup: 'Tech Stack bölümü',
   audit_log: 'Audit log',
 };
 
@@ -116,6 +117,7 @@ const PREFIX_LABELS = {
   CURSOR_SET: 'Cursor seti',
   NAME_OVERLAY: 'İsim efekti',
   FALLING_ITEM: 'Yağan öğe',
+  TECH_STACK_GROUP: 'Tech Stack bölümü',
   TECH_STACK_ITEM: 'Tech Stack öğesi',
   TECH_STACK: 'Tech Stack',
   CONTACT_MESSAGE: 'İletişim mesajı',

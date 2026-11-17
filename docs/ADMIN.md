@@ -112,7 +112,8 @@ Form solda; sağda **canlı önizleme** (gerçek `Hero` bileşeni, sahne arka pl
 Sol: sıralanabilir liste (görsel, başlık, URL kısaltılmış, aktif anahtarı). Sağ: **public önizleme paneli** — gerçek `LinksSection` bileşeni; genişlik simülatörü (Masaüstü 1280 / Tablet 768 / Mobil 375) ile satır kırılması ve ortalama anında görülür. Form: görsel (zorunlu, kare kırpma önerisi), başlık (zorunlu), URL (zorunlu; yazarken protokol uyarısı).
 
 ### 3.10b Tech Stack (F21, `settings:*`)
-Solda: yayın anahtarı, merkez başlık (3 satır) (amblem 2026-11-16'da kaldırıldı); öğe listesi (sürükle-bırak sıra = numara, görsel, etiket, aktif anahtarı, düzenle/sil; en fazla 9). Öğe formu: görsel (kare/dairesel önerilir, şeffaf PNG en iyisi), etiket, açıklama ("bununla ne yapıyorum"). Sağda: gerçek public bileşenle canlı önizleme (öğeye tıklayınca açıklama).
+Çoğaltılabilir bölümler (2026-11-17): üstte bölüm sekmeleri ("My Tech Stack", "My Security Skill"…; Yayında/Taslak rozeti) ve **Yeni bölüm ekle** (başlık varsayılanı "My / Security / Skill"; en fazla 6 bölüm). Her sekme kendi ayarlarını, öğelerini ve önizlemesini gösterir; ayar kartında bölümü öne/sona alma ve **Bölümü sil** (öğeleri ve görselleriyle). Seçili sekme URL'de (`?bolum=<id>`).
+Her bölümde solda: yayın anahtarı, merkez başlık (3 satır) (amblem 2026-11-16'da kaldırıldı); öğe listesi (sürükle-bırak sıra = numara, görsel, etiket, aktif anahtarı, düzenle/sil; en fazla 9). Öğe formu: görsel (kare/dairesel önerilir, şeffaf PNG en iyisi), etiket, açıklama ("bununla ne yapıyorum"). Sağda: gerçek public bileşenle canlı önizleme (öğeye tıklayınca açıklama).
 
 ### 3.11 İletişim Mesajları
 İki panelli gelen kutusu: liste (okunmamış kalın, durum rozetleri) + detay (gönderen bilgileri, mesaj, "E-posta ile yanıtla", Yanıtlandı/Bekliyor, Spam işaretle, Sil). Klavye: `j/k` gezin, `e` yanıtlandı, `s` spam.

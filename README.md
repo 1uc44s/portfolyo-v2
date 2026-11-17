@@ -43,7 +43,8 @@ JSX, TypeScript yok.** npm workspaces (`frontend`, `backend`, `packages/shared`)
   ilerleme), GitHub (istatistik kartları). SSE ile sayfa yenilemeden canlı güncellenir.
 - **İndirilebilir medya:** Duvar kağıtları (arka planlarda `isWallpaper` bayrağı) ve profil fotoğrafları;
   keyset sayfalama, EXIF'siz indirme varyantı, tekilleştirilmiş günlük indirme sayacı.
-- **Tech Stack halkası**, **yağan öğeler** (görsel/emoji), **projeler + kategoriler**, **linkler**, **Hakkımda**
+- **Tech Stack halkaları (çoğaltılabilir bölümler):** "My Tech Stack", "My Security Skill" gibi her bölüm kendi
+  başlığı ve öğeleriyle ayrı bir halka; admin'den bölüm eklenir/sıralanır/silinir. **Yağan öğeler** (görsel/emoji), **projeler + kategoriler**, **linkler**, **Hakkımda**
   (güvenli Markdown), **TON 618 temalı 404** (video arka plan).
 - **Yönetim paneli:** Rol bazlı (SUPER_ADMIN / EDITOR), 2FA (TOTP + kurtarma kodları), audit log, dashboard,
   içerik yönetimi, entegrasyon ve mail ayarları.
@@ -219,7 +220,8 @@ Medya içeren oluşturma/güncelleme uçları `multipart/form-data`. Tam tablo: 
 - **Auth** `/api/admin/auth` — login (+2FA), refresh (rotasyon), logout, şifre sıfırlama
 - **Hesap** `/api/admin/account` — şifre/e-posta değişimi, 2FA, oturumlar, mail (SMTP) ayarları
 - **Dashboard** `/api/admin/dashboard/summary` — ziyaretçi, indirme, proje, entegrasyon, depo özetleri
-- **İçerik** `/api/admin/media/{backgrounds,musics,pfps,cursors,name-overlays}`, `/tech-stack`,
+- **İçerik** `/api/admin/media/{backgrounds,musics,pfps,cursors,name-overlays}`, `/tech-stack` (bölümler:
+  `/tech-stack/groups[/:groupId[/items]]`),
   `/falling-items`, `/projects`, `/categories`, `/links` — CRUD + sıralama + dosya değiştirme
 - **Site / Hero** `/api/admin/settings`, `/api/admin/hero` — başlık, footer teknolojileri, hero alanları
 - **Durumlar** `/api/admin/integrations/:provider` — aç/kapat, config, secret'lar (L5), test, senkron
@@ -243,8 +245,12 @@ süre dolunca `/auth/refresh` (çerez + `X-CSRF-Token`). Yabancı origin/CSRF ba
    ve depo kullanımı.
 5. **Durumlar:** Discord (bot token, kullanıcı ID, hitap şekli), Spotify (bağlan), GitHub (kullanıcı adı); test
    ve "Şimdi senkronize et".
-6. **Projeler / Kategoriler / Linkler / Tech Stack:** içerik CRUD'u.
-7. **İletişim Mesajları, Hesap Ayarları (2FA, mail), Sistem (yasal metinler), Loglar.**
+6. **Projeler / Kategoriler / Linkler:** içerik CRUD'u.
+7. **Tech Stack:** üstteki sekmelerde bölümler ("My Tech Stack", "My Security Skill"…). **Yeni bölüm ekle**
+   ayrı bir halka açar (varsayılan başlık "My Security Skill", yayında değil başlar). Her bölümde başlık (3
+   satır), yayın anahtarı (en az 3 aktif öğe), öğeler (görsel, etiket, açıklama, sürükle-bırak sıra), canlı
+   önizleme, öne/sona alma ve bölümü silme. En fazla 6 bölüm, bölüm başına 9 öğe.
+8. **İletişim Mesajları, Hesap Ayarları (2FA, mail), Sistem (yasal metinler), Loglar.**
 
 Rol matrisi ve izinler: [ADMIN.md](docs/ADMIN.md).
 

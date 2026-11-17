@@ -218,7 +218,15 @@ erDiagram
         string navbarTitle
         uuid faviconAssetId FK
         json footerTechs
-        bool techStackPublished
+    }
+    TechStackGroup ||--o{ TechStackItem : "içerir"
+    TechStackGroup {
+        int id PK
+        string titleTop
+        string titleMain
+        string titleBottom
+        bool published
+        int sortOrder
     }
 ```
 

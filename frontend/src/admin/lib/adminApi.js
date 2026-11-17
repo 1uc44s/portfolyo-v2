@@ -191,14 +191,26 @@ export const fallingApi = {
 /** ROUTES.md §4.13 — Tech Stack (F21). */
 export const techStackApi = {
   get: () => unwrap(api.get('/admin/tech-stack')),
-  saveSettings: (body) => unwrap(api.put('/admin/tech-stack/settings', body)),
-  createItem: ({ image, ...fields }, options) =>
-    uploadForm('post', '/admin/tech-stack/items', { files: { image }, fields }, options),
+  // Bölümler ("My Tech Stack", "My Security Skill"…)
+  createGroup: (body = {}) => unwrap(api.post('/admin/tech-stack/groups', body)),
+  updateGroup: (groupId, body) => unwrap(api.put(`/admin/tech-stack/groups/${groupId}`, body)),
+  removeGroup: (groupId) => api.delete(`/admin/tech-stack/groups/${groupId}`),
+  reorderGroups: (ids) => api.patch('/admin/tech-stack/groups/reorder', { ids }),
+  // Bir bölümün öğeleri
+  createItem: (groupId, { image, ...fields }, options) =>
+    uploadForm(
+      'post',
+      `/admin/tech-stack/groups/${groupId}/items`,
+      { files: { image }, fields },
+      options,
+    ),
+  reorder: (groupId, ids) =>
+    api.patch(`/admin/tech-stack/groups/${groupId}/items/reorder`, { ids }),
+  // Tek öğe
   updateItem: (id, body) => unwrap(api.patch(`/admin/tech-stack/items/${id}`, body)),
   replaceImage: (id, file, options) =>
     uploadFile('put', `/admin/tech-stack/items/${id}/image`, file, { field: 'image', ...options }),
   removeImage: (id) => unwrap(api.delete(`/admin/tech-stack/items/${id}/image`)),
-  reorder: (ids) => api.patch('/admin/tech-stack/items/reorder', { ids }),
   remove: (id) => api.delete(`/admin/tech-stack/items/${id}`),
 };
 
