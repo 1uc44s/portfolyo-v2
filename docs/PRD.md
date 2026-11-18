@@ -90,7 +90,7 @@ Ziyaretçinin siteye girdiği an **bir kişinin dijital odasına** girdiğini hi
 
 ### 3.3 En son yapılacak (kabul kriteri)
 
-- Tech Stack bölümünün gerçek içeriği. O zamana kadar yalnızca başlık + `Coming soon`.
+- Tech Stack bölümünün gerçek içeriği. Yayında bölüm yokken ana sayfada Tech Stack hiç gösterilmez (2026-11-17; eski `Coming soon` yer tutucusu kaldırıldı).
 
 ### 3.4 Opsiyonel (v1.x)
 
@@ -256,7 +256,7 @@ Tasarım bu projede birinci sınıf gereksinimdir. Token ve ölçü kuralları R
 │                                                                                    │
 │        ┌── Discord ──┐    ┌── Spotify ──┐    ┌── GitHub ──┐   (bento, 3 sütun)     │
 │                                                                                    │
-│                         Tech Stack — "Coming soon"                                 │
+│                Tech Stack halkaları (yalnızca yayındaysa)                          │
 │        Projeler (kart ızgarası, 3 sütun)                                           │
 │        Hakkımda (okuma genişliği ≤ 68ch)                                           │
 │        Linkler (flex, satır başı ≤ 6, ortalı)                                      │

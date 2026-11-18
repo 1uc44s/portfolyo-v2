@@ -1,4 +1,4 @@
-// Ana sayfa (Şartname §4 sırası): Hero → Durumlar → Tech Stack (Coming soon; içerik F21) → Projeler → Hakkımda →
+// Ana sayfa (Şartname §4 sırası): Hero → Durumlar → Tech Stack (yalnızca yayındaysa) → Projeler → Hakkımda →
 // Linkler → İletişim. İçeriği olmayan bölüm DOM'a eklenmez (FR-PUB-03); İletişim her zaman var.
 // Oynatıcı PublicLayout'ta (tüm public sayfalarda) yüzen şerittir.
 import { lazy, Suspense } from 'react';
@@ -60,9 +60,9 @@ export function HomePage() {
           <PlayerBar />
         </Reveal>
       </ErrorBoundary>
-      {data && (
+      {data?.techStack?.published && (
         <Reveal>
-          <TechStackSection published={data.techStack?.published} />
+          <TechStackSection published />
         </Reveal>
       )}
       {data?.sections?.projects && (

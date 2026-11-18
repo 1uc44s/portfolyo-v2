@@ -19,7 +19,7 @@ Public sitedeki her parça bir CMS kaynağına bağlıdır. Sabit metin yalnızc
 | Müzik | Rotasyon MUSIC | Medya > Müzikler | Oynatıcı yok |
 | İmleç | Rotasyon CURSOR | Medya > Cursor setleri | Sistem imleci |
 | Durum kartları | `IntegrationSetting` | Durumlar | Kart yok |
-| Tech Stack bölümleri | `TechStackGroup` (başlık, yayın, sıra) + `TechStackItem` (bölüm başına) | Tech Stack (admin; bölüm sekmeleri) | Hiçbir bölüm yayında değilse başlık + `Coming soon`; yayındaki her bölüm ayrı halka |
+| Tech Stack bölümleri | `TechStackGroup` (başlık, yayın, sıra) + `TechStackItem` (bölüm başına) | Tech Stack (admin; bölüm sekmeleri) | Hiçbir bölüm yayında değilse Tech Stack ile ilgili hiçbir şey gösterilmez (2026-11-17); yayındaki her bölüm ayrı halka |
 | Projeler | `Project` + `Category` | Projeler / Kategoriler | Bölüm yok |
 | Hakkımda | `AboutContent` | Site Ayarları | Bölüm yok |
 | Linkler | `LinkItem` | Linkler | Bölüm yok |
@@ -193,7 +193,7 @@ Bu metinler içerik değil arayüz metnidir; `frontend/src/lib/copy.js` dosyası
 | Anahtar | Metin |
 |---|---|
 | welcome.prompt | `Welcome, click to enter...` (Şartname gereği İngilizce) |
-| techstack.placeholder | `Coming soon` (kullanıcı kararı; Welcome metni gibi İngilizce) |
+| ~~techstack.placeholder~~ | Kaldırıldı (2026-11-17): yayında bölüm yoksa yer tutucu da gösterilmez |
 | links.title | `Linkler` |
 | downloads.disclaimer | `İndirdiğiniz içeriklerden sorumluluk kabul etmiyoruz.` |
 | wallpapers.title | `Duvar kağıtlarını beğendin mi? Ücretsiz alabilirsin.` |
