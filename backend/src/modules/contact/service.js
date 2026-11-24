@@ -63,6 +63,20 @@ export async function assertCaptcha(token, ip) {
   }
 }
 
+/**
+ * Bildirim alıcısı: ayarlı adres; boşsa ilk aktif süper admin hesabının e-postası (arayüzdeki
+ * "boş bırakırsan hesabının e-posta adresine gider"). Gönderen adresi (ör. noreply@…) son çare.
+ */
+async function notifyRecipient(settings) {
+  if (settings.notifyEmail) return settings.notifyEmail;
+  const admin = await prisma.adminUser.findFirst({
+    where: { role: 'SUPER_ADMIN', isActive: true },
+    orderBy: { createdAt: 'asc' },
+    select: { email: true },
+  });
+  return admin?.email ?? settings.fromEmail;
+}
+
 /** FR-MSG-06 — opsiyonel e-posta bildirimi. Hata yutulur; içerik loglanmaz. */
 export async function notifyNewMessage(message) {
   try {
@@ -70,7 +84,7 @@ export async function notifyNewMessage(message) {
     if (!settings?.notifyOnContact || !isMailConfigured(settings)) return false;
     await sendTemplatedEmail({
       key: 'CONTACT_NOTIFICATION',
-      to: settings.notifyEmail || settings.fromEmail,
+      to: await notifyRecipient(settings),
       replyTo: message.email,
       vars: {
         senderFullName: `${message.firstName} ${message.lastName}`,

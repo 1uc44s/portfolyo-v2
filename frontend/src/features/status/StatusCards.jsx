@@ -63,7 +63,7 @@ function CardShell({ title, icon: Icon, children, footer, className }) {
         <Icon aria-hidden="true" className="size-4" />
         <h3>{title}</h3>
       </header>
-      <div className="flex flex-1 flex-col gap-3">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col gap-3">{children}</div>
       {footer && <p className="text-muted-foreground text-xs">{footer}</p>}
     </article>
   );
@@ -183,11 +183,12 @@ export function SpotifyView({ data }) {
         </p>
       )}
       {data.topTracks?.length > 0 && (
-        <div className="grid gap-2">
+        <div className="grid min-w-0 gap-2">
           <p className="text-muted-foreground text-xs">Son dönemde en çok dinlenenler</p>
-          <ol className="grid gap-2">
+          {/* min-w-0: tek satırlık (truncate) uzun başlık ızgarayı genişletip kartı taşırmasın. */}
+          <ol className="grid min-w-0 gap-2">
             {data.topTracks.map((t, i) => (
-              <li key={`${t.title}-${i}`} className="flex items-center gap-2 text-sm">
+              <li key={`${t.title}-${i}`} className="flex min-w-0 items-center gap-2 text-sm">
                 {t.albumArtUrl && (
                   <img
                     src={t.albumArtUrl}
@@ -198,7 +199,10 @@ export function SpotifyView({ data }) {
                     className="size-8 shrink-0 rounded object-cover"
                   />
                 )}
-                <span className="min-w-0 truncate">
+                <span
+                  className="min-w-0 flex-1 truncate"
+                  title={`${t.title} · ${t.artists.join(', ')}`}
+                >
                   <TrackLink url={t.trackUrl} className="font-medium">
                     {t.title}
                   </TrackLink>

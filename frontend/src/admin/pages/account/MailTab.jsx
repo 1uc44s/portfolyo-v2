@@ -217,7 +217,14 @@ export function MailTab() {
 
       <SettingsCard
         title="Bildirimler"
-        description="İletişim formundan yeni mesaj geldiğinde e-posta gönder (iletişim modülü F14'te gelecek)."
+        description="İletişim formundan yeni mesaj geldiğinde gönderen bilgileri ve mesajla birlikte e-posta gönderilir; yanıtla dersen doğrudan gönderene gider. Çalışması için yukarıdaki SMTP ayarlarının kayıtlı olması gerekir."
+        footer={
+          canEdit && (
+            <SubmitButton pending={isSubmitting} disabled={!isDirty && !removeSecret}>
+              Kaydet
+            </SubmitButton>
+          )
+        }
       >
         <fieldset disabled={!canEdit} className="grid gap-5">
           <Controller
