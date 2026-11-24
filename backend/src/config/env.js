@@ -41,6 +41,8 @@ const schema = z.object({
   // F6 — medya hattı (ARCHITECTURE.md §8). S3 sürücüsü v1'de iskelet.
   STORAGE_DRIVER: z.enum(['local', 's3']).default('local'),
   STORAGE_ROOT: z.string().min(1).default('./uploads'),
+  // Link önizlemesi: SPA HTML'i API'den, sayfa başına meta etiketleriyle (modules/seo). Boşsa kapalı.
+  FRONTEND_DIST: z.preprocess((v) => (v === '' ? undefined : v), z.string().trim().optional()),
   S3_ENDPOINT: z.string().optional(),
   S3_BUCKET: z.string().optional(),
   S3_ACCESS_KEY_ID: z.string().optional(),

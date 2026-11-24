@@ -64,6 +64,8 @@ cd /srv/vasquez && sudo -u vasquez git pull   # ya da yeni sürümü rsync'le
 sudo -u vasquez bash deploy/deploy.sh
 ```
 
+**Link önizlemesi (Discord, WhatsApp, X…):** sayfa HTML'i API'den gelir; API `FRONTEND_DIST/index.html`'e sayfa başına başlık, açıklama ve `og:*`/`twitter:*` etiketlerini (site adı, hero sloganı, profil görseli; proje sayfasında proje adı, özeti ve kapağı) ekler. Gereken: `/etc/vasquez/backend.env` içinde `FRONTEND_DIST=/srv/vasquez/frontend/dist` ve güncel `deploy/Caddyfile` (`sudo cp deploy/Caddyfile /etc/caddy/Caddyfile`). Kontrol: `curl -s https://ALAN_ADI/ | grep og:title`. Paylaşım uygulamaları önizlemeyi bir süre önbellekte tutar; Discord'da linkin sonuna `?v=2` eklemek yenisini çeker.
+
 `deploy.sh` sırası: `npm ci` → `prisma generate` → `prisma migrate deploy` → `db:seed` (idempotent; içerik ezmez) → `npm run build` → `frontend/dist/csp-hashes.json`'daki `scriptSrc`'yi Caddy ortamına yazar → `vasquez-api` ve Caddy yeniden başlar → `deploy/smoke.sh`.
 Geri alma: önceki sürüme dön ve aynı betiği çalıştır. Migration'lar geri alınmaz; şema değişikliği içeren sürümden önce yedek al (§6). Prod'da `migrate reset` **asla** çalıştırılmaz.
 

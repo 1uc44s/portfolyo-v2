@@ -33,6 +33,7 @@ import { rotationRoutes } from './modules/rotation/routes.js';
 import { contentRoutes } from './modules/content/routes.js';
 import { mediaServeRoutes } from './modules/media/serve.js';
 import { auditRoutes } from './modules/audit/routes.js';
+import { seoHtml } from './modules/seo/pageMeta.js';
 
 /**
  * @param {{
@@ -55,6 +56,9 @@ export function createApp({ readinessCheck = async () => {}, rateLimitOverrides 
       autoLogging: { ignore: (req) => req.url === '/api/health' },
     }),
   );
+  // Sayfa HTML'i (link önizleme meta'larıyla): API'nin default-src 'none' CSP'si buna uygulanmaz;
+  // sayfa CSP'si Caddy'den gelir. FRONTEND_DIST yoksa (geliştirme) hiçbir şey yapmaz.
+  app.use(seoHtml());
   app.use(securityHeaders);
   // Medya sunumu compression'dan önce: Range yanıtları sıkıştırılmamalı (ROUTES.md §3).
   app.use('/media', mediaServeRoutes());
