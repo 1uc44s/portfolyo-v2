@@ -1,6 +1,6 @@
 # DEPLOY.md — Üretim Dağıtımı, İlk Kurulum, Yedekleme ve İşletim
 
-> Şartname §27 teslim dokümanı. Topoloji: [ARCHITECTURE.md §11](ARCHITECTURE.md). Ortam değişkenleri: [ARCHITECTURE.md §10](ARCHITECTURE.md) ve `backend/.env.production.example`. Dosyalar: `deploy/` dizini.
+> Şartname §27 teslim dokümanı. Ortam değişkenleri: `backend/.env.production.example`. Dosyalar: `deploy/` dizini.
 > Bu dokümanda **hiçbir gerçek secret yoktur**; tüm değerler sunucuda `/etc/vasquez/*.env` dosyalarına yazılır.
 
 ## 1. Gereksinimler
@@ -78,10 +78,10 @@ sudo -E -u vasquez npm run admin:create -w backend      # e-posta + şifre etkil
 
 - Şifre en az 12 karakter ve güç kontrolünden geçmeli; hesap `mustChangePassword` ile açılır → ilk girişte şifre değiştirilir.
 - Girişten sonra: **Hesap Ayarları > İki Aşamalı Doğrulama'yı aç**, kurtarma kodlarını sakla; **E-posta Gönderimi**'ni (SMTP) ayarla ve test et.
-- Kurtarma (SMTP yokken): `admin:reset-password`, `admin:reset-2fa`, `admin:unlock` — [ADMIN.md §2.3](ADMIN.md).
+- Kurtarma (SMTP yokken): `admin:reset-password`, `admin:reset-2fa`, `admin:unlock` (`backend/scripts/`).
 - `admin:dev-set` **yalnızca geliştirme** içindir; `NODE_ENV=production`'da çalışmaz.
 
-## 6. Yedekleme (DATABASE.md §9)
+## 6. Yedekleme
 
 - **Ne:** PostgreSQL (`pg_dump -Fc`, `age` ile şifreli) + medya klasörü (`/var/lib/vasquez/storage`, `restic` artımlı). İkisi aynı pencerede (03:30) alınır.
 - **Saklama:** 14 günlük + 8 haftalık. Sunucu dışı kopya `rclone` ile (ör. Backblaze B2, S3).
@@ -122,11 +122,11 @@ Yerel/dev provası tek komut: `bash scripts/restore-rehearsal.sh` (Docker kontey
 
 ## 8. Zamanlanmış işler (cron / rotasyon)
 
-Uygulama işleri API sürecinde `backend/src/jobs/scheduler.js` ile çalışır (ayrı cron gerekmez; tek instance varsayımı, [ARCHITECTURE.md §9](ARCHITECTURE.md)):
+Uygulama işleri API sürecinde `backend/src/jobs/scheduler.js` ile çalışır (ayrı cron gerekmez; tek instance varsayımı):
 
 | İş | Ne zaman (Europe/Istanbul) | Ne yapar |
 |---|---|---|
-| Günlük tuz + rotasyon | 00:00 (+ açılışta, + saatlik "ensure") | Ziyaretçi hash tuzunu yeniler; arka plan, müzik, profil, cursor için günün içeriğini seçer (tekrarsız döngü, advisory lock) — [SRS FR-ROT](SRS.md) |
+| Günlük tuz + rotasyon | 00:00 (+ açılışta, + saatlik "ensure") | Ziyaretçi hash tuzunu yeniler; arka plan, müzik, profil, cursor için günün içeriğini seçer (tekrarsız döngü, advisory lock) |
 | İletişim saklama | 00:00 + açılış | 12 ayı dolan mesajları siler |
 | `retention.cleanup` | 00:00 + açılış | Analitik 13 ay, indirme hash'i 90 gün (NULL), audit 24 ay, oturum 30 gün, sıfırlama bağlantısı 7 gün |
 | Entegrasyonlar | GitHub 1 sa, Spotify 60 sn, Discord kalıcı + 5 dk | Snapshot; hatada üstel bekleme ≤ 15 dk |
@@ -143,7 +143,7 @@ Gün hesapları sunucu saat diliminden bağımsız olarak Europe/Istanbul'dur. K
 - **Panel:** Dashboard uyarı kartları (2FA kapalı, SMTP yok, entegrasyon hatası, başarısız medya), Durumlar ekranındaki son hata.
 - **Disk:** `df -h /var/lib/vasquez` haftalık; Dashboard > Depolama.
 
-## 10. Yayın sonrası duman testi (TODO.md §T-SMOKE)
+## 10. Yayın sonrası duman testi
 
 ```bash
 bash deploy/smoke.sh https://alanadi.com

@@ -8,7 +8,7 @@ yönetim panelinden yönetilir.
 **Yığın:** React 19 (Vite, Tailwind v4, shadcn/ui) · Express 5 · Prisma 7 + PostgreSQL · **yalnızca JavaScript /
 JSX, TypeScript yok.** npm workspaces (`frontend`, `backend`, `packages/shared`).
 
-> Projenin tek doğruluk kaynağı [`docs/`](docs/) dizinidir. Yeni özellik önce dokümana yazılır, sonra kodlanır.
+> Üretime dağıtım ve işletim: [`docs/DEPLOY.md`](docs/DEPLOY.md) · güvenlik kontrolleri: [`docs/SECURITY.md`](docs/SECURITY.md).
 
 ---
 
@@ -105,7 +105,7 @@ Adresler:
 ## Ortam değişkenleri
 
 Örnek dosyalar: `.env.example` (kök, Docker için) ve `backend/.env.example`. Gerçek secret'lar **hiçbir
-dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için [ARCHITECTURE.md](docs/ARCHITECTURE.md)):
+dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için `backend/.env.example` ve `backend/.env.production.example`):
 
 | Değişken | Amaç |
 |---|---|
@@ -142,7 +142,7 @@ dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için [AR
 ## Dizin yapısı
 
 ```text
-docs/              Tek doğruluk kaynağı (PRD, SRS, mimari, DB, API, güvenlik…)
+docs/              Üretime dağıtım (DEPLOY.md) ve güvenlik kontrolleri (SECURITY.md)
 packages/shared/   Ortak sabitler, Zod şemaları (istemci + sunucu), metin yardımcıları
 backend/           Express API — src/app.js (uygulama), src/server.js (giriş), prisma/ (şema + migration)
   ├─ src/modules/  auth, admins, media, content, techstack, falling, integrations, public, analytics…
@@ -173,14 +173,14 @@ deploy/            Üretim: Caddyfile, systemd servisi, deploy/backup/smoke beti
 - **Dosya sunumu:** depo anahtarı kök dışına çıkamaz (path traversal koruması); yalnızca yayında/aktif sahibi
   olan medya public sunulur.
 
-Ayrıntı: [SECURITY.md](docs/SECURITY.md), [RULES.md](docs/RULES.md).
+Ayrıntı: [SECURITY.md](docs/SECURITY.md).
 
 ---
 
 ## Public API
 
 Tüm public GET yanıtları `Cache-Control` ile önbelleklenir (durum uçları 15 sn). Tam tablo:
-[ROUTES.md §3](docs/ROUTES.md).
+`backend/src/modules/public/routes.js`.
 
 | Metod | Path | Açıklama |
 |---|---|---|
@@ -215,7 +215,7 @@ MediaCard     { publicId, title, type, previewUrl, thumbUrl, posterUrl|null, wid
 
 `/api/admin/*` altında; hepsi `Cache-Control: no-store`. Yetki katmanları izin anahtarlarıyla
 (`media:*`, `hero:*`, `settings:*`, `status:*`…); secret ve Spotify bağlama uçları yalnızca SUPER_ADMIN.
-Medya içeren oluşturma/güncelleme uçları `multipart/form-data`. Tam tablo: [ROUTES.md §4](docs/ROUTES.md).
+Medya içeren oluşturma/güncelleme uçları `multipart/form-data`. Rotalar: `backend/src/modules/*/routes.js`.
 
 - **Auth** `/api/admin/auth` — login (+2FA), refresh (rotasyon), logout, şifre sıfırlama
 - **Hesap** `/api/admin/account` — şifre/e-posta değişimi, 2FA, oturumlar, mail (SMTP) ayarları
@@ -252,7 +252,6 @@ süre dolunca `/auth/refresh` (çerez + `X-CSRF-Token`). Yabancı origin/CSRF ba
    önizleme, öne/sona alma ve bölümü silme. En fazla 6 bölüm, bölüm başına 9 öğe.
 8. **İletişim Mesajları, Hesap Ayarları (2FA, mail), Sistem (yasal metinler), Loglar.**
 
-Rol matrisi ve izinler: [ADMIN.md](docs/ADMIN.md).
 
 ---
 
@@ -266,7 +265,6 @@ Rol matrisi ve izinler: [ADMIN.md](docs/ADMIN.md).
 - Aynı dosya iki kez yüklenince hash ile tespit edilip uyarılır. Silinen medyanın tüm varyantları silme
   kuyruğuna yazılıp diskten temizlenir.
 
-Ayrıntı: [CMS.md](docs/CMS.md), [DATABASE.md](docs/DATABASE.md).
 
 ---
 
@@ -297,14 +295,9 @@ betikleri ve crontab vardır. Adım adım kurulum, ilk admin, cron/rotasyon, yed
 
 | Konu | Doküman |
 |---|---|
-| Ürün ve gereksinimler | [PRD.md](docs/PRD.md), [SRS.md](docs/SRS.md) |
-| Mimari, ortam değişkenleri | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Veritabanı, şema, yedekleme | [DATABASE.md](docs/DATABASE.md), [ERD.md](docs/ERD.md) · migration'lar `backend/prisma/migrations` |
-| API uçları | [ROUTES.md](docs/ROUTES.md) |
-| Admin paneli, ilk kurulum, hesap kurtarma | [ADMIN.md](docs/ADMIN.md), [DEPLOY.md §5](docs/DEPLOY.md) |
-| İçerik, şablonlar, medya kuralları | [CMS.md](docs/CMS.md) |
-| Üretime dağıtım, cron/rotasyon, izleme, yedek | [DEPLOY.md](docs/DEPLOY.md) |
-| Güvenlik kontrolleri | [SECURITY.md](docs/SECURITY.md), [RULES.md](docs/RULES.md) |
+| Üretime dağıtım, ilk kurulum, cron/rotasyon, izleme, yedek | [DEPLOY.md](docs/DEPLOY.md) |
+| Güvenlik kontrolleri | [SECURITY.md](docs/SECURITY.md) |
+| Veritabanı şeması | `backend/prisma/schema.prisma` · migration'lar `backend/prisma/migrations` |
 
 Gerçek secret'lar hiçbir dokümanda ve kaynak kodda yoktur; örnekler `backend/.env.example` ve
 `backend/.env.production.example`.
