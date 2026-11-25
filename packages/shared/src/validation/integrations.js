@@ -1,4 +1,4 @@
-// F15 — ROUTES.md §4.7, SRS FR-INT — entegrasyon yapılandırma ve secret şemaları.
+// entegrasyon yapılandırma ve secret şemaları.
 // Config gizli değildir (admin API'de döner); secret'lar yalnızca yazılır, `isSet` olarak okunur.
 import { z } from 'zod';
 

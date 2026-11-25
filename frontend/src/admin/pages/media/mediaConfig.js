@@ -1,5 +1,5 @@
-// CMS.md §8 — Medya Yönetimi sekmeleri, alan etiketleri, rozetler ve meta satırı biçimi.
-import { MEDIA_CONTENT, formatBytes } from '@vasquez/shared';
+// Medya Yönetimi sekmeleri, alan etiketleri, rozetler ve meta satırı biçimi.
+import { MEDIA_CONTENT, formatBytes } from '@my-portfolyo/shared';
 
 const SLOT_LABELS = {
   backgrounds: { file: 'Arka plan dosyası' },
@@ -115,7 +115,7 @@ export function formatDuration(ms) {
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
 }
 
-/** CMS.md §8 meta satırı: "2,4 MB · MP4 · 1920×1080 · 0:14". */
+/** meta satırı: "2,4 MB · MP4 · 1920×1080 · 0:14". */
 export function assetMeta(asset) {
   if (!asset) return '';
   return [
@@ -129,8 +129,7 @@ export function assetMeta(asset) {
 }
 
 /**
- * CMS.md §2 — hesaplanmış durum rozetleri. tone: success | muted | warning | danger.
- * "Bugün seçili" / "Manuel seçim" rotasyon servisiyle (F8) eklenecek.
+ * hesaplanmış durum rozetleri. tone: success | muted | warning | danger.
  */
 export function statusBadges(item) {
   if (item.status === 'FAILED') return [{ label: 'Hata', tone: 'danger' }];

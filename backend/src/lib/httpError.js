@@ -1,4 +1,4 @@
-// SRS §10 — standart hata sınıfları.
+// standart hata sınıfları.
 export class AppError extends Error {
   /**
    * @param {number} status

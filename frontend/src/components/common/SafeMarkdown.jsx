@@ -1,4 +1,4 @@
-// CMS.md §4 — Markdown güvenli render: ham HTML atılır, izinli öğe listesi, yalnızca
+// Markdown güvenli render: ham HTML atılır, izinli öğe listesi, yalnızca
 // http/https/mailto linkleri; harici linkler yeni sekmede noopener noreferrer.
 import Markdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';

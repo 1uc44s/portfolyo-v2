@@ -1,4 +1,4 @@
-// CMS.md §3.1, US-24 AC2 — kullanılmayan kategori doğrudan silinir; kullanımdaysa ya başka
+// kullanılmayan kategori doğrudan silinir; kullanımdaysa ya başka
 // kategoriye taşınır ya da ilişkiler kaldırılarak silinir (yayındaki kategorisiz projeler uyarılır).
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

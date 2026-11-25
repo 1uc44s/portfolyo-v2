@@ -1,4 +1,4 @@
-// RULES §8.7 — boş durum: ikon + bir cümle + (varsa) eylem.
+// boş durum: ikon + bir cümle + (varsa) eylem.
 import { cn } from '@/lib/utils';
 
 /**

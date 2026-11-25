@@ -1,10 +1,10 @@
-// FR-AUTH-11 — token URL fragment'ından (#token=) okunur; sunucuya ve Referer'a düşmez.
+// token URL fragment'ından (#token=) okunur; sunucuya ve Referer'a düşmez.
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router';
 import { z } from 'zod';
-import { newPasswordField } from '@vasquez/shared';
+import { newPasswordField } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { PasswordInput } from '@/components/common/PasswordInput.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

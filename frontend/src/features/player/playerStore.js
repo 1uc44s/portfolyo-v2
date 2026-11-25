@@ -1,4 +1,4 @@
-// FR-PLY-01..05, FR-WEL-04 — tek global <audio> için durum, komutlar ve kalıcı tercihler.
+// tek global <audio> için durum, komutlar ve kalıcı tercihler.
 // <audio> GlobalAudio'da; PlayerBar ve Media Session yalnızca bu store üzerinden komut verir.
 import { create } from 'zustand';
 
@@ -50,7 +50,7 @@ export const usePlayer = create((set, get) => ({
     if (!audio || read('playerPaused') === 'true') return;
     audio.volume = get().volume;
     audio.play().catch(() => {
-      // NotAllowedError vb. sessizce yutulur (FR-WEL-05).
+      // NotAllowedError vb. sessizce yutulur.
     });
   },
 

@@ -1,6 +1,6 @@
-// F7 — yetkili önizleme (`/api/admin/media/assets/:id/file/:variant`) Bearer token ister; <img>/<video>
+// yetkili önizleme (`/api/admin/media/assets/:id/file/:variant`) Bearer token ister; <img>/<video>
 // başlık gönderemediği için dosya axios ile blob olarak çekilip object URL'e çevrilir (CSP img/media-src
-// blob: izinli — SRS §9.1). Object URL'ler sorgu önbellekten düşünce serbest bırakılır.
+// blob: izinli). Object URL'ler sorgu önbellekten düşünce serbest bırakılır.
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api/client.js';

@@ -1,4 +1,4 @@
-// SRS FR-FALL-01 — yağan öğeler: görsel (FALLING_IMAGE) veya kısa metin (emoji, harf, sayı).
+// yağan öğeler: görsel (FALLING_IMAGE) veya kısa metin (emoji, harf, sayı).
 import { z } from 'zod';
 
 export const FALLING_LIMITS = Object.freeze({

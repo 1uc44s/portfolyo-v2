@@ -1,4 +1,4 @@
-// SRS §9.1, FR-THM-02 — index.html'deki inline script'lerin SHA-256 hash'lerini üretir.
+// index.html'deki inline script'lerin SHA-256 hash'lerini üretir.
 // Çıktı: dist/csp-hashes.json → reverse proxy CSP'sindeki script-src için kullanılır.
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -9,7 +9,7 @@ const INLINE_SCRIPT = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
 export function cspHashPlugin() {
   let outDir = 'dist';
   return {
-    name: 'vasquez:csp-hashes',
+    name: 'my-portfolyo:csp-hashes',
     apply: 'build',
     configResolved(config) {
       outDir = path.resolve(config.root, config.build.outDir);

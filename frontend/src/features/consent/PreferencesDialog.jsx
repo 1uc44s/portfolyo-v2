@@ -1,4 +1,4 @@
-// FR-CKE-01/05 — çerez tercihleri diyaloğu (lazy). Zorunlu kategori kilitli; analitik anahtarı.
+// çerez tercihleri diyaloğu (lazy). Zorunlu kategori kilitli; analitik anahtarı.
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button.jsx';

@@ -1,4 +1,4 @@
-// ROUTES.md §4.9 — /api/admin/categories (`categories:*`).
+// /api/admin/categories (`categories:*`).
 import { Router } from 'express';
 import { z } from 'zod';
 import {
@@ -6,7 +6,7 @@ import {
   categoryReassignSchema,
   categoryUpdateSchema,
   reorderSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import { requestContext } from '../audit/service.js';

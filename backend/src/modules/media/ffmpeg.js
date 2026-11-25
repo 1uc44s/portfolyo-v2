@@ -1,4 +1,4 @@
-// SRS FR-MED-06, RULES.md §5.3 — FFmpeg/ffprobe çağrıları: argüman dizisi + spawn (shell yok).
+// FFmpeg/ffprobe çağrıları: argüman dizisi + spawn (shell yok).
 // FFmpeg kurulu değilse açık hata (503 MEDIA_PROCESSOR_UNAVAILABLE) verilir; sessizce atlanmaz.
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';

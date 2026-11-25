@@ -1,4 +1,4 @@
-// ADMIN.md §3.10b, FR-PUB-04B — Tech Stack bölümleri: "My Tech Stack", "My Security Skill"… Her bölüm
+// Tech Stack bölümleri: "My Tech Stack", "My Security Skill"… Her bölüm
 // ayrı sekme: yayın anahtarı, merkez başlık (3 satır), öğeler (sürükle-bırak sıra = numara, görsel,
 // etiket, açıklama, aktif) ve gerçek halka bileşeniyle önizleme. "Yeni bölüm ekle" ile çoğaltılır.
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, ArrowRight, Layers, Pencil, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { hasPermission, TECH_STACK_GROUP_DEFAULTS, TECH_STACK_LIMITS } from '@vasquez/shared';
+import { hasPermission, TECH_STACK_GROUP_DEFAULTS, TECH_STACK_LIMITS } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';

@@ -1,4 +1,4 @@
-// SRS §10 hata yanıtını react-hook-form alanlarına ve toast'a dağıtır.
+// hata yanıtını react-hook-form alanlarına ve toast'a dağıtır.
 import { toast } from 'sonner';
 import { getErrorMessage } from '@/lib/api/client.js';
 

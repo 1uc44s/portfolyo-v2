@@ -1,4 +1,4 @@
-// FR-DL-01/02/04 — sonsuz kaydırmalı grid (keyset, sayfa 24). Wallpaper: 1/2/3 sütun,
+// sonsuz kaydırmalı grid (keyset, sayfa 24). Wallpaper: 1/2/3 sütun,
 // pfp: 2/3/4 sütun. Sentinel IntersectionObserver ile yükler; klavye için "Daha fazla" butonu da var.
 import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';

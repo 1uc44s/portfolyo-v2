@@ -1,4 +1,4 @@
-// FR-AUTH-04, ARCHITECTURE.md §4.1 — refresh ve CSRF cookie'leri.
+// refresh ve CSRF cookie'leri.
 // `__Host-` öneki: Secure + Path=/ + Domain yok zorunlu. Tarayıcılar localhost'u güvenli bağlam
 // saydığı için geliştirmede de Secure çalışır.
 import { env } from '../../config/env.js';

@@ -1,4 +1,4 @@
-// Giriş akışı kabuğu: atmosferik sahne + tek cam kart (PRD §6.4: kimlik public siteyle ortak).
+// Giriş akışı kabuğu: atmosferik sahne + tek cam kart (kimlik public siteyle ortak).
 import { m } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';

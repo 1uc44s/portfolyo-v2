@@ -1,4 +1,4 @@
-// FR-HERO-03 — sürekli animasyonlu efektler (parçacık, yıldız) şu durumlarda kapalı:
+// sürekli animasyonlu efektler (parçacık, yıldız) şu durumlarda kapalı:
 // effects=low, prefers-reduced-motion, ya da dokunmatik + düşük çekirdekli cihaz (≤ 4).
 import { useSyncExternalStore } from 'react';
 import { usePrefs } from '@/lib/prefs.js';

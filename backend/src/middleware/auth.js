@@ -1,5 +1,5 @@
-// ROUTES.md §1.1 — requireAuth (L3), passwordGate, requirePermission (L4), requireSuper (L5).
-import { hasPermission, ROLES } from '@vasquez/shared';
+// requireAuth (L3), passwordGate, requirePermission (L4), requireSuper (L5).
+import { hasPermission, ROLES } from '@my-portfolyo/shared';
 import { AppError, ForbiddenError, UnauthenticatedError } from '../lib/httpError.js';
 import { verifyAccessToken } from '../modules/auth/tokens.js';
 import { getLiveFamily } from '../modules/auth/sessions.js';
@@ -20,7 +20,7 @@ export async function requireAuth(req, _res, next) {
   next();
 }
 
-/** FR-AUTH-09 — zorunlu şifre değişiminde yalnızca bu uçlar kullanılabilir. */
+/** zorunlu şifre değişiminde yalnızca bu uçlar kullanılabilir. */
 const PASSWORD_CHANGE_ALLOWLIST = new Set(['/api/admin/auth/me', '/api/admin/account/password']);
 
 export function passwordGate(req, _res, next) {

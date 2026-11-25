@@ -1,4 +1,4 @@
-// ROUTES.md §2.2 — admin uygulaması (lazy chunk). Açılışta sessiz refresh ile oturum geri yüklenir.
+// admin uygulaması (lazy chunk). Açılışta sessiz refresh ile oturum geri yüklenir.
 import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { FullPageSkeleton } from '@/components/common/FullPageSkeleton.jsx';
@@ -15,7 +15,7 @@ import { AdminLayout } from './components/AdminShell.jsx';
 import { ModulePlaceholder } from './components/PageHeader.jsx';
 import { NAV_ITEMS } from './lib/navigation.js';
 
-// F19 bundle — her modül sayfası kendi chunk'ında; panel kabuğu ve giriş ekranları ilk yüklemede.
+// bundle — her modül sayfası kendi chunk'ında; panel kabuğu ve giriş ekranları ilk yüklemede.
 const page = (load, name) => lazy(() => load().then((mod) => ({ default: mod[name] })));
 const AccountPage = page(() => import('./pages/account/AccountPage.jsx'), 'AccountPage');
 const DashboardPage = page(() => import('./pages/DashboardPage.jsx'), 'DashboardPage');
@@ -46,7 +46,7 @@ const lazyPage = (el) => (
   <Suspense fallback={<div className="min-h-[60dvh]" aria-busy="true" />}>{el}</Suspense>
 );
 
-/** FR-AUTH-09 + ROUTES §2.2 — oturum yoksa girişe, şifre değişimi zorunluysa oraya. */
+/** oturum yoksa girişe, şifre değişimi zorunluysa oraya. */
 function RequireAuth({ children }) {
   const status = useAuthStore((s) => s.status);
   const admin = useAuthStore((s) => s.admin);

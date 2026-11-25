@@ -1,4 +1,4 @@
-// ROUTES.md §4.8 — /api/admin/projects (`projects:*`). Görseller multipart `files[]` (≤ 10/istek).
+// /api/admin/projects (`projects:*`). Görseller multipart `files[]` (≤ 10/istek).
 import { Router } from 'express';
 import { z } from 'zod';
 import {
@@ -7,7 +7,7 @@ import {
   projectImageUpdateSchema,
   projectUpdateSchema,
   reorderSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';

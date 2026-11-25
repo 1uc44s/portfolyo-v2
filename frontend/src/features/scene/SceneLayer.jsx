@@ -1,5 +1,5 @@
-// PRD §6.1, US-03 — günün arka planı tüm ekranı kaplar; arada saydam katman yok (2026-11-16 kullanıcı isteği).
-// FR-MED-06b (2026-11-16): video her cihazda oynar; tarayıcı ekrana uygun kopyayı seçer (≤ 900 px: 720p,
+// günün arka planı tüm ekranı kaplar; arada saydam katman yok (2026-11-16 kullanıcı isteği).
+// Video her cihazda oynar; tarayıcı ekrana uygun kopyayı seçer (≤ 900 px: 720p,
 // ≤ 2400 px: 1080p, daha büyük: 4K'ya kadar ana kopya). Yalnızca veri tasarrufu / 2G-3G'de poster.
 // Önce poster görünür, video arkadan yüklenir (ilk açılış beklemez).
 import { useEffect, useState } from 'react';

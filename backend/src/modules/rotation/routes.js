@@ -1,4 +1,4 @@
-// ROUTES.md §4.4 — /api/admin/rotation (settings:*).
+// /api/admin/rotation (settings:*).
 import { Router } from 'express';
 import { z } from 'zod';
 import { requirePermission } from '../../middleware/auth.js';

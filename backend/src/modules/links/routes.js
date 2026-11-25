@@ -1,7 +1,7 @@
-// ROUTES.md §4.10 — /api/admin/links (`links:*`). Oluşturma multipart `image` + alanlar.
+// /api/admin/links (`links:*`). Oluşturma multipart `image` + alanlar.
 import { Router } from 'express';
 import { z } from 'zod';
-import { linkCreateSchema, linkUpdateSchema, reorderSchema } from '@vasquez/shared';
+import { linkCreateSchema, linkUpdateSchema, reorderSchema } from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';

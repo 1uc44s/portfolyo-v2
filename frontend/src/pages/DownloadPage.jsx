@@ -1,4 +1,4 @@
-// FR-DL-01..09, US-07 — duvar kağıtları / profil fotoğrafları. Aktif içerik yoksa (navbar bayrağı
+// duvar kağıtları / profil fotoğrafları. Aktif içerik yoksa (navbar bayrağı
 // false) uyarı gösterilmeden boş durum; varsa önce sorumluluk uyarısı, kabulden sonra galeri.
 // Lazy chunk: Dialog ve galeri ana public paketine girmez.
 import { useEffect } from 'react';

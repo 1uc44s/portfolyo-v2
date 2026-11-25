@@ -1,4 +1,4 @@
-// ADMIN.md §4.1 — izin anahtarları tek kaynak (frontend sidebar + backend middleware).
+// izin anahtarları tek kaynak (frontend sidebar + backend middleware).
 export const ROLES = Object.freeze({ SUPER_ADMIN: 'SUPER_ADMIN', EDITOR: 'EDITOR' });
 
 export const PERMISSION_MODULES = Object.freeze([

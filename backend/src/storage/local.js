@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §8.1 — yerel disk sürücüsü. SEC-11: anahtar yalnızca sunucunun ürettiği
+// Yerel disk sürücüsü: anahtar yalnızca sunucunun ürettiği
 // storageKey'dir; çözümlenen yol depo kökü dışına çıkarsa işlem reddedilir.
 import { createReadStream as fsReadStream } from 'node:fs';
 import { copyFile, mkdir, rename, rm, stat as fsStat } from 'node:fs/promises';
@@ -19,7 +19,7 @@ export class InvalidStorageKeyError extends BadRequestError {
 export function createLocalStorage(root) {
   const base = path.resolve(root);
 
-  /** Anahtarı mutlak yola çevirir; biçim veya kök dışı yol → 400 (SEC-11). */
+  /** Anahtarı mutlak yola çevirir; biçim veya kök dışı yol → 400. */
   function resolveKey(key) {
     if (typeof key !== 'string' || !KEY_PATTERN.test(key)) throw new InvalidStorageKeyError();
     const full = path.resolve(base, key);

@@ -1,5 +1,5 @@
-// FR-CNT-01, FR-MSG-01/03 — iletişim formu (istemci + sunucu aynı şema) ve gelen kutusu sorguları.
-// Telefonun E.164 geçerliliği sunucuda libphonenumber-js ile ayrıca denetlenir (FR-CNT-01 notu).
+// iletişim formu (istemci + sunucu aynı şema) ve gelen kutusu sorguları.
+// Telefonun E.164 geçerliliği sunucuda libphonenumber-js ile ayrıca denetlenir.
 import { z } from 'zod';
 import { emailField, turnstileTokenField } from './auth.js';
 
@@ -91,7 +91,7 @@ export const contactSchema = z
       multiline: true,
     }),
     turnstileToken: turnstileTokenField(),
-    // Honeypot: insan için görünmez. Doluysa sunucu sessizce başarı döner (FR-CNT-01).
+    // Honeypot: insan için görünmez. Doluysa sunucu sessizce başarı döner.
     website: z.string().max(200).optional(),
   })
   .strict();

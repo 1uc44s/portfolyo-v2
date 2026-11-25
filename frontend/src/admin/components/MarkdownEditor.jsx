@@ -1,4 +1,4 @@
-// CMS.md §4 — Markdown editörü: araç çubuğu + Yaz/Önizle. Önizleme public render ile aynı bileşen.
+// Markdown editörü: araç çubuğu + Yaz/Önizle. Önizleme public render ile aynı bileşen.
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Bold, Heading2, Heading3, Italic, Link2, List, Quote } from 'lucide-react';
 import { SafeMarkdown } from '@/components/common/SafeMarkdown.jsx';

@@ -1,4 +1,4 @@
-// ADMIN.md §3.2 — Şartname §15.2 sırasıyla 12 menü öğesi ve izin anahtarları.
+// sırasıyla 12 menü öğesi ve izin anahtarları.
 import {
   Activity,
   FolderKanban,
@@ -14,7 +14,7 @@ import {
   UserRound,
   Wrench,
 } from 'lucide-react';
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 
 /** phase: modülün geleceği yol haritası fazı (ROADMAP.md); null = hazır. */
 export const NAV_GROUPS = [
@@ -129,7 +129,7 @@ export const NAV_GROUPS = [
 
 export const NAV_ITEMS = NAV_GROUPS.flatMap((group) => group.items);
 
-/** İzni olmayan öğeler gösterilmez (ADMIN.md §3.2). */
+/** İzni olmayan öğeler gösterilmez. */
 export function visibleNavGroups(admin) {
   return NAV_GROUPS.map((group) => ({
     ...group,
@@ -144,7 +144,7 @@ export function findNavItem(pathname) {
     .find((item) => (item.end ? pathname === item.to : pathname.startsWith(item.to)));
 }
 
-/** RULES §5.5 — yalnızca /admin altındaki göreli yollar (open redirect önlemi). */
+/** yalnızca /admin altındaki göreli yollar (open redirect önlemi). */
 export function safeNextPath(value) {
   if (typeof value !== 'string') return '/admin';
   if (!value.startsWith('/admin') || value.startsWith('//') || value.includes('\\'))

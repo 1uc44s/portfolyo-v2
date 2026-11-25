@@ -1,4 +1,4 @@
-// F21 — ROUTES.md §4.13, SRS FR-PUB-04B: Tech Stack bölümleri ("My Tech Stack", "My Security Skill"…),
+// Tech Stack bölümleri ("My Tech Stack", "My Security Skill"…),
 // başlıkları ve öğeleri (istemci + sunucu aynı şema).
 import { z } from 'zod';
 

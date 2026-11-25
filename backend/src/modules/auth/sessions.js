@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §4.3, §7 — refresh oturumları: rotasyon, reuse tespiti, mutlak ömür, iptal.
+// refresh oturumları: rotasyon, reuse tespiti, mutlak ömür, iptal.
 // Bir "oturum ailesi" (familyId) bir cihaz girişidir; her refresh ailede yeni bir satır açar.
 import { randomUUID } from 'node:crypto';
 import { prisma } from '../../lib/prisma.js';

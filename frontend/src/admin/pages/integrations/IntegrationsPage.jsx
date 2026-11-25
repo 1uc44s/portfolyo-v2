@@ -1,4 +1,4 @@
-// ADMIN.md §3.7 — Durumlar: Discord, Spotify, GitHub. Her kartta aç/kapa, yapılandırma, secret
+// Durumlar: Discord, Spotify, GitHub. Her kartta aç/kapa, yapılandırma, secret
 // ("Ayarlı ✓ · Değiştir"; yalnızca SÜPER ADMİN), test, şimdi senkronize et, son başarı/hata ve
 // gerçek public kart bileşeniyle önizleme.
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Check, Copy, ExternalLink, KeyRound, RefreshCw, Unplug, Zap } from 'lucide-react';
 import { toast } from 'sonner';
-import { DISCORD_MANUAL_LIMITS, hasPermission } from '@vasquez/shared';
+import { DISCORD_MANUAL_LIMITS, hasPermission } from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { Button } from '@/components/ui/button.jsx';

@@ -1,10 +1,10 @@
-// CMS.md §3.1, ADMIN.md — kategoriler: sürükle-bırak sıra (public filtre sırası), aktif anahtarı,
+// kategoriler: sürükle-bırak sıra (public filtre sırası), aktif anahtarı,
 // proje sayısı, düzenle/sil. Sistem varsayılan kategori oluşturmaz.
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Plus, Tags, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';

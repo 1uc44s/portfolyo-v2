@@ -1,4 +1,4 @@
-// SRS SEC-03 — Zod doğrulaması; sonuç req.valid içine yazılır (Express 5'te req.query salt okunur).
+// Zod doğrulaması; sonuç req.valid içine yazılır (Express 5'te req.query salt okunur).
 
 /**
  * @param {{ body?: import('zod').ZodType, query?: import('zod').ZodType, params?: import('zod').ZodType }} schemas

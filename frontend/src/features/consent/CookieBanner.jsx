@@ -1,4 +1,4 @@
-// FR-CKE-03/05, T-CNT-06..09 — modal olmayan çerez bandı (sayfa kullanılabilir kalır).
+// Modal olmayan çerez bandı (sayfa kullanılabilir kalır).
 // "Kabul et" ve "Reddet" eşit ağırlıkta. Tercihler diyaloğu lazy (Dialog ana pakete girmez).
 import { lazy, Suspense } from 'react';
 import { Link } from 'react-router';

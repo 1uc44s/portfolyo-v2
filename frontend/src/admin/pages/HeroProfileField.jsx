@@ -1,4 +1,4 @@
-// ADMIN.md §3.5, F7 — hero profil görseli: günlük rotasyon ya da sabit profil fotoğrafı.
+// hero profil görseli: günlük rotasyon ya da sabit profil fotoğrafı.
 // Seçenekler aktif + hazır profil medyası (`GET /hero/profile-options`, hero:read yeterli);
 // önizlemeler public /media URL'leriyle gelir (aktif içerik public görünür).
 import { useQuery } from '@tanstack/react-query';

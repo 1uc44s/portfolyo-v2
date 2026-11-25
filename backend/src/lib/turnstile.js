@@ -1,4 +1,4 @@
-// FR-CNT-05 — Cloudflare Turnstile sunucu doğrulaması (fail-closed). Gizli anahtar loglanmaz.
+// Cloudflare Turnstile sunucu doğrulaması (fail-closed). Gizli anahtar loglanmaz.
 import { env } from '../config/env.js';
 import { AppError } from './httpError.js';
 import { logger } from './logger.js';

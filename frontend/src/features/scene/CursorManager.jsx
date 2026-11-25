@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §5.4 — günün cursor seti; yalnızca ince işaretçili cihazlarda (pointer: fine).
+// günün cursor seti; yalnızca ince işaretçili cihazlarda (pointer: fine).
 // Basılıyken tıklama imleci. Dosya yüklenemezse CSS 'auto'ya düşer.
 import { useEffect } from 'react';
 import { useSite } from '@/features/site/useSite.js';

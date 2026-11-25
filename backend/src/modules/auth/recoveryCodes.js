@@ -1,4 +1,4 @@
-// FR-AUTH-12 — 2FA kurtarma kodları: 10 adet, tek kullanımlık, SHA-256 ile saklanır.
+// 2FA kurtarma kodları: 10 adet, tek kullanımlık, SHA-256 ile saklanır.
 // Kodlar yüksek entropili (~49 bit) olduğu için yavaş hash gerekmez.
 import { randomInt } from 'node:crypto';
 import { prisma } from '../../lib/prisma.js';

@@ -1,4 +1,4 @@
-// US-25, FR-LNK — link formu: görsel + başlık + URL zorunlu; başlık tekrarı serbest; yalnızca http/https.
+// link formu: görsel + başlık + URL zorunlu; başlık tekrarı serbest; yalnızca http/https.
 // Oluşturma multipart (alanlar metin gelir); güncelleme JSON.
 import { z } from 'zod';
 import { httpUrl } from './url.js';

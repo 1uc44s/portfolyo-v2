@@ -1,4 +1,4 @@
-// FR-PUB-06 — bir bölümün hatası o bölümle sınırlanır; sayfa çökmez.
+// bir bölümün hatası o bölümle sınırlanır; sayfa çökmez.
 import { Component } from 'react';
 import { ErrorState } from './ErrorState.jsx';
 

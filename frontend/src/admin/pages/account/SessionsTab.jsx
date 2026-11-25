@@ -1,4 +1,4 @@
-// FR-AUTH-07 — açık oturumlar; tekil veya toplu sonlandırma (onaylı).
+// açık oturumlar; tekil veya toplu sonlandırma (onaylı).
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Laptop, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';

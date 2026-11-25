@@ -1,6 +1,6 @@
-// ROUTES.md §4.6 — medya içerik türlerinin backend tanımları (Prisma modeli, FK'ler, audit öneki).
-// Dosya yuvaları ve anahtarlar @vasquez/shared MEDIA_CONTENT'ten gelir (istemciyle tek kaynak).
-import { MEDIA_CONTENT } from '@vasquez/shared';
+// medya içerik türlerinin backend tanımları (Prisma modeli, FK'ler, audit öneki).
+// Dosya yuvaları ve anahtarlar @my-portfolyo/shared MEDIA_CONTENT'ten gelir (istemciyle tek kaynak).
+import { MEDIA_CONTENT } from '@my-portfolyo/shared';
 
 /** field → { fk: DB sütunu, relation: Prisma ilişki adı } */
 const SLOT_DB = {

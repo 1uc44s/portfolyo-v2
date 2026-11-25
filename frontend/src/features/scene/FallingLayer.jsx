@@ -1,4 +1,4 @@
-// SRS FR-FALL-01/02 — aktif yağan öğelerin hepsi birlikte yukarıdan aşağı yağar (görsel veya metin).
+// aktif yağan öğelerin hepsi birlikte yukarıdan aşağı yağar (görsel veya metin).
 // Tıklamayı engellemez, aria-hidden. CSS animasyonu; azaltılmış harekette de gösterilir (kullanıcı isteği).
 // Konum/süre tohumlu sözde rastgele: aynı liste her renderda aynı düzeni verir (titreme yok).
 import { useMemo } from 'react';

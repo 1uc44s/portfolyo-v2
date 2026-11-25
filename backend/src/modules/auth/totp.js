@@ -1,4 +1,4 @@
-// FR-AUTH-12/13 — RFC 6238 TOTP (SHA-1, 6 hane, 30 sn) ve RFC 4648 Base32.
+// RFC 6238 TOTP (SHA-1, 6 hane, 30 sn) ve RFC 4648 Base32.
 // Harici kütüphane yerine node:crypto: küçük, denetlenebilir ve adım bazlı replay kontrolü verir.
 import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 

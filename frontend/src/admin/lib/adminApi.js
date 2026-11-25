@@ -1,4 +1,4 @@
-// ROUTES.md §4.1–4.2 — admin auth ve hesap uçları. Bearer token interceptor'dan gelir.
+// admin auth ve hesap uçları. Bearer token interceptor'dan gelir.
 import { api } from '@/lib/api/client.js';
 
 const unwrap = (promise) => promise.then((res) => res.data?.data);
@@ -6,15 +6,15 @@ const unwrap = (promise) => promise.then((res) => res.data?.data);
 const UPLOAD_TIMEOUT_MS = 10 * 60 * 1000;
 
 /**
- * Multipart yükleme: byte bazlı ilerleme + AbortSignal ile iptal (T-MEDIA-07).
- * Yanıtın tamamı ({ data, meta }) döner; meta.duplicateOf FR-MED-10 uyarısıdır.
+ * Multipart yükleme: byte bazlı ilerleme + AbortSignal ile iptal.
+ * Yanıtın tamamı ({ data, meta }) döner; meta.duplicateOf uyarısıdır.
  */
 export function uploadFile(method, url, file, { field = 'file', ...options } = {}) {
   return uploadForm(method, url, { files: { [field]: file } }, options);
 }
 
 /**
- * Çok dosyalı multipart (F7: müzik ses + kapak, cursor normal + tıklama) + düz alanlar.
+ * Çok dosyalı multipart (müzik ses + kapak, cursor normal + tıklama) + düz alanlar.
  * @param {{ files?: Record<string, File|null|undefined>, fields?: Record<string, unknown> }} parts
  */
 export function uploadForm(method, url, { files = {}, fields = {} }, { onProgress, signal } = {}) {
@@ -79,7 +79,7 @@ export const heroApi = {
   profileOptions: () => unwrap(api.get('/admin/hero/profile-options')),
 };
 
-/** ROUTES.md §4.6 — içerik türleri (`type` ∈ MEDIA_CONTENT_TYPES) ve kütüphane uçları. */
+/** içerik türleri (`type` ∈ MEDIA_CONTENT_TYPES) ve kütüphane uçları. */
 export const mediaApi = {
   list: (type, params) => api.get(`/admin/media/${type}`, { params }).then((res) => res.data),
   get: (type, id) => unwrap(api.get(`/admin/media/${type}/${id}`)),
@@ -94,7 +94,7 @@ export const mediaApi = {
   storage: () => unwrap(api.get('/admin/media/storage')),
 };
 
-/** ROUTES.md §4.4 — günlük rotasyon. Her yazma güncel özeti döndürür. */
+/** günlük rotasyon. Her yazma güncel özeti döndürür. */
 export const rotationApi = {
   get: () => unwrap(api.get('/admin/rotation')),
   setOverride: (category, contentId) =>
@@ -103,7 +103,7 @@ export const rotationApi = {
   reselect: (category) => unwrap(api.post(`/admin/rotation/${category}/reselect`)),
 };
 
-// ROUTES.md §4.9 — kategoriler.
+// kategoriler.
 export const categoriesApi = {
   list: () => unwrap(api.get('/admin/categories')),
   create: (body) => unwrap(api.post('/admin/categories', body)),
@@ -114,7 +114,7 @@ export const categoriesApi = {
     unwrap(api.post(`/admin/categories/${id}/reassign-and-delete`, { targetCategoryId })),
 };
 
-// ROUTES.md §4.8 — projeler ve görselleri.
+// projeler ve görselleri.
 export const projectsApi = {
   list: (params) => unwrap(api.get('/admin/projects', { params })),
   get: (id) => unwrap(api.get(`/admin/projects/${id}`)),
@@ -133,7 +133,7 @@ export const projectsApi = {
   removeImage: (id, imageId) => unwrap(api.delete(`/admin/projects/${id}/images/${imageId}`)),
 };
 
-// ROUTES.md §4.10 — linkler (oluşturma multipart `image`).
+// linkler (oluşturma multipart `image`).
 export const linksApi = {
   list: () => unwrap(api.get('/admin/links')),
   create: ({ image, ...fields }, options) =>
@@ -145,7 +145,7 @@ export const linksApi = {
   remove: (id) => api.delete(`/admin/links/${id}`),
 };
 
-/** ROUTES.md §4.11 — iletişim mesajları. list: { data, meta }. */
+/** iletişim mesajları. list: { data, meta }. */
 export const messagesApi = {
   list: (params) => api.get('/admin/contact-messages', { params }).then((res) => res.data),
   unreadCount: () => unwrap(api.get('/admin/contact-messages/unread-count')),
@@ -155,7 +155,7 @@ export const messagesApi = {
   remove: (id) => api.delete(`/admin/contact-messages/${id}`),
 };
 
-/** ROUTES.md §4.13 — audit log (salt okunur). CSV yalnızca SUPER_ADMIN; Bearer gerektiği için blob. */
+/** audit log (salt okunur). CSV yalnızca SUPER_ADMIN; Bearer gerektiği için blob. */
 export const auditApi = {
   list: (params) => api.get('/admin/audit-logs', { params }).then((res) => res.data),
   filters: () => unwrap(api.get('/admin/audit-logs/filters')),
@@ -165,7 +165,7 @@ export const auditApi = {
       .then((res) => res.data),
 };
 
-/** ROUTES.md §4.7 — entegrasyonlar. Secret değerleri hiçbir yanıtta dönmez. */
+/** entegrasyonlar. Secret değerleri hiçbir yanıtta dönmez. */
 export const integrationsApi = {
   list: () => unwrap(api.get('/admin/integrations')),
   update: (slug, body) => unwrap(api.patch(`/admin/integrations/${slug}`, body)),
@@ -176,7 +176,7 @@ export const integrationsApi = {
   spotifyDisconnect: () => api.delete('/admin/integrations/spotify/connection'),
 };
 
-/** ROUTES.md §4.7b — yağan öğeler (2026-11-16). */
+/** yağan öğeler (2026-11-16). */
 export const fallingApi = {
   list: () => unwrap(api.get('/admin/falling-items')),
   create: ({ image, ...fields }, options) =>
@@ -188,7 +188,7 @@ export const fallingApi = {
   remove: (id) => api.delete(`/admin/falling-items/${id}`),
 };
 
-/** ROUTES.md §4.13 — Tech Stack (F21). */
+/** Tech Stack. */
 export const techStackApi = {
   get: () => unwrap(api.get('/admin/tech-stack')),
   // Bölümler ("My Tech Stack", "My Security Skill"…)
@@ -214,12 +214,12 @@ export const techStackApi = {
   remove: (id) => api.delete(`/admin/tech-stack/items/${id}`),
 };
 
-/** ROUTES.md §4.3 — Dashboard özeti. */
+/** Dashboard özeti. */
 export const dashboardApi = {
   summary: (range) => unwrap(api.get('/admin/dashboard/summary', { params: { range } })),
 };
 
-/** ROUTES.md §4.12 — Sistem: yasal metinler. */
+/** Sistem: yasal metinler. */
 export const systemApi = {
   legal: () => unwrap(api.get('/admin/system/legal')),
   saveLegal: (slug, body) => unwrap(api.put(`/admin/system/legal/${slug}`, body)),

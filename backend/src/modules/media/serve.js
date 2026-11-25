@@ -1,4 +1,4 @@
-// ROUTES.md §3 `/media/:assetId/:variant`, ARCHITECTURE.md §8, SEC-11/SEC-20.
+// `/media/:assetId/:variant`.
 // Range (tek aralık), ETag/304, immutable cache (public), nosniff. Varlık ifşa edilmez: 404.
 import { Router } from 'express';
 import { NotFoundError } from '../../lib/httpError.js';
@@ -29,7 +29,7 @@ function variantOf(asset, variant) {
 export async function sendAssetVariant(req, res, asset, variant, { cacheControl }) {
   const target = variantOf(asset, variant);
   if (!target) throw new NotFoundError();
-  storage.resolveKey(target.key); // SEC-11: bozuk/kök dışı anahtar → 400, dosya okunmaz
+  storage.resolveKey(target.key); // bozuk/kök dışı anahtar → 400, dosya okunmaz
 
   let info;
   try {

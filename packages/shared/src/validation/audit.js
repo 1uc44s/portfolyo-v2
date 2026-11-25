@@ -1,4 +1,4 @@
-// SRS §6 (FR-AUD-05), ROUTES.md §4.13 — audit log liste/dışa aktarma filtreleri.
+// audit log liste/dışa aktarma filtreleri.
 import { z } from 'zod';
 
 export const AUDIT_EXPORT_MAX_ROWS = 50_000;

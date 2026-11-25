@@ -1,6 +1,6 @@
-// ROUTES.md §4.3 — /api/admin/dashboard (`dashboard:read`).
+// /api/admin/dashboard (`dashboard:read`).
 import { Router } from 'express';
-import { DASHBOARD_RANGES, dashboardQuerySchema } from '@vasquez/shared';
+import { DASHBOARD_RANGES, dashboardQuerySchema } from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import { dashboardSummary } from './service.js';

@@ -1,4 +1,4 @@
-// FR-ADM-02 — kaydetme durumu: buton içi gösterge + disabled. Metin değişir, genişlik sabit kalır.
+// kaydetme durumu: buton içi gösterge + disabled. Metin değişir, genişlik sabit kalır.
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 

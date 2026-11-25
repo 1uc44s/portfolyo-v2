@@ -1,4 +1,4 @@
-// FR-PLY-02..05, RULES §8.6 PlayerBar — yüzen cam şerit; <audio> GlobalAudio'da, bu yalnızca arayüz.
+// PlayerBar — yüzen cam şerit; <audio> GlobalAudio'da, bu yalnızca arayüz.
 // Masaüstü tek satır (72 px): kapak+bilgi | −5 / oynat / +5 | süre + ilerleme | ses.
 // Mobil iki satır: ilerleme ve süreler ikinci satırda (320 px'te hiçbir kontrol kaybolmaz).
 import { Music, Pause, Play, RotateCcw, RotateCw, Volume1, Volume2, VolumeX } from 'lucide-react';
@@ -153,7 +153,7 @@ export function PlayerBar() {
   }
   if (!music) return null;
 
-  // FR-PLY-09: metadata gelene kadar API süresi.
+  // metadata gelene kadar API süresi.
   const duration = liveDuration > 0 ? liveDuration : (music.durationMs ?? 0) / 1000;
 
   return (

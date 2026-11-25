@@ -1,7 +1,7 @@
-// ROUTES.md §4.6, DATABASE.md §5.2, CMS.md §2/§8 — medya içerik türleri için ortak CRUD servisi.
+// Medya içerik türleri için ortak CRUD servisi.
 // Akış: dosyalar medya hattından geçer (ingestUpload) → kayıt yazılır; başarısızlıkta yeni asset'ler
 // geri alınır. Silme/dosya değiştirme eski asset'leri aynı transaction'da silip dosyalarını
-// StorageDeletionJob kuyruğuna yazar (FR-MED-11).
+// StorageDeletionJob kuyruğuna yazar.
 import { AppError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
@@ -11,7 +11,7 @@ import { visibilityOf } from '../public/visibility.js';
 import { refreshTodayFor, rotationUsageOf } from '../rotation/service.js';
 import { hotspotsOf, assertHotspots } from './cursor.js';
 
-/** RULES.md §6 — audit metadata'sında değeri yazılabilecek alanlar. */
+/** audit metadata'sında değeri yazılabilecek alanlar. */
 const SAFE_AUDIT_FIELDS = ['title', 'isActive', 'sortOrder'];
 const STATUS_PRIORITY = ['FAILED', 'PROCESSING', 'PENDING', 'READY'];
 
@@ -238,7 +238,7 @@ export async function replaceContentFiles(def, id, { adminId, files, input, ctx 
   return { item: toContentDto(def, await findOr404(def, id)), duplicates };
 }
 
-/** DELETE {base}/:id — DATABASE.md §5.2: kayıt → asset'ler → dosya kuyruğu → audit. */
+/** DELETE {base}/:id — kayıt → asset'ler → dosya kuyruğu → audit. */
 export async function deleteContent(def, id, { adminId, ctx }) {
   const current = await findOr404(def, id);
   await prisma.$transaction(async (tx) => {
@@ -251,12 +251,12 @@ export async function deleteContent(def, id, { adminId, ctx }) {
     );
   });
   hooks.onDeletionQueued();
-  await refreshTodayFor(def.type); // FR-ROT-05: bugünün seçimiyse yeniden seç
+  await refreshTodayFor(def.type); // bugünün seçimiyse yeniden seç
   invalidateSiteCache();
   await audit(def, 'DELETED', { adminId, ctx, entityId: id, metadata: { title: current.title } });
 }
 
-/** PATCH {base}/reorder — DATABASE.md §8: tüm kayıtlar, tek transaction, sortOrder = index × 10. */
+/** PATCH {base}/reorder — tüm kayıtlar, tek transaction, sortOrder = index × 10. */
 export async function reorderContent(def, ids, { adminId, ctx }) {
   const [matching, total] = await Promise.all([
     delegate(def).count({ where: { id: { in: ids } } }),

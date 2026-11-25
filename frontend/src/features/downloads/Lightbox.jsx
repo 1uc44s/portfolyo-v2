@@ -1,4 +1,4 @@
-// FR-DL-07 — büyük önizleme: ok tuşlarıyla önceki/sonraki, Escape kapatır (Radix Dialog).
+// büyük önizleme: ok tuşlarıyla önceki/sonraki, Escape kapatır (Radix Dialog).
 // Video gerçek oynatıcıyla (controls, loop); görsel ana varyant.
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog.jsx';

@@ -1,5 +1,4 @@
-// ROUTES.md §4.6 kütüphane uçları, DATABASE.md §5.1 "kullanımdaki medya" kontrolü,
-// ARCHITECTURE.md §8 public görünürlük kuralı.
+// Medya kütüphanesi uçları, "kullanımdaki medya" kontrolü ve public görünürlük kuralı.
 import { AppError, NotFoundError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
@@ -70,7 +69,7 @@ export function isPubliclyVisible(asset) {
   ];
   if (owners.some((o) => o?.isActive)) return true;
   if (asset.projectImage?.project?.isPublished) return true;
-  // F21 — Tech Stack: öğenin bölümü yayındaysa aktif öğe görseli.
+  // Tech Stack: öğenin bölümü yayındaysa aktif öğe görseli.
   if (asset.techStackItem?.isActive && asset.techStackItem.group?.published) return true;
   return (asset.faviconOf?.length ?? 0) > 0;
 }
@@ -78,7 +77,7 @@ export function isPubliclyVisible(asset) {
 // Not: çoklu ilişki include'u interaktif transaction içinde kullanılmaz (adapter-pg paralel
 // sorgu uyarısı); silmede koşullu deleteMany yeterli atomiklik sağlar.
 export async function findAssetWithOwners(id) {
-  // F21 — öğe görseli yalnızca öğenin Tech Stack bölümü yayındaysa public (OWNER_INCLUDE.group).
+  // öğe görseli yalnızca öğenin Tech Stack bölümü yayındaysa public (OWNER_INCLUDE.group).
   return prisma.mediaAsset.findUnique({ where: { id }, include: OWNER_INCLUDE });
 }
 
@@ -114,7 +113,7 @@ export async function getAsset(id) {
   };
 }
 
-/** FR-MED-11 — yalnızca yetim asset silinir; kullanımdaysa 409 IN_USE + kullanan kayıtlar. */
+/** yalnızca yetim asset silinir; kullanımdaysa 409 IN_USE + kullanan kayıtlar. */
 export async function deleteOrphanAsset(id, adminId, ctx) {
   const asset = await findAssetWithOwners(id);
   if (!asset) throw new NotFoundError('Medya bulunamadı.');

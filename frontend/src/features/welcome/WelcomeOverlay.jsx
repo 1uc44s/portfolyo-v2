@@ -1,4 +1,4 @@
-// US-01, FR-WEL-01..06 — sekme oturumu başına bir kez. Önce "Connecting" bağlanma sekansı (5 sn ilerleme
+// sekme oturumu başına bir kez. Önce "Connecting" bağlanma sekansı (5 sn ilerleme
 // çubuğu), ardından "Successfully Connected!" + "Welcome! Please click anywhere..." ve yanıp sönen imleç.
 // Yalnızca hazır olunca tıklama / Enter / Space ile kapanır ve aynı jestte müziği başlatır (autoplay).
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -83,7 +83,7 @@ export function WelcomeOverlay() {
   const { percent, dots, done } = useConnecting(open);
   const typed = useTyped(WELCOME_TEXT, ready, motionFx);
 
-  // Navbar girişini (FR-NAV-05) bu ekranın durumuna bağla: açıksa navbar bekler.
+  // Navbar girişini bu ekranın durumuna bağla: açıksa navbar bekler.
   useLayoutEffect(() => {
     useWelcome.getState().setEntered(!open);
   }, [open]);
@@ -104,7 +104,7 @@ export function WelcomeOverlay() {
   }, [open]);
 
   const enter = () => {
-    if (!ready) return; // Bağlanma bitmeden giriş yok (FR-WEL-02).
+    if (!ready) return; // Bağlanma bitmeden giriş yok.
     startFromGesture();
     markEntered();
     setOpen(false);
@@ -130,7 +130,7 @@ export function WelcomeOverlay() {
           exit={lowEffects ? { opacity: 0 } : { opacity: 0, filter: 'blur(8px)' }}
           transition={{ duration: lowEffects ? 0.15 : 0.6, ease: [0.22, 1, 0.36, 1] }}
           className={
-            // FR-WEL-07: tıklamaya dek site bileşenleri gizli (PublicLayout); yalnızca sahne arka planı
+            // tıklamaya dek site bileşenleri gizli (PublicLayout); yalnızca sahne arka planı
             // ve koyu metin kutusu görünür. Bağlanırken sahne hafifçe karartılır.
             'fixed inset-0 z-[var(--z-welcome)] grid place-items-center px-6 outline-none select-none transition-[background-color] duration-700 ' +
             (done ? 'bg-transparent ' : 'bg-black/35 ') +

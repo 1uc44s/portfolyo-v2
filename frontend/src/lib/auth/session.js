@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §4.4 — tek uçuşlu refresh, sekmeler arası kilit ve senkron.
+// tek uçuşlu refresh, sekmeler arası kilit ve senkron.
 // - Aynı sekmede eşzamanlı 401'ler tek refresh isteğini bekler.
 // - navigator.locks: iki sekme aynı anda refresh yapıp reuse tespitini tetiklemesin.
 // - BroadcastChannel: yeni token ve çıkış diğer sekmelere iletilir.
@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useAuthStore } from './authStore.js';
 
 export const CSRF_COOKIE = '__Host-csrf';
-const LOCK_NAME = 'vasquez-auth-refresh';
+const LOCK_NAME = 'my-portfolyo-auth-refresh';
 
 /** Refresh/logout için interceptor'sız ayrı istemci (döngü olmasın). */
 export const authApi = axios.create({
@@ -24,7 +24,7 @@ export function readCookie(name) {
 }
 
 const channel =
-  typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel('vasquez-auth');
+  typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel('my-portfolyo-auth');
 
 channel?.addEventListener('message', ({ data }) => {
   const store = useAuthStore.getState();

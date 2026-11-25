@@ -1,8 +1,7 @@
-// ROUTES.md §4.12 — /api/admin/system: yasal metinler (KVKK aydınlatma, çerez politikası).
-// Şablon, iş ve yönetici sekmeleri F18/F19'da.
+// /api/admin/system: yasal metinler (KVKK aydınlatma, çerez politikası).
 import { Router } from 'express';
 import { z } from 'zod';
-import { LEGAL_DOC_SLUGS, legalUpdateSchema } from '@vasquez/shared';
+import { LEGAL_DOC_SLUGS, legalUpdateSchema } from '@my-portfolyo/shared';
 import { NotFoundError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { requirePermission } from '../../middleware/auth.js';

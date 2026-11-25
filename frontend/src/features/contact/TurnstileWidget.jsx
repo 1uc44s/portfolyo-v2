@@ -1,4 +1,4 @@
-// FR-CNT-05 — Cloudflare Turnstile. Betik yalnızca widget görünür olunca (IntersectionObserver)
+// Cloudflare Turnstile. Betik yalnızca widget görünür olunca (IntersectionObserver)
 // bir kez yüklenir. Token `onToken`'a, süre dolumu/hata `onToken(null)`'a gider.
 // `resetKey` değişince widget sıfırlanır (gönderim sonrası yeni token gerekir).
 import { useEffect, useRef, useState } from 'react';

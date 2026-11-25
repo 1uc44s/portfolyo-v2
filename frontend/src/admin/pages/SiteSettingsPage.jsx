@@ -1,5 +1,5 @@
-// CMS.md §9 — Site Ayarları: Genel · Hakkımda · Footer teknolojileri (bölüm bazlı kaydetme).
-// Favicon Genel kartında (F5-02/F6, FaviconSection). "Bugünün içerikleri" F8'de eklenecek.
+// Site Ayarları: Genel · Hakkımda · Footer teknolojileri (bölüm bazlı kaydetme).
+// Favicon Genel kartında (FaviconSection).
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ import {
   footerTechSchema,
   FOOTER_TECHS_MAX,
   hasPermission,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';

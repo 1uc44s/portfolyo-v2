@@ -1,4 +1,4 @@
-// CMS.md §3.2 — proje editörü: solda form, sağda canlı kart önizlemesi. Slug başlıktan otomatik;
+// proje editörü: solda form, sağda canlı kart önizlemesi. Slug başlıktan otomatik;
 // "Elle düzenle" ile kilitlenir ve anlık kontrol edilir. Görseller kayıt oluştuktan sonra eklenir.
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -15,7 +15,7 @@ import {
   PROJECT_TITLE_MAX,
   projectCreateSchema,
   slugify,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

@@ -1,4 +1,4 @@
-// US-25, ROUTES.md §4.10, FR-LNK-06 — linkler: görsel (LINK_IMAGE) + başlık + URL, sıralama,
+// linkler: görsel (LINK_IMAGE) + başlık + URL, sıralama,
 // görsel değiştirme (eski asset silme kuyruğuna), silme. Public liste: aktif + görseli hazır.
 import { NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
@@ -107,7 +107,7 @@ export async function deleteLink(id, { adminId, ctx }) {
   await audit('DELETED', { adminId, ctx, entityId: id, metadata: { title: current.title } });
 }
 
-/** FR-LNK-06 — public: aktif, görseli hazır, sortOrder ASC, id ASC. */
+/** public: aktif, görseli hazır, sortOrder ASC, id ASC. */
 export async function listPublicLinks() {
   const rows = await prisma.linkItem.findMany({
     where: { isActive: true, image: { processingStatus: 'READY' } },

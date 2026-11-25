@@ -1,4 +1,4 @@
-// FR-PUB-04B, ROADMAP F21 tasarımı — referans görselin düzeni: siyah zemin, N daire çember üzerinde
+// ROADMAP tasarımı — referans görselin düzeni: siyah zemin, N daire çember üzerinde
 // (tepeden saat yönü), daireleri birleştiren çift raylı gri çokgen, kenarda sıra rozeti, altta etiket,
 // merkezde 3 satırlık başlık ("My" / eğik çizgiler arasında "Tech" / taranmış "Stack").
 // Ölçüler container query (cqw) ile: her genişlikte oranlar aynı kalır. Öğeye tıklama → açıklama.

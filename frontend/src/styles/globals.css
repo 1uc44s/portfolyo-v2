@@ -1,5 +1,5 @@
 /*
- * RULES.md §8 — tasarım token'ları ("Gece Camı").
+ * tasarım token'ları ("Gece Camı").
  * Kaynak değerler CSS değişkenidir; Tailwind sınıfları @theme inline ile bunlara bağlanır.
  * Tailwind/shadcn adlandırması:
  *   bg-primary / text-primary      → marka rengi (--accent, "iris")
@@ -76,7 +76,7 @@
   color-scheme: light;
 }
 
-/* ───────────── Yüzey modu (RULES §8.2) ─────────────
+/* ───────────── Yüzey modu ─────────────
  * "Chrome" = navbar, sidebar, topbar, bölüm panelleri. Glass yalnızca bunlarda.
  */
 :root {
@@ -221,7 +221,7 @@
     box-shadow: var(--inner-highlight);
   }
 
-  /* RULES §8.3 tipografi rolleri */
+  /* tipografi rolleri */
   .type-hero {
     font-family: var(--font-display);
     font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
@@ -271,7 +271,7 @@
   }
 }
 
-/* ───────────── Linkler (FR-LNK-03/04) ─────────────
+/* ───────────── Linkler ─────────────
    Flexbox + sabit hesaplı kart genişliği → satır kırılması deterministik, son satır ortalı.
    N kapsayıcı genişliğine göre (container query): admin önizlemesindeki genişlik simülatörü
    aynı kuralı kullanır. Eşikler viewport eşiklerinin 16 px altında (kaydırma çubuğu payı). */
@@ -331,7 +331,7 @@
   box-shadow: none;
 }
 
-/* ───────────── Hero yıldızları ve oynatıcı ekolayzeri (RULES §8.6) ───────────── */
+/* ───────────── Hero yıldızları ve oynatıcı ekolayzeri ───────────── */
 @keyframes hero-twinkle {
   0%,
   100% {
@@ -368,7 +368,7 @@
   animation: none;
 }
 
-/* Oynatıcı kaydırıcıları: yerel range, dolu kısım --fill değişkeniyle (FR-PLY-03) */
+/* Oynatıcı kaydırıcıları: yerel range, dolu kısım --fill değişkeniyle */
 .player-range {
   --fill: 0%;
   appearance: none;
@@ -428,7 +428,7 @@
   border-radius: 4px;
 }
 
-/* ───────────── Hareket azaltma (RULES §8.5) ───────────── */
+/* ───────────── Hareket azaltma ───────────── */
 [data-effects='low'] .animate-pulse {
   animation: none;
 }
@@ -443,7 +443,7 @@
   }
 }
 
-/* F21 — Tech Stack öğesi hover/odak: daire, numara ve etiket BİRLİKTE büyür (tek dönüşüm, transform-origin
+/* Tech Stack öğesi hover/odak: daire, numara ve etiket BİRLİKTE büyür (tek dönüşüm, transform-origin
    dairenin merkezi), dairede yumuşak ışıltı; alt çizgi yok. Düşük efekt / reduced-motion: yalnızca ışıltı. */
 .tech-item {
   transform-origin: 50% 50%;
@@ -497,7 +497,7 @@
   }
 }
 
-/* 2026-11-16 — Hero hareketli gradyan isim: soldan sağa akar (SRS FR-HERO-03). */
+/* 2026-11-16 — Hero hareketli gradyan isim: soldan sağa akar. */
 @keyframes name-gradient-flow {
   from {
     background-position: 200% 50%;
@@ -507,7 +507,7 @@
   }
 }
 
-/* 2026-11-16 — Yağan öğeler (SRS FR-FALL-01/02). Konum ve süre öğe başına inline değişkenlerle. */
+/* 2026-11-16 — Yağan öğeler. Konum ve süre öğe başına inline değişkenlerle. */
 @keyframes falling-drop {
   from {
     transform: translate3d(0, -12vh, 0) rotate(0deg);
@@ -526,7 +526,7 @@
   animation: falling-drop var(--fall-duration, 12s) linear var(--fall-delay, 0s) infinite backwards !important;
 }
 
-/* 2026-11-16 — Karşılama ekranı: giriş alanlarındaki gibi yanıp sönen imleç (SRS FR-WEL-06). */
+/* 2026-11-16 — Karşılama ekranı: giriş alanlarındaki gibi yanıp sönen imleç. */
 @keyframes welcome-caret-blink {
   0%,
   49% {

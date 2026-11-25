@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# TODO.md §T-SMOKE — yayın sonrası otomatik duman testi (başlıklar ve sağlık uçları).
+# Yayın sonrası otomatik duman testi (başlıklar ve sağlık uçları).
 # Kullanım: bash deploy/smoke.sh https://alanadi.com
 set -uo pipefail
 BASE="${1:?Kullanim: smoke.sh https://alanadi.com}"

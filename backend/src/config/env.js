@@ -1,5 +1,5 @@
-// ARCHITECTURE.md §10 — ortam değişkenleri Zod ile doğrulanır; geçersizse süreç başlamaz.
-// Değişkenler faz faz eklenir; şu an F6 kapsamı.
+// ortam değişkenleri Zod ile doğrulanır; geçersizse süreç başlamaz.
+// Değişkenler faz faz eklenir; şu an kapsamı.
 import { z } from 'zod';
 
 const secret = (name, minLength) =>
@@ -38,7 +38,7 @@ const schema = z.object({
   JWT_ACCESS_SECRET: secret('JWT_ACCESS_SECRET', 64),
   CSRF_SECRET: secret('CSRF_SECRET', 43),
   APP_ENCRYPTION_KEY: encryptionKey,
-  // F6 — medya hattı (ARCHITECTURE.md §8). S3 sürücüsü v1'de iskelet.
+  // medya hattı. S3 sürücüsü v1'de iskelet.
   STORAGE_DRIVER: z.enum(['local', 's3']).default('local'),
   STORAGE_ROOT: z.string().min(1).default('./uploads'),
   // Link önizlemesi: SPA HTML'i API'den, sayfa başına meta etiketleriyle (modules/seo). Boşsa kapalı.
@@ -49,10 +49,10 @@ const schema = z.object({
   S3_SECRET_ACCESS_KEY: z.string().optional(),
   FFMPEG_PATH: z.string().optional(),
   FFPROBE_PATH: z.string().optional(),
-  // F14 — Cloudflare Turnstile (FR-CNT-05). Prod'da zorunlu; dev/test'te boşsa resmi test anahtarları.
+  // Cloudflare Turnstile. Prod'da zorunlu; dev/test'te boşsa resmi test anahtarları.
   TURNSTILE_SITE_KEY: z.string().trim().optional(),
   TURNSTILE_SECRET_KEY: z.string().trim().optional(),
-  // F15 — GitHub (FR-INT-G). Token opsiyonel (rate limit); kart servisleri sabit host listesi.
+  // GitHub. Token opsiyonel (rate limit); kart servisleri sabit host listesi.
   GITHUB_TOKEN: z.string().trim().optional(),
   GITHUB_STATS_BASE_URL: z.url().default('https://github-readme-stats.vercel.app'),
   GITHUB_STREAK_BASE_URL: z.url().default('https://streak-stats.demolab.com'),

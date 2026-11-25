@@ -1,4 +1,4 @@
-// US-06, FR-LNK-01..06, RULES §8.6 "Link kartı" — başlık "Linkler"; her kart tek <a> (yeni sekme,
+// "Link kartı" — başlık "Linkler"; her kart tek <a> (yeni sekme,
 // noopener noreferrer), [görsel 40×40][12 px][başlık]. Yerleşim globals.css `.links-grid` kuralları.
 // `LinksView` sunum bileşenidir (admin önizlemesi de kullanır); `LinksSection` veriyi çeker.
 import { useQuery } from '@tanstack/react-query';
@@ -70,7 +70,7 @@ function LinksSkeleton() {
   );
 }
 
-/** Aktif link yoksa (US-06 AC4) hiçbir şey render edilmez. */
+/** Aktif link yoksa hiçbir şey render edilmez. */
 export function LinksSection() {
   const query = useQuery({ queryKey: queryKeys.links, queryFn: fetchLinks, staleTime: 60_000 });
   if (query.isPending) return <LinksSkeleton />;

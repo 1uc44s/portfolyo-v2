@@ -1,4 +1,4 @@
-// FR-DL-04..09, FR-DSH-04 — public indirme listeleri (keyset, id ASC) ve indirme ucu.
+// public indirme listeleri (keyset, id ASC) ve indirme ucu.
 // Görünürlük: TARGETS[].where (pfp: aktif + indirilebilir; wallpaper: aktif + isWallpaper; asset READY); aksi halde 404 (ifşa yok).
 import { createHmac } from 'node:crypto';
 import { NotFoundError } from '../../lib/httpError.js';
@@ -47,7 +47,7 @@ const MIME_BY_EXT = Object.freeze({
   mp4: 'video/mp4',
 });
 
-/** ROUTES.md §3 MediaCard. */
+/** MediaCard. */
 export function toMediaCard(urlTarget, record) {
   const { asset } = record;
   return {
@@ -79,7 +79,7 @@ export async function listDownloadable(urlTarget, { cursor, limit = PAGE_SIZE })
   };
 }
 
-/** FR-DSH-02 — günlük tuzla HMAC; ham IP saklanmaz. */
+/** günlük tuzla HMAC; ham IP saklanmaz. */
 export async function visitorHashOf(req) {
   const salt = await getDailySalt();
   const ua = req.get('user-agent') ?? '';
@@ -136,7 +136,7 @@ export async function sendDownload(req, res, urlTarget, publicId) {
   if (!item) throw new NotFoundError();
 
   const file = downloadFileOf(item.asset);
-  storage.resolveKey(file.key); // SEC-11
+  storage.resolveKey(file.key);
   let info;
   try {
     info = await storage.stat(file.key);

@@ -1,10 +1,10 @@
-// US-20 — `Hoşgeldiniz...` girişi: e-posta, şifre, beni 7 gün hatırla, şifremi unuttum.
+// `Hoşgeldiniz...` girişi: e-posta, şifre, beni 7 gün hatırla, şifremi unuttum.
 import { useCallback, useId, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
-import { loginSchema } from '@vasquez/shared';
+import { loginSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { PasswordInput } from '@/components/common/PasswordInput.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

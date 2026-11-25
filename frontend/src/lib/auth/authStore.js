@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §4.4 — access token YALNIZCA bellekte. localStorage/sessionStorage yasak.
+// access token YALNIZCA bellekte. localStorage/sessionStorage yasak.
 import { create } from 'zustand';
 
 /** status: 'unknown' (henüz denenmedi) | 'authenticated' | 'anonymous' */

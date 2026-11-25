@@ -1,4 +1,4 @@
-// FR-PRJ-02/04, US-05 — proje detayı: galeri (+ lightbox), güvenli Markdown açıklama, kategoriler,
+// proje detayı: galeri (+ lightbox), güvenli Markdown açıklama, kategoriler,
 // Demo/Video/GitHub (yeni sekme, noopener noreferrer). Yayında değil/yok → gömülü 404.
 // Lazy chunk: react-markdown ve Dialog ana public paketine girmez.
 import { useEffect, useState } from 'react';
@@ -138,7 +138,7 @@ export default function ProjectDetailPage() {
     staleTime: 60_000,
   });
   const project = query.data;
-  // FR-PRJ-03 — yalnızca analitik izni varsa (sunucu günde bir sayar).
+  // yalnızca analitik izni varsa (sunucu günde bir sayar).
   useProjectView(project?.slug);
 
   useEffect(() => {

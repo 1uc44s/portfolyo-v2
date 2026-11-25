@@ -1,4 +1,4 @@
-// SRS FR-MED-12, ARCHITECTURE.md §9 `uploads.tmpCleanup` — 24 saatten eski geçici dosyalar.
+// `uploads.tmpCleanup` — 24 saatten eski geçici dosyalar.
 // Kuyruk kaynakları (tmp/queue/<assetId>.mp4) yalnızca bekleyen işi yoksa silinir.
 import { readdir, rm, stat } from 'node:fs/promises';
 import path from 'node:path';

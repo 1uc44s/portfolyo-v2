@@ -1,4 +1,4 @@
-// SRS §3.1 (FR-AUTH-01..07), ARCHITECTURE.md §4 — giriş, 2FA, refresh rotasyonu, çıkış.
+// giriş, 2FA, refresh rotasyonu, çıkış.
 import { decrypt } from '../../lib/crypto.js';
 import { safeEqual } from '../../lib/hash.js';
 import { AppError, UnauthenticatedError } from '../../lib/httpError.js';
@@ -62,7 +62,7 @@ async function completeLogin(admin, rememberMe, ctx, method) {
 }
 
 /**
- * FR-AUTH-01, US-20 — kilit, numaralandırma koruması, 2FA ayrımı.
+ * kilit, numaralandırma koruması, 2FA ayrımı.
  * @param {{ email: string, password: string, rememberMe: boolean }} input
  * @param {{ ipAddress?: string|null, userAgent?: string|null }} ctx
  * @param {{ cleanSource?: boolean }} [opts] cleanSource: bu IP'den bu hesaba pencere içinde
@@ -90,7 +90,7 @@ export async function login({ email, password, rememberMe }, ctx, { cleanSource 
       metadata: { reason: 'LOCKED' },
       ctx,
     });
-    // Kilit yalnızca doğru şifre girilirse açıklanır (ROUTES.md §5).
+    // Kilit yalnızca doğru şifre girilirse açıklanır.
     if (!passwordOk) throw invalidCredentials();
     const retryAfter = Math.ceil((admin.lockedUntil.getTime() - now) / 1000);
     throw new AppError(
@@ -153,7 +153,7 @@ function markMfaTokenUsed(jti, expSeconds) {
 }
 
 /**
- * FR-AUTH-02, FR-AUTH-13 — TOTP (replay korumalı) veya kurtarma kodu.
+ * TOTP (replay korumalı) veya kurtarma kodu.
  * @param {{ mfaToken: string, code?: string, recoveryCode?: string }} input
  */
 export async function verifySecondFactor({ mfaToken, code, recoveryCode }, ctx) {
@@ -208,7 +208,7 @@ async function handleReuse(row, ctx, metadata) {
 }
 
 /**
- * ARCHITECTURE.md §4.3 — rotasyon ve reuse tespiti.
+ * rotasyon ve reuse tespiti.
  * @param {{ refreshToken?: string, csrfHeader?: string, csrfCookie?: string }} input
  */
 export async function refreshSession({ refreshToken, csrfHeader, csrfCookie }, ctx) {
@@ -244,7 +244,7 @@ export async function refreshSession({ refreshToken, csrfHeader, csrfCookie }, c
   };
 }
 
-/** FR-AUTH-06 — mevcut oturum ailesini iptal eder. */
+/** mevcut oturum ailesini iptal eder. */
 export async function logout({ refreshToken, csrfHeader, csrfCookie }, ctx) {
   const row = await findSessionByRefreshToken(refreshToken);
   if (!row) return;

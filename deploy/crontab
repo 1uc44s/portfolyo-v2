@@ -1,8 +1,8 @@
-# /etc/cron.d/vasquez — sistem cron'u. Uygulama işleri (rotasyon, tuz, entegrasyonlar, saklama,
-# depo temizliği) API sürecindeki scheduler.js'te çalışır (ARCHITECTURE.md §9); burada yalnızca yedek.
+# /etc/cron.d/my-portfolyo — sistem cron'u. Uygulama işleri (rotasyon, tuz, entegrasyonlar, saklama,
+# depo temizliği) API sürecindeki scheduler.js'te çalışır; burada yalnızca yedek.
 CRON_TZ=Europe/Istanbul
 SHELL=/bin/bash
-# Gece yedeği (DATABASE.md §9)
-30 3 * * * vasquez set -a; . /etc/vasquez/backup.env; set +a; /srv/vasquez/deploy/backup.sh >> /var/log/vasquez/backup.log 2>&1
-# Ayın 1'i: geri yükleme provası hatırlatıcısı (docs/DEPLOY.md §7)
-0 10 1 * * vasquez logger -t vasquez "Aylik yedek geri yukleme provasini yap (docs/DEPLOY.md 7)"
+# Gece yedeği
+30 3 * * * my-portfolyo set -a; . /etc/my-portfolyo/backup.env; set +a; /srv/my-portfolyo/deploy/backup.sh >> /var/log/my-portfolyo/backup.log 2>&1
+# Ayın 1'i: geri yükleme provası hatırlatıcısı
+0 10 1 * * my-portfolyo logger -t my-portfolyo "Aylik yedek geri yukleme provasini yap"

@@ -1,4 +1,4 @@
-// FR-ROT-03 adım 4–7 — saf aday seçimi (yan etki yok, deterministik RNG ile test edilir).
+// adım 4–7 — saf aday seçimi (yan etki yok, deterministik RNG ile test edilir).
 import { randomInt } from 'node:crypto';
 
 /**

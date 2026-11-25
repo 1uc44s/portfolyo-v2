@@ -1,6 +1,6 @@
-// DATABASE.md §4.5 — yalnızca SİSTEM kayıtları. İdempotent ve ezmeyen:
+// yalnızca SİSTEM kayıtları. İdempotent ve ezmeyen:
 // kayıt varsa dokunulmaz (admin'in düzenlediği içerik korunur).
-// Kategori, proje, medya ve admin hesabı TOHUMLANMAZ (Şartname §7.1, FR-SETUP). İstisna (2026-11-16):
+// Kategori, proje, medya ve admin hesabı TOHUMLANMAZ. İstisna (2026-11-16):
 // varsayılan linkler bir kez eklenir (src/modules/links/defaults.js).
 import { prisma } from '../src/lib/prisma.js';
 import { seedDefaultLinksOnce } from '../src/modules/links/defaults.js';
@@ -92,7 +92,7 @@ const INTEGRATIONS = ['DISCORD', 'SPOTIFY', 'GITHUB'];
 /** Kayıt yoksa oluştur, varsa hiçbir alanı değiştirme. */
 const ensure = (delegate, where, create) => delegate.upsert({ where, create, update: {} });
 
-// F21 — Tech Stack başlangıç öğeleri (referans görseldeki 7 teknoloji). Yalnızca bir kez eklenir
+// Tech Stack başlangıç öğeleri (referans görseldeki 7 teknoloji). Yalnızca bir kez eklenir
 // (SystemState "tech_stack_seeded"); admin sonradan silse de yeniden oluşmaz. Görseller adminden.
 const TECH_STACK_ITEMS = [
   [

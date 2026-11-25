@@ -1,4 +1,4 @@
-// SEC-18, RULES.md §5.5 — hash, HMAC, sabit zamanlı karşılaştırma, rastgele token.
+// hash, HMAC, sabit zamanlı karşılaştırma, rastgele token.
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 
 /** @param {string} value */

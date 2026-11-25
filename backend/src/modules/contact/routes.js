@@ -1,8 +1,8 @@
-// ROUTES.md §4.11 — /api/admin/contact-messages (`messages:*`). Açmak (`GET /:id`) okuma izniyle
+// /api/admin/contact-messages (`messages:*`). Açmak (`GET /:id`) okuma izniyle
 // okundu işaretler; durum/spam/silme/yanıt linki yazma izni ister.
 import { Router } from 'express';
 import { z } from 'zod';
-import { contactListQuerySchema, contactPatchSchema } from '@vasquez/shared';
+import { contactListQuerySchema, contactPatchSchema } from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import { NotFoundError } from '../../lib/httpError.js';

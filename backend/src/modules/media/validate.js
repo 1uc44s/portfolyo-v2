@@ -1,4 +1,4 @@
-// SRS FR-MED-02 — doğrulama zinciri: (1) boyut (2) uzantı izin listesi (3) file-type magic bytes
+// doğrulama zinciri: (1) boyut (2) uzantı izin listesi (3) file-type magic bytes
 // (4) uzantı–MIME eşleşmesi. Türe özel kontroller (boyut/süre) process.js'te.
 import {
   EXTENSION_MIME,
@@ -6,7 +6,7 @@ import {
   extensionOf,
   formatBytes,
   ruleFor,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { fileTypeFromFile } from 'file-type';
 import { PayloadTooLargeError, UnsupportedMediaError } from '../../lib/httpError.js';
 

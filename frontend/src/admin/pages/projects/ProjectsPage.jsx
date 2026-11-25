@@ -1,11 +1,11 @@
-// CMS.md §3.3, Şartname §15.8 — üstte "Kategori Oluştur" + "Proje Oluştur"; liste: kapak, başlık,
+// üstte "Kategori Oluştur" + "Proje Oluştur"; liste: kapak, başlık,
 // kategoriler, durum, görüntülenme, güncellenme, sıralama tutamacı, eylemler.
 import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { FolderKanban, Pencil, Plus, Search, Tags, Trash2 } from 'lucide-react';
 import { Link } from 'react-router';
 import { toast } from 'sonner';
-import { hasPermission, normalizeKey } from '@vasquez/shared';
+import { hasPermission, normalizeKey } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';

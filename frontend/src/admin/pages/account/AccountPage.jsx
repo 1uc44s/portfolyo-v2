@@ -1,10 +1,10 @@
-// ADMIN.md §3.12 — Hesap Ayarları: Profil · E-posta · Şifre · İki aşamalı doğrulama · Oturumlar · E-posta gönderimi.
+// Hesap Ayarları: Profil · E-posta · Şifre · İki aşamalı doğrulama · Oturumlar · E-posta gönderimi.
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { changeEmailSchema, newPasswordField, profileSchema } from '@vasquez/shared';
+import { changeEmailSchema, newPasswordField, profileSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { PasswordInput } from '@/components/common/PasswordInput.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

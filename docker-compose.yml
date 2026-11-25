@@ -1,4 +1,4 @@
-# Yalnızca geliştirme ortamı. Prod topolojisi: ARCHITECTURE.md §11.
+# Yalnızca geliştirme ortamı. Prod topolojisi:.
 name: portfolyo-v2
 
 services:

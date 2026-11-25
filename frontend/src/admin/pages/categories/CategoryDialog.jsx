@@ -1,10 +1,10 @@
-// CMS.md §3.1 — kategori oluştur/düzenle modalı. Projeler ekranından ve editörden de açılır.
+// kategori oluştur/düzenle modalı. Projeler ekranından ve editörden de açılır.
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { CATEGORY_NAME_MAX, categoryCreateSchema } from '@vasquez/shared';
+import { CATEGORY_NAME_MAX, categoryCreateSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';
 import { Button } from '@/components/ui/button.jsx';

@@ -1,4 +1,4 @@
-// FR-AUTH-12 — 2FA kurulum sihirbazı (şifre → QR → kod → kurtarma kodları), kapatma, kod yenileme.
+// 2FA kurulum sihirbazı (şifre → QR → kod → kurtarma kodları), kapatma, kod yenileme.
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

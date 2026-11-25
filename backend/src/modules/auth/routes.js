@@ -1,11 +1,11 @@
-// ROUTES.md §4.1 — /api/admin/auth. Katmanlar: L1 (pre-auth), L2 (cookie+CSRF), L3 (/me).
+// /api/admin/auth. Katmanlar: L1 (pre-auth), L2 (cookie+CSRF), L3 (/me).
 import { Router } from 'express';
 import {
   forgotPasswordSchema,
   loginSchema,
   mfaVerifySchema,
   resetPasswordSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { sha256Hex } from '../../lib/hash.js';
 import { passwordGate, requireAuth } from '../../middleware/auth.js';
 import { consume, rateLimit } from '../../middleware/rateLimit.js';

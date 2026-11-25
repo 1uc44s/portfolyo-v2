@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §8.1 — sürücü seçimi ve depo dizin düzeni.
+// sürücü seçimi ve depo dizin düzeni.
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,7 @@ const BACKEND_DIR = fileURLToPath(new URL('../..', import.meta.url));
 /** Göreli STORAGE_ROOT backend dizinine göre çözülür (çalışma dizininden bağımsız). */
 export const STORAGE_ROOT = path.resolve(BACKEND_DIR, env.STORAGE_ROOT);
 
-/** Yüklemelerin ilk indiği geçici dizin (FR-MED-01) ve video kuyruğu kaynakları. */
+/** Yüklemelerin ilk indiği geçici dizin ve video kuyruğu kaynakları. */
 export const TMP_DIR = path.join(STORAGE_ROOT, 'tmp');
 export const QUEUE_DIR = path.join(TMP_DIR, 'queue');
 

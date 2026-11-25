@@ -1,10 +1,10 @@
-// FR-AUTH-10 — her durumda aynı yanıt; hesabın var olup olmadığı söylenmez.
+// her durumda aynı yanıt; hesabın var olup olmadığı söylenmez.
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MailCheck } from 'lucide-react';
 import { Link } from 'react-router';
-import { forgotPasswordSchema } from '@vasquez/shared';
+import { forgotPasswordSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';
 import { Input } from '@/components/ui/input.jsx';

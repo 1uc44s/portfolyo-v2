@@ -1,7 +1,7 @@
-// SRS §3.1 — kimlik doğrulama ve hesap formları (istemci + sunucu aynı şema).
+// kimlik doğrulama ve hesap formları (istemci + sunucu aynı şema).
 import { z } from 'zod';
 
-/** Cloudflare Turnstile — iletişim formu ve admin girişi (FR-CNT-05, SEC). */
+/** Cloudflare Turnstile — iletişim formu ve admin girişi. */
 export const CAPTCHA_REQUIRED_MESSAGE = 'Doğrulamayı tamamla.';
 export const turnstileTokenField = () =>
   z

@@ -1,6 +1,6 @@
-// SRS FR-FALL-01/02, ROUTES.md §4.7b — yağan öğeler (görsel veya kısa metin). Aktif olanların hepsi
+// yağan öğeler (görsel veya kısa metin). Aktif olanların hepsi
 // public sayfalarda birlikte yağar. Görseller FALLING_IMAGE hattından (≤ 256 px'e küçültülür).
-import { FALLING_LIMITS } from '@vasquez/shared';
+import { FALLING_LIMITS } from '@my-portfolyo/shared';
 import { AppError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';

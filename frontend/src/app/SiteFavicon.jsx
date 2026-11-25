@@ -1,5 +1,5 @@
-// F5-02 / ROUTES.md §3.1 — yüklenen favicon'u sekmeye uygular; yoksa varsayılan /favicon.svg.
-// F9 public kabuğu gelene kadar site aggregate'inden yalnızca faviconUrl okunur.
+// Yüklenen favicon'u sekmeye uygular; yoksa varsayılan /favicon.svg.
+// public kabuğu gelene kadar site aggregate'inden yalnızca faviconUrl okunur.
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSite } from '@/lib/api/publicApi.js';

@@ -93,7 +93,7 @@ await runCli(async () => {
     await tx.heroSettings.update({
       where: { id: 1 },
       data: {
-        displayName: 'Lucas Vasquez',
+        displayName: 'My Portfolyo',
         tagline: null,
         location: 'Samsung Galaxy',
         nameEffects: [],
@@ -106,7 +106,7 @@ await runCli(async () => {
     await tx.siteSettings.update({
       where: { id: 1 },
       data: {
-        navbarTitle: '1uc44s GitHub',
+        navbarTitle: 'my-portfolyo',
         footerTechs: [],
       },
     });

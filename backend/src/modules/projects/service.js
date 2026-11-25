@@ -1,6 +1,6 @@
-// CMS.md §3.2–3.3, US-24, ROUTES.md §4.8 — projeler: slug (otomatik/elle, benzersiz), en az bir
+// projeler: slug (otomatik/elle, benzersiz), en az bir
 // bağlantı, kategoriler, çoklu görsel (ilk = kapak), sıralama, yayın (`publishedAt` ilk yayında).
-import { hasProjectLink, LINKS_REQUIRED_MESSAGE, slugify } from '@vasquez/shared';
+import { hasProjectLink, LINKS_REQUIRED_MESSAGE, slugify } from '@my-portfolyo/shared';
 import { ConflictError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';

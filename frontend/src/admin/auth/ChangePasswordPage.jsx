@@ -1,9 +1,9 @@
-// FR-AUTH-09 — geçici şifreyle açılan hesap paneli kullanmadan önce şifresini değiştirir.
+// geçici şifreyle açılan hesap paneli kullanmadan önce şifresini değiştirir.
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Navigate, useNavigate } from 'react-router';
 import { z } from 'zod';
-import { newPasswordField } from '@vasquez/shared';
+import { newPasswordField } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { PasswordInput } from '@/components/common/PasswordInput.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

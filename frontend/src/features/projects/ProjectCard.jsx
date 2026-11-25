@@ -1,4 +1,4 @@
-// RULES §8.6 "Proje kartı" — 16:10 kapak, başlık h3, 2 satır özet, kategori çipleri (maks. 3 + "+n").
+// "Proje kartı" — 16:10 kapak, başlık h3, 2 satır özet, kategori çipleri (maks. 3 + "+n").
 // Kartın tamamı link. Admin canlı önizlemesi `href` vermeden aynı görünümü kullanır.
 import { ImageIcon } from 'lucide-react';
 import { Link } from 'react-router';

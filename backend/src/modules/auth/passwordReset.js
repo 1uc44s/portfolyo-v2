@@ -1,4 +1,4 @@
-// FR-AUTH-10/11, ARCHITECTURE.md §4.5 — şifremi unuttum / sıfırla.
+// şifremi unuttum / sıfırla.
 // Yanıt her durumda aynı ve benzer sürede döner (hesap numaralandırma önlemi).
 import { randomInt } from 'node:crypto';
 import { setTimeout as sleep } from 'node:timers/promises';

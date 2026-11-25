@@ -1,11 +1,11 @@
-// CMS.md §8 — içerik oluşturma/düzenleme diyaloğu. Oluşturmada tüm dosya yuvaları zorunlu (müzik:
+// içerik oluşturma/düzenleme diyaloğu. Oluşturmada tüm dosya yuvaları zorunlu (müzik:
 // MP3 + kapak, cursor: normal + tıklama); düzenlemede alanlar PATCH, yeni dosya PUT /:id/file ile gider.
 import { useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { HOTSPOT_FIELDS, mediaCreateSchema } from '@vasquez/shared';
+import { HOTSPOT_FIELDS, mediaCreateSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';
 import { Button } from '@/components/ui/button.jsx';

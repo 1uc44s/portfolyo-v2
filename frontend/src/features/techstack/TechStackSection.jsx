@@ -1,5 +1,5 @@
-// FR-PUB-04 — Tech Stack bölümü. Yayındaki bölüm yoksa ana sayfada Tech Stack ile ilgili hiçbir şey
-// gösterilmez (2026-11-17 kullanıcı kararı; eski "Coming soon" yer tutucusu kaldırıldı). Yayındaysa (F21)
+// Tech Stack bölümü. Yayındaki bölüm yoksa ana sayfada Tech Stack ile ilgili hiçbir şey
+// gösterilmez (2026-11-17 kullanıcı kararı; eski "Coming soon" yer tutucusu kaldırıldı). Yayındaysa
 // halka düzeni lazy chunk'tan yüklenir.
 import { lazy, Suspense } from 'react';
 

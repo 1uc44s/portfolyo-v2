@@ -1,4 +1,4 @@
-// CMS.md §8 — cursor formu: normal + tıklama hotspot seçicileri ve canlı deneme alanı.
+// cursor formu: normal + tıklama hotspot seçicileri ve canlı deneme alanı.
 // Kaynak: yeni seçilen yerel dosya ya da mevcut dosyanın yetkili önizlemesi.
 import { useState } from 'react';
 import { useAuthedMedia } from '../../lib/useAuthedMedia.js';

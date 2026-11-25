@@ -1,4 +1,4 @@
-// SRS NFR-OBS — her isteğe X-Request-Id.
+// her isteğe X-Request-Id.
 import { randomUUID } from 'node:crypto';
 
 const SAFE_ID = /^[A-Za-z0-9_-]{8,64}$/;

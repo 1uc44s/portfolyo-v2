@@ -1,10 +1,10 @@
-// ADMIN.md §3.10, US-25 AC3 — sol: sıralanabilir liste (görsel, başlık, kısaltılmış URL, aktif anahtarı);
+// sol: sıralanabilir liste (görsel, başlık, kısaltılmış URL, aktif anahtarı);
 // sağ: gerçek `LinksView` ile public önizleme + genişlik simülatörü (Masaüstü 1280 / Tablet 768 / Mobil 375).
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link2, Pencil, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';

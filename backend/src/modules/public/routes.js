@@ -1,4 +1,4 @@
-// ROUTES.md §3 — public uçlar (L0). Yalnızca public alanlar döner.
+// public uçlar (L0). Yalnızca public alanlar döner.
 import { Router } from 'express';
 import { z } from 'zod';
 import {
@@ -10,7 +10,7 @@ import {
   INTEGRATION_SLUGS,
   isHoneypotFilled,
   SLUG_PATTERN,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { NotFoundError } from '../../lib/httpError.js';
 import { consume, rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';
@@ -49,7 +49,7 @@ export function publicRoutes({ limiters }) {
     res.json({ data: await getPublicSite() });
   });
 
-  // FR-PRJ-01/02/04 — yayındaki projeler, detay (yoksa 404) ve filtre kategorileri.
+  // yayındaki projeler, detay (yoksa 404) ve filtre kategorileri.
   const cached = (res) => res.set('Cache-Control', 'public, max-age=30');
   router.get('/projects', validate({ query: projectsQuery }), async (req, res) => {
     cached(res).json({ data: await listPublicProjects(req.valid.query) });
@@ -59,7 +59,7 @@ export function publicRoutes({ limiters }) {
     if (!parsed.success) throw new NotFoundError('Proje bulunamadı.');
     cached(res).json({ data: await getPublicProject(parsed.data.slug) });
   });
-  // FR-LNK-06 — aktif linkler (boşsa []).
+  // aktif linkler (boşsa []).
   router.get('/links', async (_req, res) => {
     cached(res).json({ data: await listPublicLinks() });
   });
@@ -67,7 +67,7 @@ export function publicRoutes({ limiters }) {
     cached(res).json({ data: await listPublicCategories() });
   });
 
-  // FR-DL-04 — keyset, id ASC, sayfa 24.
+  // keyset, id ASC, sayfa 24.
   for (const [path, target] of [
     ['/wallpapers', 'wallpaper'],
     ['/pfps', 'pfp'],
@@ -79,27 +79,27 @@ export function publicRoutes({ limiters }) {
     });
   }
 
-  // FR-DL-08, FR-DSH-04 — IP başına 30 / 10 dk. Geçersiz parametre de 404 (ifşa yok).
+  // IP başına 30 / 10 dk. Geçersiz parametre de 404 (ifşa yok).
   router.get('/downloads/:target/:publicId', rateLimit(limiters.download), async (req, res) => {
     const parsed = downloadParams.safeParse(req.params);
     if (!parsed.success) throw new NotFoundError();
     return sendDownload(req, res, parsed.data.target, parsed.data.publicId);
   });
 
-  // FR-INT-01/04 — durum snapshot'ları (dış API çağrısı yok). Kapalıysa { enabled:false }.
+  // durum snapshot'ları (dış API çağrısı yok). Kapalıysa { enabled:false }.
   router.get('/status/:provider', async (req, res) => {
     if (!INTEGRATION_SLUGS.includes(req.params.provider)) throw new NotFoundError();
     res.set('Cache-Control', 'public, max-age=15');
     res.json({ data: await getPublicStatus(req.params.provider) });
   });
 
-  // FR-INT-09 — canlı durum akışı (SSE): snapshot değişince anında gönderilir.
+  // canlı durum akışı (SSE): snapshot değişince anında gönderilir.
   router.get('/status/:provider/stream', async (req, res) => {
     if (!INTEGRATION_SLUGS.includes(req.params.provider)) throw new NotFoundError();
     await streamStatus(req, res, req.params.provider, getPublicStatus);
   });
 
-  // FR-INT-G — istatistik kartı proxy'si. SVG <img> ile gösterilir; script çalışamaz.
+  // istatistik kartı proxy'si. SVG <img> ile gösterilir; script çalışamaz.
   router.get('/status/github/cards/:file', async (req, res) => {
     const match = /^(stats|streak)\.svg$/.exec(req.params.file);
     const card = match?.[1];
@@ -117,12 +117,12 @@ export function publicRoutes({ limiters }) {
     res.send(svg);
   });
 
-  // FR-PUB-04B — Tech Stack (yayında değilse { published:false }).
+  // Tech Stack (yayında değilse { published:false }).
   router.get('/tech-stack', async (_req, res) => {
     cached(res).json({ data: await getPublicTechStack() });
   });
 
-  // FR-CKE-02 — anonim izin kaydı (IP saklanmaz).
+  // anonim izin kaydı (IP saklanmaz).
   router.post(
     '/consent',
     rateLimit(limiters.consent),
@@ -133,7 +133,7 @@ export function publicRoutes({ limiters }) {
     },
   );
 
-  // FR-CKE-06 — yalnızca izin veren istemci çağırır.
+  // yalnızca izin veren istemci çağırır.
   router.post(
     '/analytics/events',
     rateLimit(limiters.analytics),
@@ -144,14 +144,14 @@ export function publicRoutes({ limiters }) {
     },
   );
 
-  // FR-CNT-04 — yasal metinler (KVKK aydınlatma, çerez politikası).
+  // yasal metinler (KVKK aydınlatma, çerez politikası).
   router.get('/legal/:key', async (req, res) => {
     const key = Object.hasOwn(LEGAL_SLUGS, req.params.key) ? LEGAL_SLUGS[req.params.key] : null;
     if (!key) throw new NotFoundError('Metin bulunamadı.');
     cached(res).json({ data: await getPublicLegal(key) });
   });
 
-  // FR-CNT-01..06 — sıra: honeypot → şema → rate limit → Turnstile → kayıt.
+  // sıra: honeypot → şema → rate limit → Turnstile → kayıt.
   // Honeypot ve başarı aynı yanıtı döner (bot ayırt edemez).
   router.post('/contact', async (req, res) => {
     res.set('Cache-Control', 'no-store');

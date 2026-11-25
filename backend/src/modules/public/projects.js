@@ -1,6 +1,6 @@
-// FR-PRJ-01/02/04, ROUTES.md §3 — yayındaki projeler (sortOrder ASC, id ASC), detay ve filtre
+// yayındaki projeler (sortOrder ASC, id ASC), detay ve filtre
 // kategorileri. Yalnızca aktif kategoriler ve READY görseller döner; iç alanlar (id, sayaçlar) yok.
-import { excerptOf } from '@vasquez/shared';
+import { excerptOf } from '@my-portfolyo/shared';
 import { NotFoundError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { mediaUrl } from '../media/service.js';

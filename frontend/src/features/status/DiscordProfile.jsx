@@ -1,4 +1,4 @@
-// FR-INT-D (2026-11-16) — Discord profil kartı: banner/vurgu rengi, avatar + dekorasyon + durum, isim,
+// (2026-11-16) — Discord profil kartı: banner/vurgu rengi, avatar + dekorasyon + durum, isim,
 // kullanıcı adı, hitap şekli, sunucu etiketi, isim plakası, rozetler, özel durum (emoji)
 // (Discord özel emoji sözdizimi `<:ad:id>` görsele çevrilir), etkinlikler (oyun, müzik, yayın, izleme)
 // ve ses kanalı. Profil efekti / isim efekti-yazı stili bot API'sinde olmadığı için gösterilmez.

@@ -1,11 +1,11 @@
-// CMS.md §8 — Proje / Link görselleri: salt okunur kütüphane görünümü (GET /media/assets), kullanan
+// Proje / Link görselleri: salt okunur kütüphane görünümü (GET /media/assets), kullanan
 // kayda bağlantı, "Kullanılmıyor" filtresiyle yetim görsellerin silinmesi. Depolama özeti de burada.
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { HardDrive, ImageOff, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { formatBytes } from '@vasquez/shared';
+import { formatBytes } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import {
@@ -171,7 +171,7 @@ export function LibraryTab({ tab, canEdit }) {
         <EmptyState
           icon={ImageOff}
           title={orphan ? 'Kullanılmayan görsel yok' : 'Henüz görsel yok'}
-          description="Görseller proje ve link modülleri (F12, F13) eklenince burada listelenir."
+          description="Proje ve link görselleri eklendikçe burada listelenir."
         />
       )}
       {items.length > 0 && (

@@ -1,4 +1,4 @@
-// FR-INT-02/03/07 — sağlayıcı işçileri. Polling (GitHub 1 sa, Spotify 60 sn) ya da kalıcı bağlantı
+// sağlayıcı işçileri. Polling (GitHub 1 sa, Spotify 60 sn) ya da kalıcı bağlantı
 // (Discord Gateway). Ardışık 3 hatadan sonra üstel bekleme (≤ 15 dk); 429'da Retry-After.
 import { logger } from '../../lib/logger.js';
 import { publicErrorMessage } from './http.js';

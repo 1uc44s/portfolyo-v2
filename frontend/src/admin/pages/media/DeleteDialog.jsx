@@ -1,4 +1,4 @@
-// DATABASE.md §5.2 — içerik silme onayı: kayıt + dosyaları kalıcı silinir (geri alınamaz).
+// içerik silme onayı: kayıt + dosyaları kalıcı silinir (geri alınamaz).
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {

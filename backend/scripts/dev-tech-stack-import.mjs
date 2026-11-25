@@ -1,4 +1,4 @@
-// F21 — YALNIZCA GELİŞTİRME: referans "7 Tech Stack" görselinden (976×1092 düzeni) 7 daire çizimini
+// YALNIZCA GELİŞTİRME: referans "7 Tech Stack" görselinden (976×1092 düzeni) 7 daire çizimini
 // keser ve ilk Tech Stack bölümünün öğelerine sırayla (sortOrder) atar.
 // Normal yol admin panelinden yüklemektir; bu betik ilk kurulumu hızlandırır.
 // Kullanım: npm run tech-stack:import -w backend -- --source <görsel> [--dry-run]

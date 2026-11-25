@@ -1,4 +1,4 @@
-// SRS §10, SEC-15 — standart hata yanıtı; stack trace istemciye gitmez.
+// standart hata yanıtı; stack trace istemciye gitmez.
 import { ZodError } from 'zod';
 import { AppError } from '../lib/httpError.js';
 import { logger } from '../lib/logger.js';

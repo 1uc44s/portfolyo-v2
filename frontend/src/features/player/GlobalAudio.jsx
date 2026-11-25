@@ -1,4 +1,4 @@
-// FR-PLY-01 — uygulamada TEK <audio>; router'ın dışında, sayfa geçişlerinde yeniden oluşmaz.
+// uygulamada TEK <audio>; router'ın dışında, sayfa geçişlerinde yeniden oluşmaz.
 // Olaylar store'a yansır (PlayerBar, Media Session); komutlar store üzerinden gelir.
 import { useCallback } from 'react';
 import { useSite } from '@/features/site/useSite.js';

@@ -1,9 +1,9 @@
-// ROUTES.md §4.7 — /api/admin/integrations (`status:*`; secret ve Spotify bağlama L5).
+// /api/admin/integrations (`status:*`; secret ve Spotify bağlama L5).
 // Spotify callback tarayıcı yönlendirmesiyle gelir (Bearer yok): ayrı router, requireAuth'tan önce;
 // koruma imzalı, tek kullanımlık, 10 dk'lık `state` cookie'si (HMAC + adminId + exp).
 import { Router } from 'express';
 import { z } from 'zod';
-import { INTEGRATION_SLUGS, integrationPatchSchema } from '@vasquez/shared';
+import { INTEGRATION_SLUGS, integrationPatchSchema } from '@my-portfolyo/shared';
 import { env } from '../../config/env.js';
 import { hmacBase64Url, randomToken, safeEqual } from '../../lib/hash.js';
 import { logger } from '../../lib/logger.js';

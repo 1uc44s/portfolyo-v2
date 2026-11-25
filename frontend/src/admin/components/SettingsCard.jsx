@@ -1,4 +1,4 @@
-// Ayar bölümü kartı: başlık, açıklama, içerik ve sağa yaslı eylem satırı (FR-ADM-02).
+// Ayar bölümü kartı: başlık, açıklama, içerik ve sağa yaslı eylem satırı.
 import { cn } from '@/lib/utils';
 
 /**

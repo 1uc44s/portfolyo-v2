@@ -1,4 +1,4 @@
-// CMS.md §8 — medya önizlemeleri (yetkili blob): görsel/GIF (döngüde), video (hover/odakta oynar),
+// medya önizlemeleri (yetkili blob): görsel/GIF (döngüde), video (hover/odakta oynar),
 // müzik mini oynatıcısı ve durum rozetleri.
 import { useState } from 'react';
 import { CircleAlert, ImageOff, Loader2, Play } from 'lucide-react';

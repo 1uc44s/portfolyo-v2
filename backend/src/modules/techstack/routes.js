@@ -1,4 +1,4 @@
-// ROUTES.md §4.13 — /api/admin/tech-stack (`settings:*`). Çoğaltılabilir bölümler (groups) ve
+// /api/admin/tech-stack (`settings:*`). Çoğaltılabilir bölümler (groups) ve
 // her bölümün öğeleri. Görseller TECH_STACK_IMAGE hattından.
 import { Router } from 'express';
 import { z } from 'zod';
@@ -8,7 +8,7 @@ import {
   techStackGroupUpdateSchema,
   techStackItemCreateSchema,
   techStackItemUpdateSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';

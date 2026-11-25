@@ -1,8 +1,8 @@
-// F7 — form içi dosya seçici: istemci ön kontrolü (FR-MED-03), sürükle-bırak, yerel önizleme.
+// form içi dosya seçici: istemci ön kontrolü, sürükle-bırak, yerel önizleme.
 // Yükleme formun kaydıyla birlikte yapılır (UploadField'dan farkı: anında yüklemez).
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { FileAudio, FileVideo, Upload, X } from 'lucide-react';
-import { acceptAttribute, formatBytes, precheckFile } from '@vasquez/shared';
+import { acceptAttribute, formatBytes, precheckFile } from '@my-portfolyo/shared';
 import { Button } from '@/components/ui/button.jsx';
 import { cn } from '@/lib/utils';
 

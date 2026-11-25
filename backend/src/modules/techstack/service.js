@@ -1,7 +1,7 @@
-// F21 — ROUTES.md §4.13, SRS FR-PUB-04B: Tech Stack (halka düzeni). Çoğaltılabilir bölümler
+// Tech Stack (halka düzeni). Çoğaltılabilir bölümler
 // (TechStackGroup: "My Tech Stack", "My Security Skill"…): her bölümün kendi başlığı, yayın bayrağı
 // ve öğeleri (TechStackItem: etiket, açıklama, opsiyonel daire görseli, sıra = numara) vardır.
-import { TECH_STACK_LIMITS } from '@vasquez/shared';
+import { TECH_STACK_LIMITS } from '@my-portfolyo/shared';
 import { AppError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
@@ -298,7 +298,7 @@ export const hasPublishedTechStack = async () =>
   (await prisma.techStackGroup.count({ where: { published: true } })) > 0;
 
 /**
- * FR-PUB-04B — public: yalnızca yayındaki bölümler ve aktif öğeleri (sırayla). Yayında olmayan
+ * public: yalnızca yayındaki bölümler ve aktif öğeleri (sırayla). Yayında olmayan
  * bölümün başlığı/öğeleri sızmaz. Aktif öğesi kalmamış bölüm listeye girmez.
  */
 export async function getPublicTechStack() {

@@ -10,16 +10,16 @@ const sharedRules = {
   eqeqeq: ['error', 'always', { null: 'ignore' }],
   'no-console': ['warn', { allow: ['warn', 'error'] }],
   'prefer-const': 'error',
-  // RULES.md §4 — raw SQL yalnızca tagged template ile
+  // raw SQL yalnızca tagged template ile
   'no-restricted-properties': [
     'error',
     {
       property: '$queryRawUnsafe',
-      message: 'YASAK: $queryRaw tagged template kullan (RULES.md §4).',
+      message: 'YASAK: $queryRaw tagged template kullan.',
     },
     {
       property: '$executeRawUnsafe',
-      message: 'YASAK: $executeRaw tagged template kullan (RULES.md §4).',
+      message: 'YASAK: $executeRaw tagged template kullan.',
     },
   ],
 };
@@ -54,12 +54,12 @@ export default [
     },
     rules: {
       ...sharedRules,
-      // RULES.md §5.5 — güvenlik/seçim mantığında Math.random yasak
+      // güvenlik/seçim mantığında Math.random yasak
       'no-restricted-syntax': [
         'error',
         {
           selector: "CallExpression[callee.object.name='Math'][callee.property.name='random']",
-          message: 'Math.random yerine node:crypto randomInt/randomBytes kullan (RULES.md §5.5).',
+          message: 'Math.random yerine node:crypto randomInt/randomBytes kullan.',
         },
       ],
     },
@@ -84,7 +84,7 @@ export default [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/prop-types': 'off',
-      // RULES.md §5.1 — istisnasız yasak
+      // istisnasız yasak
       'react/no-danger': 'error',
       'react/jsx-no-target-blank': 'error',
     },

@@ -1,4 +1,4 @@
-// F4-06 / F7 — sürükle-bırak sıralama (@dnd-kit). Fare/dokunma + klavye: tutamaca odaklan,
+// Sürükle-bırak sıralama (@dnd-kit). Fare/dokunma + klavye: tutamaca odaklan,
 // Boşluk ile kaldır, ok tuşlarıyla taşı, Boşluk ile bırak, Esc ile vazgeç. Ekran okuyucu duyuruları Türkçe.
 import {
   DndContext,

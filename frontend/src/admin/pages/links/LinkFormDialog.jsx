@@ -1,11 +1,11 @@
-// US-25, ADMIN.md §3.10 — link formu: görsel (zorunlu, kare önerilir), başlık, URL (yazarken protokol
+// link formu: görsel (zorunlu, kare önerilir), başlık, URL (yazarken protokol
 // uyarısı). Düzenlemede görsel opsiyonel: seçilirse ayrıca değiştirilir.
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { LINK_TITLE_MAX, linkCreateSchema } from '@vasquez/shared';
+import { LINK_TITLE_MAX, linkCreateSchema } from '@my-portfolyo/shared';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';
 import { Button } from '@/components/ui/button.jsx';

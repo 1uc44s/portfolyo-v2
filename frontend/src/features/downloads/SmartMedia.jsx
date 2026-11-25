@@ -1,4 +1,4 @@
-// FR-DL-06 — kart önizlemesi: görsel → WebP önizleme, GIF → GIF, MP4 → sessiz loop video yalnızca
+// kart önizlemesi: görsel → WebP önizleme, GIF → GIF, MP4 → sessiz loop video yalnızca
 // görünür alandayken oynar. Düşük efekt / reduced motion: poster, hover/focus (`active`) ile oynar.
 import { useEffect, useRef, useState } from 'react';
 import { useMotionFx } from '@/features/hero/useMotionFx.js';

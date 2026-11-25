@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §4.4 — tek axios örneği + admin auth interceptor'ları.
+// tek axios örneği + admin auth interceptor'ları.
 import axios from 'axios';
 import { getAccessToken } from '../auth/authStore.js';
 import { refreshSession } from '../auth/session.js';
@@ -31,7 +31,7 @@ api.interceptors.response.use(undefined, async (error) => {
   return api.request(config);
 });
 
-/** API hata yanıtını (SRS §10) kullanıcıya gösterilebilir mesaja çevirir. */
+/** API hata yanıtını kullanıcıya gösterilebilir mesaja çevirir. */
 export function getErrorMessage(
   error,
   fallback = 'Bir şeyler ters gitti. Sayfayı yenilemeyi dene.',

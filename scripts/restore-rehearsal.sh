@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# F19-05 — yedekten geri yükleme provası (DATABASE.md §9). Kaynak veritabanına YAZMAZ:
+# yedekten geri yükleme provası. Kaynak veritabanına YAZMAZ:
 # pg_dump -Fc → geçici veritabanına pg_restore → tablo satır sayıları karşılaştırılır → geçici DB silinir.
 # Kullanım: bash scripts/restore-rehearsal.sh [konteyner] [db] [kullanıcı]
 set -euo pipefail

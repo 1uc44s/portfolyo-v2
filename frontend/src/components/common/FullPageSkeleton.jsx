@@ -1,4 +1,4 @@
-// Lazy chunk yüklenirken tam sayfa iskelet (PRD §6.3 — boş/beyaz ekran yok).
+// Lazy chunk yüklenirken tam sayfa iskelet (boş/beyaz ekran yok).
 export function FullPageSkeleton({ label = 'Yükleniyor' }) {
   return (
     <div

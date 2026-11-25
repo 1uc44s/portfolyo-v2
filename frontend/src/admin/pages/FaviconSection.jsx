@@ -1,4 +1,4 @@
-// CMS.md §9, F5-02 — Site Ayarları › Genel: favicon yükleme (anında kaydedilir) ve varsayılana dönüş.
+// Site Ayarları › Genel: favicon yükleme (anında kaydedilir) ve varsayılana dönüş.
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { RotateCcw } from 'lucide-react';

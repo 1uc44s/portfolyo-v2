@@ -1,4 +1,4 @@
-// FR-PLY-08 — işletim sistemi medya kontrolleri (kilit ekranı, klavye medya tuşları).
+// işletim sistemi medya kontrolleri (kilit ekranı, klavye medya tuşları).
 // Desteklenmeyen tarayıcıda hiçbir şey yapmaz.
 import { useEffect } from 'react';
 import { SEEK_STEP, usePlayer } from './playerStore.js';

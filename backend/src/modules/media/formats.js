@@ -1,4 +1,4 @@
-// SRS FR-MED-04/05/07/08 — yeniden kodlamadan metadata temizliği ve boyut okuma (saf fonksiyonlar).
+// yeniden kodlamadan metadata temizliği ve boyut okuma (saf fonksiyonlar).
 // Her fonksiyon Buffer alır/döndürür; biçim bozuksa MalformedMediaError fırlatır.
 
 export class MalformedMediaError extends Error {

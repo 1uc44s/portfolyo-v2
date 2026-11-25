@@ -1,4 +1,4 @@
-// FR-CKE-04/06 — izin varsa tracker'ı yükler ve olay gönderir; yoksa hiçbir şey yapmaz.
+// izin varsa tracker'ı yükler ve olay gönderir; yoksa hiçbir şey yapmaz.
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useSite } from '@/features/site/useSite.js';

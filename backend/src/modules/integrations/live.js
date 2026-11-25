@@ -1,4 +1,4 @@
-// FR-INT-09 (2026-11-16) — canlı durum akışı (Server-Sent Events): snapshot değişince açık sayfalara
+// (2026-11-16) — canlı durum akışı (Server-Sent Events): snapshot değişince açık sayfalara
 // anında gönderilir; sayfa yenilemeden "Oynuyor / Dinliyor / Ses kanalında" güncellenir.
 // Tek yönlü (sunucu → tarayıcı) olduğu için WebSocket yerine SSE: aynı origin, CSP `connect-src 'self'`,
 // tarayıcı kendisi yeniden bağlanır. Ziyaretçi isteği dış API çağrısı tetiklemez (yalnızca snapshot).

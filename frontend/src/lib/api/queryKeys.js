@@ -1,4 +1,4 @@
-// RULES.md §3.10 — query anahtarları tek yerde.
+// query anahtarları tek yerde.
 export const queryKeys = {
   health: ['health'],
   site: ['public', 'site'],

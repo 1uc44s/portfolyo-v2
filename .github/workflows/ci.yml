@@ -23,10 +23,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: TypeScript dosyası yok (RULES.md §1)
+      - name: TypeScript dosyası yok
         run: npm run check:no-ts
       - run: npm run lint
       - run: npm run format:check
       - run: npm run build
-      - name: Bağımlılık güvenlik taraması (SRS SEC-16)
+      - name: Bağımlılık güvenlik taraması
         run: npm audit --audit-level=high --omit=dev

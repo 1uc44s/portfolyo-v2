@@ -1,4 +1,4 @@
-// FR-PUB-02 — tüm public sayfalar: sahne + navbar + içerik + footer. Welcome burada (public'e özel);
+// tüm public sayfalar: sahne + navbar + içerik + footer. Welcome burada (public'e özel);
 // <audio> ise router dışında (AppRoutes) olduğu için sayfa ve admin geçişlerinde kesilmez.
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
@@ -14,7 +14,7 @@ import { CookieBanner } from '@/features/consent/CookieBanner.jsx';
 import { PageTransition } from '@/features/motion/Reveal.jsx';
 import { usePageViews } from '@/features/consent/useAnalytics.js';
 
-/** FR-CKE-06 — izin varsa her public route değişiminde PAGE_VIEW. */
+/** izin varsa her public route değişiminde PAGE_VIEW. */
 function PageViews() {
   usePageViews();
   return null;
@@ -35,7 +35,7 @@ function ScrollManager() {
 
 export function PublicLayout() {
   const { pathname } = useLocation();
-  // FR-WEL-07: karşılama ekranı açıkken (bağlanma + tıklama beklemesi) yalnızca sahne (arka plan) görünür.
+  // karşılama ekranı açıkken (bağlanma + tıklama beklemesi) yalnızca sahne (arka plan) görünür.
   const veiled = useWelcome((s) => !s.entered);
   return (
     <div className="relative isolate flex min-h-dvh flex-col">

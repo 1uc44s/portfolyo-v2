@@ -1,4 +1,4 @@
-// SRS SEC-06 — API yanıtları için sıkı başlıklar. Public sayfa CSP'si (SRS §9.1) statik
+// API yanıtları için sıkı başlıklar. Public sayfa CSP'si statik
 // sunum katmanında (Caddy) uygulanır; API JSON döndürdüğü için default-src 'none' yeterli.
 import helmet from 'helmet';
 import { isProd } from '../config/env.js';

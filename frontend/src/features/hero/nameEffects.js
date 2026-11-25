@@ -1,4 +1,4 @@
-// RULES §8.6 "İsim efektleri" (2026-11-16): NEON, GRADIENT (hareketsiz), GRADIENT_ANIMATED (soldan sağa
+// "İsim efektleri" (2026-11-16): NEON, GRADIENT (hareketsiz), GRADIENT_ANIMATED (soldan sağa
 // akan), OVERLAY (günün isim GIF'i, Hero.jsx). İki gradyan aynı iki rengi kullanır (sol → sağ).
 // Public Hero ve admin önizlemesi aynı stili kullanır.
 export const DEFAULT_GRADIENT = Object.freeze({ from: '#a78bfa', to: '#f472b6' });

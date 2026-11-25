@@ -1,4 +1,4 @@
-// ROUTES.md §4.6, CMS.md §8 — medya içerik türleri (F7): dosya yuvaları, anahtarlar ve form şemaları.
+// Medya içerik türleri: dosya yuvaları, anahtarlar ve form şemaları.
 // İstemci (formlar) ve sunucu (multipart + JSON PATCH) aynı şemayı kullanır.
 import { z } from 'zod';
 
@@ -37,7 +37,7 @@ export const MEDIA_CONTENT = Object.freeze({
     sortable: false,
     replaceAll: true,
   },
-  // 2026-11-16 — Hero isim GIF katmanı (SRS FR-HERO-05).
+  // 2026-11-16 — Hero isim GIF katmanı.
   'name-overlays': {
     slots: [{ field: 'file', kind: 'NAME_OVERLAY' }],
     flags: ['isActive', 'rotationEnabled'],

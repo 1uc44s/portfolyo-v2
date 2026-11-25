@@ -1,4 +1,4 @@
-// SEC-17, DATABASE.md §1 kural 7 — AES-256-GCM; biçim: v1:<iv>:<tag>:<ciphertext> (base64url).
+// AES-256-GCM; biçim: v1:<iv>:<tag>:<ciphertext> (base64url).
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 import { env } from '../config/env.js';
 

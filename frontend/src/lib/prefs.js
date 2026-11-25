@@ -1,4 +1,4 @@
-// SRS FR-THM-01..03 — görünüm tercihleri. index.html'deki init script ilk değeri zaten
+// görünüm tercihleri. index.html'deki init script ilk değeri zaten
 // <html data-*> üzerine yazdı; store oradan başlar, değişiklikleri hem DOM'a hem localStorage'a yazar.
 import { create } from 'zustand';
 
@@ -51,7 +51,7 @@ export const usePrefs = create((set, get) => ({
   toggleEffects: () => get().setEffects(get().effects === 'full' ? 'low' : 'full'),
 }));
 
-// Kullanıcı tema seçmediyse sistem tercihini canlı takip et (FR-THM-03).
+// Kullanıcı tema seçmediyse sistem tercihini canlı takip et.
 if (typeof window !== 'undefined' && window.matchMedia) {
   window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (event) => {
     if (read('theme')) return;

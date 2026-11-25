@@ -1,6 +1,6 @@
-// ROUTES.md §4.4 (settings:*) ve §4.5 (hero:*).
+// /api/admin/settings (settings:*) ve hero (hero:*).
 import { Router } from 'express';
-import { aboutSchema, heroSchema, siteSettingsSchema } from '@vasquez/shared';
+import { aboutSchema, heroSchema, siteSettingsSchema } from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';
@@ -27,7 +27,7 @@ export function settingsRoutes({ limiters }) {
     },
   );
 
-  // F5-02 / F6 — favicon: FAVICON medya hattı (ico/png, ≤ 512×512, ≤ 1 MB).
+  // Favicon: FAVICON medya hattı (ico/png, ≤ 512×512, ≤ 1 MB).
   router.put(
     '/favicon',
     requirePermission('settings:write'),
@@ -68,7 +68,7 @@ export function heroRoutes() {
     res.json({ data: await settings.getHero() });
   });
 
-  // F7 — sabit profil seçimi için aktif profil medyası (hero:read yeterli; media:read gerekmez).
+  // sabit profil seçimi için aktif profil medyası (hero:read yeterli; media:read gerekmez).
   router.get('/profile-options', requirePermission('hero:read'), async (_req, res) => {
     res.json({ data: await settings.listProfileOptions() });
   });

@@ -1,8 +1,8 @@
-// ROUTES.md §2.2, ADMIN.md §3.6 — Medya Yönetimi: /admin/media/:tab (varsayılan backgrounds).
+// Medya Yönetimi: /admin/media/:tab (varsayılan backgrounds).
 // Sekmeler bağlantıdır (adres çubuğu ve geri tuşu çalışır); aktif sekme aria-current ile işaretlenir.
 import { useEffect } from 'react';
 import { NavLink, Navigate, useParams } from 'react-router';
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 import { useAuthStore } from '@/lib/auth/authStore.js';
 import { cn } from '@/lib/utils';
 import { useBlobUrlCleanup } from '../../lib/useAuthedMedia.js';

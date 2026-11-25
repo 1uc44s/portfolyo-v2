@@ -1,4 +1,4 @@
-// F16 — SRS FR-CKE-01..06, FR-DSH-01, ROUTES.md §3 ve §4.3/§4.12: çerez izni, analitik olayları,
+// Çerez izni, analitik olayları,
 // Dashboard sorgusu, yasal metin düzenleme.
 import { z } from 'zod';
 

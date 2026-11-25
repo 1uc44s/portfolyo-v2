@@ -118,7 +118,7 @@ model AdminUser {
   displayName          String?   @map("display_name") @db.VarChar(80)
   passwordHash         String    @map("password_hash") // argon2id PHC string
   role                 AdminRole @default(SUPER_ADMIN)
-  permissions          String[]  @default([]) // EDITOR modül kapsamları (ADMIN.md §4)
+  permissions          String[]  @default([]) // EDITOR modül kapsamları
   isActive             Boolean   @default(true) @map("is_active")
   mustChangePassword   Boolean   @default(false) @map("must_change_password")
   passwordChangedAt    DateTime? @map("password_changed_at") @db.Timestamptz(3)
@@ -215,7 +215,7 @@ model MailSettings {
 // ───────────────────────────── Site içeriği (tekil) ─────────────────────────────
 model SiteSettings {
   id             Int      @id @default(1)
-  navbarTitle    String   @default("1uc44s GitHub") @map("navbar_title") @db.VarChar(40)
+  navbarTitle    String   @default("my-portfolyo") @map("navbar_title") @db.VarChar(40)
   faviconAssetId String?  @map("favicon_asset_id") @db.Uuid
   footerTechs    Json     @default("[]") @map("footer_techs") // [{ "label": "React", "icon": "SiReact" }]
   updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
@@ -227,7 +227,7 @@ model SiteSettings {
 
 model HeroSettings {
   id                  Int          @id @default(1)
-  displayName         String       @default("Lucas Vasquez") @map("display_name") @db.VarChar(60)
+  displayName         String       @default("My Portfolyo") @map("display_name") @db.VarChar(60)
   tagline             String?      @db.VarChar(160)
   location            String?      @default("Samsung Galaxy") @db.VarChar(80)
   nameEffects         NameEffect[] @default([]) @map("name_effects")
@@ -364,7 +364,7 @@ model Music {
   title           String   @db.VarChar(120)
   artist          String?  @db.VarChar(120)
   audioAssetId    String   @unique @map("audio_asset_id") @db.Uuid
-  coverAssetId    String   @unique @map("cover_asset_id") @db.Uuid // kapak zorunlu (Şartname §12.2)
+  coverAssetId    String   @unique @map("cover_asset_id") @db.Uuid // kapak zorunlu
   durationMs      Int?     @map("duration_ms")
   isActive        Boolean  @default(true) @map("is_active")
   rotationEnabled Boolean  @default(true) @map("rotation_enabled")
@@ -517,7 +517,7 @@ model ContentOverride {
 model Category {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(60)
-  nameKey   String   @unique @map("name_key") @db.VarChar(60) // normalizeKey(name) — §4.1
+  nameKey   String   @unique @map("name_key") @db.VarChar(60) // normalizeKey(name)
   isActive  Boolean  @default(true) @map("is_active")
   sortOrder Int      @default(0) @map("sort_order")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
@@ -615,7 +615,7 @@ model IntegrationSetting {
   @@map("integration_settings")
 }
 
-// ───────────────────────────── Tech Stack (F21) ─────────────────────────────
+// ───────────────────────────── Tech Stack ──────────────────────────────────
 // Tech Stack bölümleri ("My Tech Stack", "My Security Skill"…): her biri kendi başlığı, yayın
 // bayrağı ve öğeleriyle ana sayfada ayrı bir halka. Sıra = sayfadaki sıra.
 model TechStackGroup {

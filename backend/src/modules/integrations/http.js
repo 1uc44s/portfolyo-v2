@@ -1,4 +1,4 @@
-// FR-INT-03 — dış çağrılar: 5 sn zaman aşımı, 429'da Retry-After. Testler fetch'i değiştirebilir.
+// dış çağrılar: 5 sn zaman aşımı, 429'da Retry-After. Testler fetch'i değiştirebilir.
 // Hata mesajları kullanıcıya (admin) gösterilir: secret/token/URL sorgusu içermez.
 
 export const TIMEOUT_MS = 5000;
@@ -79,7 +79,7 @@ export async function requestJson(url, options) {
 export const publicErrorMessage = (err) =>
   (err instanceof IntegrationError ? err.message : 'Beklenmeyen bir hata oluştu.').slice(0, 500);
 
-/** RULES.md §5.1.2 — dış servisten gelen URL yalnızca https ise snapshot'a girer (aksi null). */
+/** dış servisten gelen URL yalnızca https ise snapshot'a girer (aksi null). */
 export function httpsUrl(value) {
   if (typeof value !== 'string' || value.length > 2048) return null;
   try {

@@ -1,4 +1,4 @@
-// FR-AUTH-02/03 — access token (15 dk) ve MFA ara token'ı (5 dk). HS256, jose.
+// access token (15 dk) ve MFA ara token'ı (5 dk). HS256, jose.
 import { randomUUID } from 'node:crypto';
 import { SignJWT, errors as joseErrors, jwtVerify } from 'jose';
 import { env } from '../../config/env.js';

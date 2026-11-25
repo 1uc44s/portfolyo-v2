@@ -1,4 +1,4 @@
-// FR-HERO-01..04, RULES §8.6 — profil (144 / mobil 112 px, 3 px halka), isim, slogan, konum.
+// profil (144 / mobil 112 px, 3 px halka), isim, slogan, konum.
 // Profil yoksa baş harf avatarı. Efekt katmanları aria-hidden; isim tek başına okunur.
 // Public ana sayfa ve admin canlı önizlemesi aynı bileşeni kullanır (`as`, `forceLowEffects`).
 import { MapPin } from 'lucide-react';
@@ -48,11 +48,11 @@ const PRESENCE = {
   offline: ['bg-status-offline', 'Çevrimdışı'],
 };
 
-/** `presence`: Discord durumu (FR-INT-08); yoksa nokta gösterilmez. */
+/** `presence`: Discord durumu; yoksa nokta gösterilmez. */
 export function Hero({ hero, as: Heading = 'h1', forceLowEffects = false, className, presence }) {
   const lowEffects = usePrefs((s) => s.effects === 'low') || forceLowEffects;
   const effects = hero?.nameEffects ?? [];
-  const name = hero?.displayName || 'Lucas Vasquez';
+  const name = hero?.displayName || 'My Portfolyo';
 
   return (
     <div className={cn('flex flex-col items-center text-center', className)}>
@@ -80,7 +80,7 @@ export function Hero({ hero, as: Heading = 'h1', forceLowEffects = false, classN
         >
           {name}
         </Heading>
-        {/* FR-HERO-05 — günün isim GIF'i ismin üstünde. Sitenin efekt düğmesine bağlı: açıkken (işletim
+        {/* günün isim GIF'i ismin üstünde. Sitenin efekt düğmesine bağlı: açıkken (işletim
             sistemi "hareket azalt" olsa da) görünür, kapalıyken gizlenir. */}
         {!lowEffects && effects.includes('OVERLAY') && hero?.overlayUrl && (
           <img

@@ -1,5 +1,5 @@
-// Ana sayfa (Şartname §4 sırası): Hero → Durumlar → Tech Stack (yalnızca yayındaysa) → Projeler → Hakkımda →
-// Linkler → İletişim. İçeriği olmayan bölüm DOM'a eklenmez (FR-PUB-03); İletişim her zaman var.
+// Ana sayfa sırası: Hero → Durumlar → Tech Stack (yalnızca yayındaysa) → Projeler → Hakkımda →
+// Linkler → İletişim. İçeriği olmayan bölüm DOM'a eklenmez; İletişim her zaman var.
 // Oynatıcı PublicLayout'ta (tüm public sayfalarda) yüzen şerittir.
 import { lazy, Suspense } from 'react';
 import { m } from 'motion/react';
@@ -21,7 +21,7 @@ const ContactSection = lazy(() => import('@/features/contact/ContactSection.jsx'
 
 export function HomePage() {
   const { data, isPending, isError, refetch } = useSite();
-  // FR-TAB-01 — sekme başlığı navbar başlığından harf harf + rastgele emoji.
+  // sekme başlığı navbar başlığından harf harf + rastgele emoji.
   useAnimatedTitle(data?.navbarTitle);
 
   return (
@@ -88,7 +88,7 @@ export function HomePage() {
           </Reveal>
         </ErrorBoundary>
       )}
-      {/* Her zaman mount: site yüklenirken de yer ayrılır, footer kaymaz (CLS — F20 Lighthouse). */}
+      {/* Her zaman mount: site yüklenirken de yer ayrılır, footer kaymaz (CLS). */}
       <ErrorBoundary>
         <Suspense fallback={<div aria-hidden="true" className="min-h-[900px] sm:min-h-[640px]" />}>
           <Reveal>

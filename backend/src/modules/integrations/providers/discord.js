@@ -1,4 +1,4 @@
-// FR-INT-D — Discord: bot Gateway'e bağlanır (Guilds, GuildMembers, GuildPresences, GuildVoiceStates).
+// Discord: bot Gateway'e bağlanır (Guilds, GuildMembers, GuildPresences, GuildVoiceStates).
 // Hedef kullanıcı botla ortak bir sunucuda olmalı. Presence/ses değişiminde 2 sn debounce, 5 dk'da bir
 // tam yenileme. Bot API'sinin verdiği her public alan alınır (banner, vurgu rengi, rozetler, dekorasyon,
 // sunucu etiketi, isim plakası, tüm etkinlikler + ses kanalı). Hitap şekli, profil efekti ve isim stili

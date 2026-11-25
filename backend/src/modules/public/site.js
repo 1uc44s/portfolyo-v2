@@ -1,4 +1,4 @@
-// ROUTES.md §3.1, NFR-PERF-04 — public sayfa iskeleti için tek aggregate yanıt.
+// public sayfa iskeleti için tek aggregate yanıt.
 // 30 sn bellek önbelleği; ilgili admin yazımında invalidateSiteCache() çağrılır.
 // Henüz yapılmamış fazların alanları null/false döner.
 import { prisma } from '../../lib/prisma.js';
@@ -23,7 +23,7 @@ const visual = (asset) => ({
   type: asset.mediaType,
   url: mediaUrl(asset),
   posterUrl: asset.posterKey ? mediaUrl(asset, 'poster') : null,
-  // FR-MED-06b: ekrana göre oynatma kopyaları (küçükten büyüğe); ana kopya en büyük ekranlar için.
+  // Ekrana göre oynatma kopyaları (küçükten büyüğe); ana kopya en büyük ekranlar için.
   ...(asset.metadata?.variants && {
     sources: [
       asset.metadata.variants.v720 && { url: mediaUrl(asset, 'v720'), maxWidth: 900 },
@@ -42,7 +42,7 @@ async function fixedProfile(hero) {
   return media ? visual(media.asset) : null;
 }
 
-/** ROUTES.md §3.1 `today` — FR-ROT-07 çözümlemesi (override → otomatik → null). */
+/** `today` çözümlemesi (override → otomatik → null). */
 async function buildToday() {
   const [background, music, pfp, cursor, nameOverlay] = await Promise.all(
     ['BACKGROUND', 'MUSIC', 'PFP', 'CURSOR', 'NAME_OVERLAY'].map((c) => resolveToday(c)),
@@ -96,13 +96,13 @@ async function buildSite() {
     fixedProfile(hero),
   ]);
   const { pfp, ...today } = await buildToday();
-  // FR-HERO-02: ROTATION modunda günün profil fotoğrafı; FIXED modunda sabit görsel.
+  // ROTATION modunda günün profil fotoğrafı; FIXED modunda sabit görsel.
   const heroProfile =
     hero?.profileMode === 'FIXED'
       ? profile
       : pfp && { type: pfp.type, url: pfp.url, posterUrl: pfp.posterUrl };
   const enabled = (provider) => integrations.some((i) => i.provider === provider && i.isEnabled);
-  const navbarTitle = site?.navbarTitle ?? 'vasquez';
+  const navbarTitle = site?.navbarTitle ?? 'my-portfolyo';
   const displayName = hero?.displayName || navbarTitle;
   const aboutBody = about?.bodyMarkdown?.trim() ?? '';
 

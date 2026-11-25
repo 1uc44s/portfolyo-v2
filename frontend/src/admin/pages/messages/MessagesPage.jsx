@@ -1,4 +1,4 @@
-// ADMIN.md §3.11, FR-MSG-01..07 — iki panelli gelen kutusu. Seçili mesaj URL'de (`?id=`), görünüm
+// iki panelli gelen kutusu. Seçili mesaj URL'de (`?id=`), görünüm
 // `?view=`. Klavye: j/k gezin, e yanıtlandı ↔ bekliyor, s spam (yazma alanı odaktayken devre dışı).
 // Mobilde tek sütun: liste ya da detay (geri butonu).
 import { useEffect, useMemo, useState } from 'react';
@@ -16,7 +16,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { CONTACT_VIEWS, hasPermission } from '@vasquez/shared';
+import { CONTACT_VIEWS, hasPermission } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import {
@@ -375,7 +375,7 @@ export function MessagesPage() {
   });
   const onUpdate = (message, body) => update.mutate({ id: message.id, body });
 
-  // Klavye kısayolları (FR-MSG-07).
+  // Klavye kısayolları.
   useEffect(() => {
     const onKey = (event) => {
       if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;

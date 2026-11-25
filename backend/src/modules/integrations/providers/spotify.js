@@ -1,4 +1,4 @@
-// FR-INT-S — Spotify: OAuth Authorization Code (sunucu tarafı), refresh token şifreli DB'de,
+// Spotify: OAuth Authorization Code (sunucu tarafı), refresh token şifreli DB'de,
 // access token bellekte. Şu an çalan her çağrıda; top 3 parça 6 saatte; profil 24 saatte bir.
 import { env } from '../../../config/env.js';
 import { httpsUrl, IntegrationError, requestJson } from '../http.js';
@@ -146,7 +146,7 @@ export const spotify = {
   intervalMs: 60_000,
 
   /**
-   * FR-INT-09 (2026-11-16): Spotify'ın anlık bildirimi yok; çalarken 10 sn'de bir sorulur, parça bitmek
+   * (2026-11-16): Spotify'ın anlık bildirimi yok; çalarken 10 sn'de bir sorulur, parça bitmek
    * üzereyse bitişin hemen ardından. Çalmıyorsa 60 sn. SSE akışı yeni snapshot'ı anında iletir.
    */
   nextIntervalMs(snapshot) {

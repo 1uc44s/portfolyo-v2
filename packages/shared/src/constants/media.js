@@ -1,9 +1,9 @@
-// SRS FR-MED-03 — medya türü → uzantı / gerçek MIME / boyut / süre tablosu (tek kaynak).
+// medya türü → uzantı / gerçek MIME / boyut / süre tablosu (tek kaynak).
 // Backend doğrulama zinciri ve frontend UploadField (accept + istemci ön kontrolü) bunu kullanır.
 
 const MB = 1024 * 1024;
 
-/** Uzantı → `file-type` ile tespit edilen gerçek MIME'ler (FR-MED-02 adım 4). */
+/** Uzantı → `file-type` ile tespit edilen gerçek MIME'ler (adım 4). */
 export const EXTENSION_MIME = Object.freeze({
   jpg: ['image/jpeg'],
   jpeg: ['image/jpeg'],
@@ -40,7 +40,7 @@ export const MEDIA_RULES = Object.freeze({
   // SVG hiçbir türde kabul edilmez (XSS) — LINK_IMAGE için açıkça belirtildi.
   LINK_IMAGE: [{ group: 'image', extensions: [...IMAGE, 'webp', 'gif'], maxBytes: 5 * MB }],
   FAVICON: [{ group: 'icon', extensions: ['ico', 'png'], maxBytes: 1 * MB, maxDimension: 512 }],
-  // F21 — Tech Stack daire görselleri ve amblem (şeffaf PNG önerilir; SVG yok).
+  // Tech Stack daire görselleri ve amblem (şeffaf PNG önerilir; SVG yok).
   TECH_STACK_IMAGE: [{ group: 'image', extensions: [...IMAGE, 'webp', 'gif'], maxBytes: 5 * MB }],
   // 2026-11-16 — isim GIF katmanı (yalnızca GIF), yağan öğe görseli.
   NAME_OVERLAY: [{ group: 'image', extensions: ['gif'], maxBytes: 10 * MB }],
@@ -68,7 +68,7 @@ export function allowedExtensions(kind) {
   return [...new Set((MEDIA_RULES[kind] ?? []).flatMap((r) => r.extensions))];
 }
 
-/** Yükleme akışının kesileceği üst sınır: türün en büyük grubu (FR-MED-01). */
+/** Yükleme akışının kesileceği üst sınır: türün en büyük grubu. */
 export function maxUploadBytes(kind) {
   return Math.max(0, ...(MEDIA_RULES[kind] ?? []).map((r) => r.maxBytes));
 }

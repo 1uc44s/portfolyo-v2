@@ -1,4 +1,4 @@
-// US-27 — SMTP ayarları (yalnızca Süper Admin düzenler); uygulama anahtarı asla geri gösterilmez.
+// SMTP ayarları (yalnızca Süper Admin düzenler); uygulama anahtarı asla geri gösterilmez.
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { MailWarning, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { emailField } from '@vasquez/shared';
+import { emailField } from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { PasswordInput } from '@/components/common/PasswordInput.jsx';
@@ -184,7 +184,7 @@ export function MailTab() {
             />
           </FormField>
           <FormField label="Gönderen adı" error={errors.fromName?.message}>
-            <Input placeholder="vasquez" {...register('fromName')} />
+            <Input placeholder="my-portfolyo" {...register('fromName')} />
           </FormField>
           <FormField label="Gönderen e-posta" error={errors.fromEmail?.message}>
             <Input type="email" placeholder="noreply@alanadi.com" {...register('fromEmail')} />

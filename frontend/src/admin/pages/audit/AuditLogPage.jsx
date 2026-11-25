@@ -1,6 +1,6 @@
-// ADMIN.md §3.2 (12), SRS §6 FR-AUD-05 — Güvenlik ve İşlem Logları. Salt okunur liste; tarih aralığı,
+// Güvenlik ve İşlem Logları. Salt okunur liste; tarih aralığı,
 // yönetici, eylem ve varlık türü filtreleri URL'de (`?from=&to=&adminId=&action=&entityType=&page=`).
-// CSV dışa aktarma yalnızca SUPER_ADMIN (ROUTES.md §4.13).
+// CSV dışa aktarma yalnızca SUPER_ADMIN.
 import { Fragment, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
@@ -13,7 +13,7 @@ import {
   ScrollText,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { ROLES } from '@vasquez/shared';
+import { ROLES } from '@my-portfolyo/shared';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { Button } from '@/components/ui/button.jsx';

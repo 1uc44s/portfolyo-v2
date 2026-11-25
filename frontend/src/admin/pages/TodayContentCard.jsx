@@ -1,4 +1,4 @@
-// CMS.md §9 madde 2, US-23 — "Bugünün içerikleri": dört kategori, kaynak rozeti, döngü bilgisi,
+// "Bugünün içerikleri": dört kategori, kaynak rozeti, döngü bilgisi,
 // elle değiştir (gece yarısına kadar), otomatiğe dön, yeniden seç.
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

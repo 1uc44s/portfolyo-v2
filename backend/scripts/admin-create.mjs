@@ -1,4 +1,4 @@
-// FR-SETUP — ilk SÜPER ADMİN. Kullanım:
+// ilk SÜPER ADMİN. Kullanım:
 //   npm run admin:create -w backend                     (etkileşimli)
 //   INITIAL_ADMIN_EMAIL=… INITIAL_ADMIN_PASSWORD=… npm run admin:create -w backend
 //   npm run admin:create -w backend -- --force          (ek süper admin)

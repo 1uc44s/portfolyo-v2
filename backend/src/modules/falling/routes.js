@@ -1,7 +1,11 @@
-// ROUTES.md §4.7b — /api/admin/falling-items (`hero:*`). Görseller FALLING_IMAGE hattından.
+// /api/admin/falling-items (`hero:*`). Görseller FALLING_IMAGE hattından.
 import { Router } from 'express';
 import { z } from 'zod';
-import { fallingItemCreateSchema, fallingItemUpdateSchema, reorderSchema } from '@vasquez/shared';
+import {
+  fallingItemCreateSchema,
+  fallingItemUpdateSchema,
+  reorderSchema,
+} from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';

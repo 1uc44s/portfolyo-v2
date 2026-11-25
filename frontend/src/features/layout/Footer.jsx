@@ -1,5 +1,5 @@
-// Şartname §3.4 — footer: teknolojiler + "© [güncel yıl] [Hero ismi]". Yıl otomatik.
-// FR-CKE-05: "Çerez tercihleri" her zaman burada. Teknoloji ikonları F21 (Tech Stack) ile.
+// footer: teknolojiler + "© [güncel yıl] [Hero ismi]". Yıl otomatik.
+// "Çerez tercihleri" her zaman burada. Teknoloji ikonları (Tech Stack) ile.
 import { Link } from 'react-router';
 import { useConsent } from '@/features/consent/consentStore.js';
 import { useSite } from '@/features/site/useSite.js';
@@ -9,7 +9,7 @@ import { TechIcon } from './TechIcon.jsx';
 export function Footer() {
   const { data } = useSite();
   const techs = data?.footer?.techs ?? [];
-  const owner = data?.footer?.ownerName ?? data?.navbarTitle ?? '1uc44s GitHub';
+  const owner = data?.footer?.ownerName ?? data?.navbarTitle ?? 'my-portfolyo';
   const openPreferences = useConsent((s) => s.openPreferences);
   return (
     <footer className="mx-auto w-full max-w-[1200px] px-4 pt-16 pb-10 sm:px-6">

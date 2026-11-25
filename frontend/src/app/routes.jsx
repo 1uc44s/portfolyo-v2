@@ -1,4 +1,4 @@
-// ROUTES.md §2 — public route'lar; admin ayrı (lazy) chunk, public bundle'a girmez (NFR-PERF-01).
+// public route'lar; admin ayrı (lazy) chunk, public bundle'a girmez.
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router';
 import { HomePage } from '@/pages/HomePage.jsx';

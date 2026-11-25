@@ -1,4 +1,4 @@
-// ROUTES.md §4.2 — /api/admin/account (L3: kendi hesabı; SMTP yazma L5).
+// /api/admin/account (L3: kendi hesabı; SMTP yazma L5).
 import { Router } from 'express';
 import { z } from 'zod';
 import {
@@ -11,7 +11,7 @@ import {
   twoFactorDisableSchema,
   twoFactorEnableSchema,
   twoFactorSetupSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { requireSuper } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import { requestContext } from '../audit/service.js';

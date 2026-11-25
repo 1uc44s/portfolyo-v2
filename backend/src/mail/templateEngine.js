@@ -1,4 +1,4 @@
-// CMS.md §5.2 — mantıksız şablon motoru: yalnızca {{degisken}}; kanal bazlı kaçış.
+// mantıksız şablon motoru: yalnızca {{degisken}}; kanal bazlı kaçış.
 // Şablon kod çalıştıramaz; admin HTML yazamaz (şablon metni de escape edilir).
 
 export const TEMPLATE_VARIABLES = Object.freeze({
@@ -43,7 +43,7 @@ export const escapeHtml = (value) =>
 export const findVariables = (text) => [...String(text ?? '').matchAll(VARIABLE)].map((m) => m[1]);
 
 /**
- * Kayıt anında doğrulama (CMS.md §5.2): bilinmeyen değişken yok, zorunlular mevcut.
+ * Kayıt anında doğrulama: bilinmeyen değişken yok, zorunlular mevcut.
  * @returns {{ path: string, message: string }[]}
  */
 export function validateTemplate(key, { subject, body }) {

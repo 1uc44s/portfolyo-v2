@@ -1,7 +1,7 @@
-// ROUTES.md §4.6 — medya kütüphanesi uçları (`media:*`). İçerik türü CRUD'ları F7'de eklenir.
+// medya kütüphanesi uçları (`media:*`). İçerik türü CRUD'ları modules/content'te.
 import { Router } from 'express';
 import { z } from 'zod';
-import { MEDIA_KINDS } from '@vasquez/shared';
+import { MEDIA_KINDS } from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import { NotFoundError } from '../../lib/httpError.js';
@@ -49,7 +49,7 @@ export function mediaRoutes() {
     },
   );
 
-  // F6-09 — yetkili önizleme: pasif/yetim/PENDING olmayan her asset (READY dışı 404).
+  // yetkili önizleme: pasif/yetim/PENDING olmayan her asset (READY dışı 404).
   router.get('/assets/:id/file/:variant', requirePermission('media:read'), async (req, res) => {
     const params = { assetId: req.params.id, variant: req.params.variant };
     if (!isValidAssetParams(params)) throw new NotFoundError();

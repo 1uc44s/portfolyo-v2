@@ -1,4 +1,4 @@
-// FR-PUB-04B — yayındaki Tech Stack bölümleri (lazy chunk: halka bileşeni, serif font ve Popover ana
+// yayındaki Tech Stack bölümleri (lazy chunk: halka bileşeni, serif font ve Popover ana
 // pakete girmez). Her bölüm ("My Tech Stack", "My Security Skill"…) admin'deki sırayla ayrı bir halka.
 import { useQuery } from '@tanstack/react-query';
 import { fetchTechStack } from '@/lib/api/publicApi.js';

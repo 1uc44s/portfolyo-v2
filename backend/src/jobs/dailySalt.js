@@ -1,4 +1,4 @@
-// SRS FR-DSH-02 — ziyaretçi hash'i için günlük tuz. Her İstanbul gününde yenisi üretilir,
+// ziyaretçi hash'i için günlük tuz. Her İstanbul gününde yenisi üretilir,
 // eskisi üzerine yazılır (günler arası izleme yapılamaz). SystemState "daily_salt".
 import { randomBytes } from 'node:crypto';
 import { prisma } from '../lib/prisma.js';

@@ -1,4 +1,4 @@
-// SRS FR-MED-06, ARCHITECTURE.md §8 — DB tabanlı video kuyruğu. Eşzamanlılık 1; iş
+// DB tabanlı video kuyruğu. Eşzamanlılık 1; iş
 // `FOR UPDATE SKIP LOCKED` ile alınır; açılışta PROCESSING kalmış işler PENDING'e döner.
 import { rm } from 'node:fs/promises';
 import { logger } from '../lib/logger.js';
@@ -76,7 +76,7 @@ export async function processVideoAsset(id) {
         metadata: {
           ...restMeta,
           ...result.metadata,
-          // FR-MED-06b: oynatma kopyaları (v1080 / v720) — varsa.
+          // Oynatma kopyaları (v1080 / v720) — varsa.
           ...(keys.v1080 || keys.v720 ? { variants: pickVariants(keys) } : {}),
         },
         processingStatus: 'READY',

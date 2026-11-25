@@ -1,4 +1,4 @@
-// US-05, FR-PRJ-01 — ana sayfa Projeler bölümü: yayında proje yoksa render edilmez (site bayrağı).
+// ana sayfa Projeler bölümü: yayında proje yoksa render edilmez (site bayrağı).
 // Kategori filtresi istemci tarafında (liste küçük); çip sırası admin kategori sırası.
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';

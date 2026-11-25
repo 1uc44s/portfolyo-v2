@@ -1,4 +1,4 @@
-// RULES.md §1 — depoda TypeScript dosyası bulunamaz.
+// depoda TypeScript dosyası bulunamaz.
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -22,9 +22,7 @@ async function walk(dir, found) {
 
 const found = await walk(ROOT, []);
 if (found.length > 0) {
-  console.error(
-    'TypeScript dosyası bulundu (RULES.md §1 yasak):\n' + found.map((f) => `  - ${f}`).join('\n'),
-  );
+  console.error('TypeScript dosyası bulundu (yasak):\n' + found.map((f) => `  - ${f}`).join('\n'));
   process.exit(1);
 }
 console.warn('OK: TypeScript dosyası yok.');

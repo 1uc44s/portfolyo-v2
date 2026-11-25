@@ -1,5 +1,5 @@
 // Uygulama genel sağlayıcıları: sorgu önbelleği ve hareket ayarı.
-// Tooltip ve Toaster yalnızca admin chunk'ında (AdminApp) — public bundle bütçesi (PRD §5).
+// Tooltip ve Toaster yalnızca admin chunk'ında (AdminApp) — public bundle bütçesi.
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LazyMotion, MotionConfig } from 'motion/react';
 import { usePrefs } from '@/lib/prefs.js';
@@ -11,7 +11,7 @@ export const queryClient = new QueryClient({
   },
 });
 
-// F19 — özellikler async: ~70 KB (ham) ana paketten çıkar; yüklenene kadar m.* öğeleri statik görünür.
+// özellikler async: ~70 KB (ham) ana paketten çıkar; yüklenene kadar m.* öğeleri statik görünür.
 const loadFeatures = () => import('./motionFeatures.js').then((mod) => mod.default);
 
 export function AppProviders({ children }) {

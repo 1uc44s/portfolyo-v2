@@ -1,4 +1,4 @@
-// SRS FR-MED-04..08 — türe özel işleme. Çıktılar TMP_DIR'e yazılır; kalıcı depoya taşıma service.js'te.
+// türe özel işleme. Çıktılar TMP_DIR'e yazılır; kalıcı depoya taşıma service.js'te.
 import { randomUUID } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -39,7 +39,7 @@ async function writeThumb(input, options = {}) {
   return { path: out, ext: 'webp' };
 }
 
-/** Background (duvar kağıdı olarak indirilebilir) indirme varyantı: metadata'sız, mümkünse yeniden kodlanmamış orijinal (FR-MED-04). */
+/** Background (duvar kağıdı olarak indirilebilir) indirme varyantı: metadata'sız, mümkünse yeniden kodlanmamış orijinal. */
 async function wallpaperDownload(input, mime, meta) {
   const raw = await readFile(input);
   let buffer;
@@ -167,7 +167,7 @@ export async function inspectVideo({ inputPath, rule }) {
 }
 
 /**
- * FR-MED-06b (2026-11-16) — arka plan videoları: ana kopya 4K'ya kadar yüksek kalite (indirme ve büyük
+ * Arka plan videoları: ana kopya 4K'ya kadar yüksek kalite (indirme ve büyük
  * ekranlar), ayrıca 1080p ve 720p oynatma kopyaları (kaynaktan küçükse). Hepsi H.264 (her tarayıcı),
  * ≤ 30 fps, bit hızı tavanlı. Site ekrana uygun olanı seçer.
  */
@@ -179,7 +179,7 @@ export const BACKGROUND_VIDEO = Object.freeze({
   },
 });
 
-/** Kuyruk işi (FR-MED-06): H.264 + faststart, poster (1. sn) ve thumbnail WebP. */
+/** Kuyruk işi: H.264 + faststart, poster (1. sn) ve thumbnail WebP. */
 export async function processVideo({ kind, sourcePath, durationSec }) {
   await assertFfmpegAvailable();
   const main = tmpFile('mp4');

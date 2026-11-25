@@ -6,7 +6,7 @@ import { cspHashPlugin } from './scripts/cspHashPlugin.js';
 
 const API_TARGET = process.env.VITE_API_PROXY_TARGET ?? 'http://localhost:4000';
 
-// ARCHITECTURE.md §1 — dev ortamında prod'daki aynı-origin düzenini taklit eder.
+// dev ortamında prod'daki aynı-origin düzenini taklit eder.
 export default defineConfig({
   plugins: [react(), tailwindcss(), cspHashPlugin()],
   resolve: {

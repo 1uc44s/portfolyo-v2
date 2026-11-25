@@ -1,4 +1,4 @@
-// ADMIN.md §2.3 — YALNIZCA GELİŞTİRME: yönetici oluştur / şifresini ayarla (uzunluk ≥ 8).
+// YALNIZCA GELİŞTİRME: yönetici oluştur / şifresini ayarla (uzunluk ≥ 8).
 // Kullanım:
 //   npm run admin:dev-set -w backend -- --default                 (varsayılan dev yöneticisi)
 //   npm run admin:dev-set -w backend -- --email you@example.com   (şifre gizli sorulur / stdin)

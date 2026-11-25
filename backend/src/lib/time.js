@@ -1,4 +1,4 @@
-// FR-ROT-09, RULES.md §3.9 — takvim günü hesapları yalnızca buradan (Europe/Istanbul).
+// takvim günü hesapları yalnızca buradan (Europe/Istanbul).
 // Sunucunun saat dilimine bağımlı değildir.
 export const TIME_ZONE = 'Europe/Istanbul';
 

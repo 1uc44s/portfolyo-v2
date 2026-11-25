@@ -1,4 +1,4 @@
-// NFR-A11Y-03 — etiket, açıklama ve hata mesajı erişilebilir biçimde alana bağlanır.
+// etiket, açıklama ve hata mesajı erişilebilir biçimde alana bağlanır.
 import { cloneElement, isValidElement, useId } from 'react';
 import { Label } from '@/components/ui/label.jsx';
 import { cn } from '@/lib/utils';

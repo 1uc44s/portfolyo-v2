@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §3 — middleware zinciri. listen() burada yok (test edilebilirlik).
+// middleware zinciri. listen() burada yok (test edilebilirlik).
 import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -60,7 +60,7 @@ export function createApp({ readinessCheck = async () => {}, rateLimitOverrides 
   // sayfa CSP'si Caddy'den gelir. FRONTEND_DIST yoksa (geliştirme) hiçbir şey yapmaz.
   app.use(seoHtml());
   app.use(securityHeaders);
-  // Medya sunumu compression'dan önce: Range yanıtları sıkıştırılmamalı (ROUTES.md §3).
+  // Medya sunumu compression'dan önce: Range yanıtları sıkıştırılmamalı.
   app.use('/media', mediaServeRoutes());
   if (env.CORS_ORIGINS.length > 0) {
     app.use(cors({ origin: env.CORS_ORIGINS, credentials: true }));
@@ -80,7 +80,7 @@ export function createApp({ readinessCheck = async () => {}, rateLimitOverrides 
   app.use('/api', healthRoutes({ readinessCheck }));
   app.use('/api/public', publicRoutes({ limiters }));
 
-  // ROUTES.md §1 — /api/admin: L1/L2 (auth) → L3 (requireAuth + passwordGate) → L4/L5 (modül içinde).
+  // /api/admin: L1/L2 (auth) → L3 (requireAuth + passwordGate) → L4/L5 (modül içinde).
   const admin = express.Router();
   admin.use(noStore);
   admin.use('/auth', authRoutes({ limiters }));

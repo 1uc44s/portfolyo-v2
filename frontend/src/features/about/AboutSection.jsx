@@ -1,4 +1,4 @@
-// FR-ABT-01/02 — Hakkımda: başlık + güvenli Markdown. Gövde boşsa (site.about = null) render edilmez.
+// Hakkımda: başlık + güvenli Markdown. Gövde boşsa (site.about = null) render edilmez.
 // Lazy chunk (react-markdown ~38 KB gzip ana public paketine girmez).
 import { SafeMarkdown } from '@/components/common/SafeMarkdown.jsx';
 

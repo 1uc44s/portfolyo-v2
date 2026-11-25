@@ -1,11 +1,16 @@
-// ADMIN.md §3.5 — Hero formu + canlı önizleme (gerçek public Hero bileşeni, düşük efekt anahtarı);
-// profil görseli: günlük rotasyon (F8) veya sabit profil fotoğrafı (F7, HeroProfileField).
+// Hero formu + canlı önizleme (gerçek public Hero bileşeni, düşük efekt anahtarı);
+// profil görseli: günlük rotasyon veya sabit profil fotoğrafı (HeroProfileField).
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { HERO_GRADIENT_DEFAULTS, hasPermission, heroSchema, NAME_EFFECTS } from '@vasquez/shared';
+import {
+  HERO_GRADIENT_DEFAULTS,
+  hasPermission,
+  heroSchema,
+  NAME_EFFECTS,
+} from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';
@@ -95,7 +100,7 @@ function Preview({ control }) {
   });
   const fixed =
     profileMode === 'FIXED' ? options.data?.find((option) => option.id === fixedId) : null;
-  // Rotasyon modunda bugünün PFP seçimi (FR-HERO-02); yetki yoksa baş harf avatarı.
+  // Rotasyon modunda bugünün PFP seçimi; yetki yoksa baş harf avatarı.
   const profile = fixed
     ? { type: 'IMAGE', url: fixed.thumbUrl }
     : profileMode === 'ROTATION'

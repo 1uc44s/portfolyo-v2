@@ -1,11 +1,11 @@
-// F15 — SRS FR-INT-01..08, ROUTES.md §4.7: entegrasyon ayarları, secret'lar (AES-GCM), senkron,
+// entegrasyon ayarları, secret'lar (AES-GCM), senkron,
 // public snapshot okuma. Ziyaretçi isteği hiçbir zaman dış API çağrısı tetiklemez.
 import {
   INTEGRATION_CONFIG_SCHEMAS,
   INTEGRATION_SECRET_KEYS,
   INTEGRATION_SECRET_SCHEMAS,
   SLUG_TO_PROVIDER,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { decryptJson, encryptJson } from '../../lib/crypto.js';
 import { NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { logger } from '../../lib/logger.js';
@@ -168,7 +168,7 @@ export async function recordSuccess(slug, snapshot, now = new Date()) {
       snapshotAt: now,
     },
   });
-  emitStatusChange(slug); // FR-INT-09: açık sayfalara canlı gönder
+  emitStatusChange(slug); // açık sayfalara canlı gönder
 }
 
 export async function recordFailure(slug, err, now = new Date()) {
@@ -211,7 +211,7 @@ export async function syncNow(slug, extra = {}) {
   }
 }
 
-/** FR-INT-06 — senkron test; sonucu döndürür, lastError'u günceller (snapshot yazmaz). */
+/** senkron test; sonucu döndürür, lastError'u günceller (snapshot yazmaz). */
 export async function testIntegration(slug, { adminId, ctx: reqCtx }) {
   const provider = providerOf(slug);
   const ctx = await contextOf(slug);
@@ -264,7 +264,7 @@ export async function saveSpotifyConnection({ refreshToken, scopes }, { adminId,
 
 // ───────────────────────────── Public ─────────────────────────────
 
-/** FR-INT-01/04/07 — yalnızca snapshot okunur. */
+/** yalnızca snapshot okunur. */
 export async function getPublicStatus(slug, now = Date.now()) {
   const provider = providerOf(slug);
   const row = await prisma.integrationSetting.findUnique({
@@ -272,7 +272,7 @@ export async function getPublicStatus(slug, now = Date.now()) {
   });
   if (!row?.isEnabled) return { enabled: false, stale: false, data: null };
   let data = row.publicSnapshot ?? null;
-  // Discord: bot API'sinin vermediği hitap şekli admin config'inden (FR-INT-D).
+  // Discord: bot API'sinin vermediği hitap şekli admin config'inden.
   if (slug === 'discord' && data) {
     data = { ...data, pronouns: row.config?.pronouns || null };
   }

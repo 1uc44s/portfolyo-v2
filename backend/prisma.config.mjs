@@ -1,4 +1,4 @@
-// Prisma 7 yapılandırması (JS — RULES.md §1). Prisma 7 .env dosyasını kendisi yüklemez;
+// Prisma 7 yapılandırması (JS). Prisma 7 .env dosyasını kendisi yüklemez;
 // yerelde backend/.env Node'un yerleşik yükleyicisiyle okunur, CI/prod'da ortam değişkeni kullanılır.
 // DATABASE_URL yoksa (ör. temiz kurulumda postinstall `prisma generate`) datasource eklenmez;
 // generate bağlantı gerektirmez, migrate komutları ise açık bir hata verir.

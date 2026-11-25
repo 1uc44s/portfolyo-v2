@@ -13,3 +13,6 @@ backend/src/generated/
 *.log
 .DS_Store
 Thumbs.db
+
+# Yerel araç ayarları
+.claude/

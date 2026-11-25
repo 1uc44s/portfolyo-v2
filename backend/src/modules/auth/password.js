@@ -1,11 +1,11 @@
-// SEC-01, SEC-18, FR-AUTH-08 — Argon2id, zamanlama eşitleme, şifre gücü.
+// Argon2id, zamanlama eşitleme, şifre gücü.
 import argon2 from 'argon2';
 import { ZxcvbnFactory } from '@zxcvbn-ts/core';
 import * as zxcvbnCommon from '@zxcvbn-ts/language-common';
 import { ValidationError } from '../../lib/httpError.js';
 import { randomToken } from '../../lib/hash.js';
 
-// OWASP asgari Argon2id parametreleri (SRS SEC-01); sunucu kapasitesine göre artırılabilir.
+// OWASP asgari Argon2id parametreleri; sunucu kapasitesine göre artırılabilir.
 const ARGON2_OPTIONS = { type: argon2.argon2id, memoryCost: 19_456, timeCost: 2, parallelism: 1 };
 const MIN_STRENGTH_SCORE = 3;
 
@@ -48,7 +48,7 @@ export function assertStrongPassword(password, context = {}, field = 'newPasswor
   if (email && password.toLowerCase() === email) {
     throw new ValidationError([{ path: field, message: 'Şifre e-posta adresinle aynı olamaz.' }]);
   }
-  const userInputs = [email, email.split('@')[0], context.displayName ?? '', 'vasquez'].filter(
+  const userInputs = [email, email.split('@')[0], context.displayName ?? '', 'my-portfolyo'].filter(
     Boolean,
   );
   const { score } = zxcvbn.check(password, userInputs);

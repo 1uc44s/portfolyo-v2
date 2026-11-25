@@ -1,5 +1,5 @@
-// CMS.md §8 — içerik türü sekmesi: arama + durum filtresi, ızgara/tablo, sürükle-bırak sıralama,
-// PENDING/PROCESSING kayıt varken 3 sn'de bir yeniden çekme (F7-07), ekle/düzenle/sil.
+// içerik türü sekmesi: arama + durum filtresi, ızgara/tablo, sürükle-bırak sıralama,
+// PENDING/PROCESSING kayıt varken 3 sn'de bir yeniden çekme, ekle/düzenle/sil.
 import { useState } from 'react';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ImagePlus, LayoutGrid, Plus, Rows3, Search } from 'lucide-react';
@@ -37,7 +37,7 @@ const STATUS_OPTIONS = [
 ];
 const GRID = 'grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4';
 
-/** F7-07 — işlenen kayıt varsa 3 sn'de bir, yoksa durur. */
+/** işlenen kayıt varsa 3 sn'de bir, yoksa durur. */
 export const pollWhileBusy = (query) =>
   query.state.data?.data?.some((item) => isBusy(item.status)) ? POLL_INTERVAL_MS : false;
 

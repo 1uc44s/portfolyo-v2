@@ -1,4 +1,4 @@
-// SRS NFR-REL-03 — liveness ve readiness.
+// liveness ve readiness.
 import { Router } from 'express';
 
 /** @param {{ readinessCheck: () => Promise<void> }} deps */

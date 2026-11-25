@@ -1,4 +1,4 @@
-// ADMIN.md §2.3 — SMTP yokken şifre kurtarma. Kullanım:
+// SMTP yokken şifre kurtarma. Kullanım:
 //   npm run admin:reset-password -w backend -- --email admin@example.com
 import { parseArgs } from 'node:util';
 import { resetAdminPassword } from '../src/modules/admins/cliActions.js';

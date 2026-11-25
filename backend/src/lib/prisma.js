@@ -1,4 +1,4 @@
-// DATABASE.md — Prisma 7 istemcisi (driver adapter: node-postgres). Tek örnek.
+// Prisma 7 istemcisi (driver adapter: node-postgres). Tek örnek.
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { env } from '../config/env.js';
@@ -13,7 +13,7 @@ export function createPrismaClient(connectionString = env.DATABASE_URL) {
 
 export const prisma = createPrismaClient();
 
-/** Readiness kontrolü (SRS NFR-REL-03). */
+/** Readiness kontrolü. */
 export async function pingDatabase() {
   await prisma.$queryRaw`SELECT 1`;
 }

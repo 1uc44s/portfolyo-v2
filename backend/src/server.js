@@ -1,4 +1,4 @@
-// SRS NFR-REL-02 — graceful shutdown.
+// graceful shutdown.
 import { createApp } from './app.js';
 import { env } from './config/env.js';
 import { logger } from './lib/logger.js';

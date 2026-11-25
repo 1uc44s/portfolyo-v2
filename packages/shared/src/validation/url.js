@@ -1,4 +1,4 @@
-// SRS SEC-12 — harici URL'ler: yalnızca http/https, kullanıcı bilgisi yok, ≤ 2048 karakter.
+// harici URL'ler: yalnızca http/https, kullanıcı bilgisi yok, ≤ 2048 karakter.
 import { z } from 'zod';
 
 export const MAX_URL_LENGTH = 2048;

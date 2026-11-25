@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# DATABASE.md §9 — gece yedeği (cron 03:30 Europe/Istanbul).
+# gece yedeği (cron 03:30 Europe/Istanbul).
 # DB: pg_dump -Fc → age ile şifrelenir. Medya: restic artımlı. Saklama: 14 günlük + 8 haftalık.
-# Sunucu dışı kopya: rclone. Ortam: /etc/vasquez/backup.env (bkz. docs/DEPLOY.md §6):
+# Sunucu dışı kopya: rclone. Ortam: /etc/my-portfolyo/backup.env:
 #   PGDATABASE, PGUSER, BACKUP_DIR, AGE_RECIPIENT, STORAGE_ROOT,
 #   RESTIC_REPOSITORY, RESTIC_PASSWORD_FILE (opsiyonel), RCLONE_REMOTE (opsiyonel)
 set -euo pipefail
@@ -24,7 +24,7 @@ find "$BACKUP_DIR/weekly" -name '*.dump.age' -mtime +56 -delete
 
 if [[ -n "${RESTIC_REPOSITORY:-}" ]]; then
   echo "[backup] medya -> restic"
-  restic backup --quiet --tag vasquez "$STORAGE_ROOT"
+  restic backup --quiet --tag my-portfolyo "$STORAGE_ROOT"
   restic forget --quiet --keep-daily 14 --keep-weekly 8 --prune
 fi
 

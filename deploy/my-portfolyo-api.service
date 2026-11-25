@@ -1,15 +1,15 @@
-# ARCHITECTURE.md §11 — API systemd servisi → /etc/systemd/system/vasquez-api.service
+# API systemd servisi → /etc/systemd/system/my-portfolyo-api.service
 [Unit]
-Description=vasquez portfolyo API (Express)
+Description=my-portfolyo API (Express)
 After=network-online.target postgresql.service
 Wants=network-online.target
 
 [Service]
 Type=simple
-User=vasquez
-Group=vasquez
-WorkingDirectory=/srv/vasquez/backend
-EnvironmentFile=/etc/vasquez/backend.env
+User=my-portfolyo
+Group=my-portfolyo
+WorkingDirectory=/srv/my-portfolyo/backend
+EnvironmentFile=/etc/my-portfolyo/backend.env
 ExecStart=/usr/bin/node src/server.js
 Restart=on-failure
 RestartSec=5
@@ -31,7 +31,7 @@ RestrictNamespaces=true
 LockPersonality=true
 CapabilityBoundingSet=
 AmbientCapabilities=
-ReadWritePaths=/var/lib/vasquez/storage
+ReadWritePaths=/var/lib/my-portfolyo/storage
 UMask=0027
 LimitNOFILE=65536
 

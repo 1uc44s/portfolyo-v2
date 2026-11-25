@@ -1,4 +1,4 @@
-// US-04, FR-INT-01..08 — Discord / Spotify / GitHub durum kartları (bento). Her kart dört durumlu:
+// Discord / Spotify / GitHub durum kartları (bento). Her kart dört durumlu:
 // yükleniyor (ölçü korunur), hata ("Şu an alınamıyor"), boş, başarılı. Kapalı sağlayıcı render edilmez.
 // Kart görünümleri (`DiscordView` vb.) admin önizlemesinde de kullanılır.
 import { useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ export const REFRESH_MS = { discord: 60_000, spotify: 30_000, github: 60_000 };
 export const SPOTIFY_IDLE = 'Şu anda müzik dinlemiyor';
 
 /** Public durum sorgusu; `enabled=false` iken istek atılmaz. */
-/** FR-INT-09 — canlı akış (SSE): snapshot değişince sorgu verisi anında güncellenir. Yoklama yedek. */
+/** canlı akış (SSE): snapshot değişince sorgu verisi anında güncellenir. Yoklama yedek. */
 export function useLiveStatus(slug, enabled = true) {
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -101,7 +101,7 @@ const staleNote = (status) =>
 
 // ───────────────────────────── Spotify ─────────────────────────────
 
-/** fetchedAt + progressMs ile yerel ilerleme (FR-INT-S). */
+/** fetchedAt + progressMs ile yerel ilerleme. */
 export function useLiveProgress(nowPlaying) {
   const [now, setNow] = useState(() => Date.now());
   const playing = Boolean(nowPlaying?.isPlaying);

@@ -1,6 +1,6 @@
-// FR-MSG-07 — sidebar okunmamış mesaj rozeti; 60 sn'de bir yenilenir, 99+ üst sınır.
+// sidebar okunmamış mesaj rozeti; 60 sn'de bir yenilenir, 99+ üst sınır.
 import { useQuery } from '@tanstack/react-query';
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 import { useAuthStore } from '@/lib/auth/authStore.js';
 import { adminKeys, messagesApi } from '../lib/adminApi.js';
 

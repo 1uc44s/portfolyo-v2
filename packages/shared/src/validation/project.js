@@ -1,4 +1,4 @@
-// CMS.md §3, US-24 — kategori ve proje şemaları (istemci + sunucu aynı kurallar).
+// kategori ve proje şemaları (istemci + sunucu aynı kurallar).
 import { z } from 'zod';
 import { httpUrl } from './url.js';
 
@@ -43,7 +43,7 @@ export function slugify(value, max = PROJECT_SLUG_MAX) {
 }
 
 /**
- * Kart özeti (CMS §3.2): ilk paragrafın düz metni, en fazla 160 karakter.
+ * Kart özeti: ilk paragrafın düz metni, en fazla 160 karakter.
  * Markdown sözdizimi kaba biçimde temizlenir; HTML üretilmez.
  */
 export function excerptOf(markdown, max = EXCERPT_LENGTH) {

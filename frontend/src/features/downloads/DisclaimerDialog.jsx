@@ -1,4 +1,4 @@
-// FR-DL-03 — sayfa açılışında sorumluluk uyarısı. Yalnızca "Anladım" kapatır; kabul sayfa bazlı
+// sayfa açılışında sorumluluk uyarısı. Yalnızca "Anladım" kapatır; kabul sayfa bazlı
 // sessionStorage'da tutulur. Uyarı kapanmadan grid render edilmez (useDisclaimer).
 import { useState } from 'react';
 import { ShieldAlert } from 'lucide-react';

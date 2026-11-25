@@ -1,4 +1,4 @@
-// FR-NAV-01..04, RULES §8.6 — yüzen kapsül navbar; içeriği olmayan sayfaların linki gösterilmez.
+// yüzen kapsül navbar; içeriği olmayan sayfaların linki gösterilmez.
 import { useEffect, useState } from 'react';
 import { Layers, Menu, Moon, Sparkles, Square, Sun, Wind, X } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router';
@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, m } from 'motion/react';
 import { useWelcome } from '@/features/welcome/welcomeStore.js';
 
-// FR-NAV-05 — ada navbar karşılama kapanınca (ya da açılışta) yukarıdan iner.
+// ada navbar karşılama kapanınca (ya da açılışta) yukarıdan iner.
 const HIDDEN = { y: '-140%', opacity: 0 };
 const SHOWN = { y: 0, opacity: 1 };
 
@@ -104,7 +104,7 @@ export function Navbar() {
             to="/"
             className="font-display mr-auto truncate px-2 text-lg font-semibold tracking-tight"
           >
-            {data?.navbarTitle ?? '1uc44s GitHub'}
+            {data?.navbarTitle ?? 'my-portfolyo'}
           </NavLink>
           <ul className="hidden items-center gap-1 md:flex">{items()}</ul>
           <span aria-hidden="true" className="bg-border mx-1 hidden h-6 w-px md:block" />

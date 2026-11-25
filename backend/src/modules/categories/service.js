@@ -1,6 +1,6 @@
-// CMS.md §3.1, US-24, ROUTES.md §4.9 — kategoriler. Benzersizlik `nameKey` (Türkçe uyumlu) ile;
+// kategoriler. Benzersizlik `nameKey` (Türkçe uyumlu) ile;
 // varsayılan kategori oluşturulmaz; kullanımdaki kategori ya yeniden atanır ya da silinemez.
-import { normalizeKey } from '@vasquez/shared';
+import { normalizeKey } from '@my-portfolyo/shared';
 import { AppError, ConflictError, NotFoundError, ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
@@ -99,7 +99,7 @@ export async function reorderCategories(ids, { adminId, ctx }) {
   await audit('REORDERED', { adminId, ctx, metadata: { count: ids.length } });
 }
 
-/** Kullanımdaysa 409 IN_USE {projectCount} (CMS §3.1). */
+/** Kullanımdaysa 409 IN_USE {projectCount}. */
 export async function deleteCategory(id, { adminId, ctx }) {
   const row = await findOr404(id);
   const projectCount = row._count.projects;

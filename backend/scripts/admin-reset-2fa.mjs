@@ -1,4 +1,4 @@
-// ADMIN.md §2.3 — kayıp 2FA cihazı. Kullanım:
+// kayıp 2FA cihazı. Kullanım:
 //   npm run admin:reset-2fa -w backend -- --email admin@example.com
 import { parseArgs } from 'node:util';
 import { resetAdminTwoFactor } from '../src/modules/admins/cliActions.js';

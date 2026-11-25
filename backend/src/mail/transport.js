@@ -1,4 +1,4 @@
-// CMS.md §5.4 — SMTP gönderimi. Uygulama anahtarı yalnızca gönderim anında çözülür.
+// SMTP gönderimi. Uygulama anahtarı yalnızca gönderim anında çözülür.
 import nodemailer from 'nodemailer';
 import { decrypt } from '../lib/crypto.js';
 import { prisma } from '../lib/prisma.js';
@@ -35,7 +35,7 @@ export async function getSiteName() {
     where: { id: 1 },
     select: { navbarTitle: true },
   });
-  return site?.navbarTitle ?? 'vasquez';
+  return site?.navbarTitle ?? 'my-portfolyo';
 }
 
 /**

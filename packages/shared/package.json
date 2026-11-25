@@ -1,6 +1,6 @@
 {
-  "name": "@vasquez/shared",
-  "version": "0.1.0",
+  "name": "@my-portfolyo/shared",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Frontend ve backend ortak sabitler, Zod şemaları ve metin yardımcıları (Node/DOM bağımsız).",

@@ -1,4 +1,4 @@
-// ADMIN.md §3.3, FR-DSH-01..03 — Dashboard: güvenlik uyarıları, KPI'lar (izinli ziyaretçiler),
+// Dashboard: güvenlik uyarıları, KPI'lar (izinli ziyaretçiler),
 // ziyaretçi grafiği (7/30/90 gün), en çok indirilen/görüntülenenler, son işlemler, entegrasyonlar,
 // depolama. Ziyaretçi sayıları yalnızca analitik izni veren ziyaretçileri kapsar.
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-// CMS.md §1, §9 — Site Ayarları, Hakkımda ve Hero formları (istemci + sunucu aynı şema).
+// Site Ayarları, Hakkımda ve Hero formları (istemci + sunucu aynı şema).
 import { z } from 'zod';
 
 // 2026-11-16: PARTICLES/STARS kaldırıldı; GRADIENT (hareketsiz) ve GRADIENT_ANIMATED aynı iki rengi kullanır.

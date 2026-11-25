@@ -1,4 +1,4 @@
-// SRS FR-TAB-01 — sekme başlığı harf harf yazılıp silinir (1 sn adım), her döngüde sona rastgele emoji.
+// sekme başlığı harf harf yazılıp silinir (1 sn adım), her döngüde sona rastgele emoji.
 // Sayfaya özel başlığı olan sayfalar (proje detayı, indirme, yasal) bu hook'u kullanmaz.
 import { useEffect } from 'react';
 
@@ -24,7 +24,7 @@ export function graphemesOf(text) {
   return Array.from(text);
 }
 
-/** Kozmetik rastgelelik; yine de Math.random yerine crypto (RULES). */
+/** Kozmetik rastgelelik; yine de Math.random yerine crypto. */
 export function randomEmoji(list = TITLE_EMOJIS) {
   const buf = new Uint32Array(1);
   globalThis.crypto.getRandomValues(buf);

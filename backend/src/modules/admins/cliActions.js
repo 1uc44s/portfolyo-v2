@@ -1,6 +1,6 @@
-// FR-SETUP-01..04, ADMIN.md §2.3 — sunucu üzerinde çalışan yönetici CLI işlemleri.
+// sunucu üzerinde çalışan yönetici CLI işlemleri.
 // HTTP üzerinden kurulum ucu YOKTUR; bu fonksiyonlar yalnızca backend/scripts/* tarafından çağrılır.
-import { emailField, newPasswordField, ROLES } from '@vasquez/shared';
+import { emailField, newPasswordField, ROLES } from '@my-portfolyo/shared';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
 import { assertStrongPassword, generateTemporaryPassword, hashPassword } from '../auth/password.js';
@@ -129,7 +129,7 @@ export async function unlockAdmin(rawEmail) {
 export const DEV_PASSWORD_MIN_LENGTH = 8;
 
 /**
- * Yalnızca geliştirme (ADMIN.md §2.3): hesap yoksa SUPER_ADMIN oluşturur, varsa şifresini değiştirir.
+ * Yalnızca geliştirme: hesap yoksa SUPER_ADMIN oluşturur, varsa şifresini değiştirir.
  * Uzunluk kuralı 8; zxcvbn güç kontrolü aynen. Prod'da reddedilir.
  * @param {{ email: string, password: string, nodeEnv?: string }} input
  */

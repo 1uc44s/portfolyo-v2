@@ -1,4 +1,4 @@
-// FR-CKE-01..06 — çerez izni. `necessary` her zaman açık; `analytics` varsayılan kapalı.
+// çerez izni. `necessary` her zaman açık; `analytics` varsayılan kapalı.
 // localStorage.consent = { version, analytics, decidedAt, consentId? }. Okunamazsa (gizli mod)
 // her oturumda sorulur ve analitik kapalı kalır. Sunucu kaydı başarısız olsa da tercih geçerlidir.
 import { create } from 'zustand';
@@ -26,7 +26,7 @@ function write(value) {
   }
 }
 
-/** Sunucuya anonim kanıt (FR-CKE-02); hata akışı bozmaz. */
+/** Sunucuya anonim kanıt; hata akışı bozmaz. */
 async function report(value) {
   try {
     const { data } = await api.post('/public/consent', {
@@ -44,7 +44,7 @@ export const useConsent = create((set, get) => ({
   decision: read(),
   preferencesOpen: false,
 
-  /** Politika sürümüne göre karar gerekiyor mu (FR-CKE-03). */
+  /** Politika sürümüne göre karar gerekiyor mu. */
   needsDecision: (policyVersion) => {
     const d = get().decision;
     return !d || d.version < (policyVersion ?? 1);

@@ -1,10 +1,10 @@
-// US-08, FR-CNT-01..06 — iletişim formu. Lazy chunk (react-hook-form + zod ana pakete girmez).
+// iletişim formu. Lazy chunk (react-hook-form + zod ana pakete girmez).
 // Alan hataları istemci ve sunucuda aynı şemadan; sonuç aria-live ile duyurulur.
 import { useCallback, useId, useState } from 'react';
 import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CONTACT_LIMITS, contactSchema } from '@vasquez/shared';
+import { CONTACT_LIMITS, contactSchema } from '@my-portfolyo/shared';
 import { CheckCircle2, Send } from 'lucide-react';
 import { FormField } from '@/components/common/FormField.jsx';
 import { Button } from '@/components/ui/button.jsx';

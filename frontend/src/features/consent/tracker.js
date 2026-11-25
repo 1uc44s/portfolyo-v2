@@ -1,4 +1,4 @@
-// FR-CKE-04/06 — analitik gönderici. YALNIZCA izin varken dinamik import edilir (koşullu import);
+// analitik gönderici. YALNIZCA izin varken dinamik import edilir (koşullu import);
 // izin yoksa bu modül hiç yüklenmez ve ağda analitik isteği oluşmaz.
 import { api } from '@/lib/api/client.js';
 

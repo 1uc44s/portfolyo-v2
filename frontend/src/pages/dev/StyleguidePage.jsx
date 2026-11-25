@@ -1,4 +1,4 @@
-// ROADMAP F4-07 — token'lar, tipografi, bileşenler ve durumlar; iki tema × iki yüzey × efekt.
+// ROADMAP token'lar, tipografi, bileşenler ve durumlar; iki tema × iki yüzey × efekt.
 // Yalnızca geliştirme build'inde yüklenir (routes.jsx).
 import { Inbox } from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState.jsx';
@@ -72,7 +72,7 @@ export default function StyleguidePage() {
 
           <Section title="Tipografi">
             <div className="surface-chrome space-y-4 rounded-[var(--radius-xl)] border p-6">
-              <p className="type-hero">Vasquez</p>
+              <p className="type-hero">Portfolyo</p>
               <p className="type-h1">Başlık 1 — Hoşgeldiniz...</p>
               <p className="type-h2">Bölüm başlığı — Projeler</p>
               <p className="type-h3">Kart başlığı — Discord durumu</p>

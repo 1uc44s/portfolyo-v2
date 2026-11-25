@@ -1,9 +1,9 @@
-// SRS FR-MED-01, ROUTES.md §1.1 `upload(kind)` — multer diskStorage → uploads/tmp.
+// `upload(kind)` — multer diskStorage → uploads/tmp.
 // Akış türün en büyük limitinde kesilir (413); yanıt bitince geçici dosya her durumda silinir.
 import { randomUUID } from 'node:crypto';
 import { rm } from 'node:fs/promises';
 import multer from 'multer';
-import { formatBytes, maxUploadBytes } from '@vasquez/shared';
+import { formatBytes, maxUploadBytes } from '@my-portfolyo/shared';
 import { AppError, PayloadTooLargeError, ValidationError } from '../../lib/httpError.js';
 import { TMP_DIR, ensureStorageDirs } from '../../storage/index.js';
 
@@ -14,7 +14,7 @@ const diskStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     ensureDirs().then(() => cb(null, TMP_DIR), cb);
   },
-  // Kullanıcı dosya adı yol olarak kullanılmaz (RULES.md §5.3).
+  // Kullanıcı dosya adı yol olarak kullanılmaz.
   filename: (_req, _file, cb) => cb(null, `${randomUUID()}.upload`),
 });
 
@@ -38,7 +38,7 @@ const removeAll = (files) => {
 };
 
 /**
- * Çok yuvalı yükleme (F7: müzik ses + kapak, cursor normal + tıklama). Akış, yuvaların en büyük
+ * Çok yuvalı yükleme (müzik ses + kapak, cursor normal + tıklama). Akış, yuvaların en büyük
  * türe göre limitinde kesilir; her dosyanın kendi tür limiti `inspectUpload`'da (413) uygulanır.
  * Sonuç `req.slotFiles = { [field]: file }`. Eksik yuva: mode 'all' → her biri için 422,
  * mode 'any' → hiç dosya yoksa 422.
@@ -89,7 +89,7 @@ export function uploadFields(slots, { mode = 'all' } = {}) {
 }
 
 /**
- * Aynı alanda çoklu dosya (F12 proje görselleri, ≤ max). Sonuç `req.files` dizisi; yoksa 422.
+ * Aynı alanda çoklu dosya (proje görselleri, ≤ max). Sonuç `req.files` dizisi; yoksa 422.
  * @param {string} kind MediaKind @param {string} field @param {number} max
  */
 export function uploadMany(kind, field, max) {

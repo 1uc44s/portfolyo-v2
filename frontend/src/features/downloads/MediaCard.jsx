@@ -1,4 +1,4 @@
-// FR-DL-05, RULES §8.6 "Medya kartı" — sabit oran (wallpaper 16:9, pfp 1:1), başlık + İndir.
+// "Medya kartı" — sabit oran (wallpaper 16:9, pfp 1:1), başlık + İndir.
 // Medya alanı lightbox'ı açan buton; video kartında sağ üstte "MP4" rozeti.
 import { useState } from 'react';
 import { Download } from 'lucide-react';

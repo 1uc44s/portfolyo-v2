@@ -1,13 +1,13 @@
-// F16 — SRS FR-CKE-02/06, FR-DSH-01..03, FR-PRJ-03: çerez izni kaydı, analitik olayları,
+// çerez izni kaydı, analitik olayları,
 // Dashboard özeti. Ham IP saklanmaz; ziyaretçi kimliği günlük tuzla HMAC (günler arası izlenemez).
-import { hasPermission } from '@vasquez/shared';
+import { hasPermission } from '@my-portfolyo/shared';
 import { prisma } from '../../lib/prisma.js';
 import { addDays, istanbulDate, toDbDate } from '../../lib/time.js';
 import { getMailSettings, isMailConfigured } from '../../mail/transport.js';
 import { mediaUrl } from '../media/service.js';
 import { visitorHashOf } from '../public/downloads.js';
 
-/** FR-CKE-02 — anonim kanıt kaydı (IP yok). Bilinmeyen consentId → yeni kayıt. */
+/** anonim kanıt kaydı (IP yok). Bilinmeyen consentId → yeni kayıt. */
 export async function recordConsent({ consentId, version, analytics }) {
   if (consentId) {
     const updated = await prisma.cookieConsentRecord.updateMany({
@@ -21,7 +21,7 @@ export async function recordConsent({ consentId, version, analytics }) {
 }
 
 /**
- * FR-CKE-06 — PAGE_VIEW her seferinde; PROJECT_VIEW ziyaretçi+proje+gün için bir kez ve yalnızca
+ * PAGE_VIEW her seferinde; PROJECT_VIEW ziyaretçi+proje+gün için bir kez ve yalnızca
  * o zaman viewCount +1. Bilinmeyen/yayında olmayan proje sessizce yok sayılır.
  */
 export async function recordEvent(input, req, now = Date.now()) {
@@ -212,7 +212,7 @@ export async function dashboardSummary(admin, rangeDays, now = Date.now()) {
   };
 }
 
-/** SRS §11 — saklama: tek iş, her biri bağımsız; sayılar döner. */
+/** saklama: tek iş, her biri bağımsız; sayılar döner. */
 export async function runRetention(now = new Date()) {
   const ago = (days) => new Date(now.getTime() - days * 24 * 60 * 60_000);
   const monthsAgo = (months) => {

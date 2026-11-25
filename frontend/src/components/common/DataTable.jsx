@@ -1,4 +1,4 @@
-// F4-06 / F7 — admin tablo deseni (RULES.md §8.6/§8.7): sticky başlık, 52 px satır, zebra yok,
+// Admin tablo deseni: sticky başlık, 52 px satır, zebra yok,
 // hover surface-2, yükleniyorken 8 satır skeleton, boşken EmptyState. Sıralama/sayfalama çağıranda.
 import { Skeleton } from '@/components/ui/skeleton.jsx';
 import {

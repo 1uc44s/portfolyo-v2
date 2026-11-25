@@ -1,4 +1,4 @@
-// ADMIN.md §2.3 — geçici giriş kilidini kaldırır. Kullanım:
+// geçici giriş kilidini kaldırır. Kullanım:
 //   npm run admin:unlock -w backend -- --email admin@example.com
 import { parseArgs } from 'node:util';
 import { unlockAdmin } from '../src/modules/admins/cliActions.js';

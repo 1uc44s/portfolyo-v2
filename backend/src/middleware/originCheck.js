@@ -1,4 +1,4 @@
-// SRS SEC-05, RULES.md §5.2 — durum değiştiren isteklerde Origin (yoksa Referer) izinli olmalı.
+// durum değiştiren isteklerde Origin (yoksa Referer) izinli olmalı.
 import { AppError } from '../lib/httpError.js';
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);

@@ -1,4 +1,4 @@
-// ROUTES.md §4.2 — Hesap Ayarları (yalnızca kendi hesabı) + SMTP ayarları.
+// Hesap Ayarları (yalnızca kendi hesabı) + SMTP ayarları.
 import QRCode from 'qrcode';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { decrypt, encrypt } from '../../lib/crypto.js';
@@ -116,7 +116,7 @@ export async function changeEmail(adminId, { newEmail, currentPassword }, ctx) {
   }
 }
 
-/** FR-AUTH-08 — mevcut oturum hariç tüm oturumlar kapanır. */
+/** mevcut oturum hariç tüm oturumlar kapanır. */
 export async function changePassword(adminId, familyId, { currentPassword, newPassword }, ctx) {
   const admin = await loadAdmin(adminId);
   await requireCurrentPassword(admin, currentPassword, ctx);
@@ -135,7 +135,7 @@ export async function changePassword(adminId, familyId, { currentPassword, newPa
   return toPublicAdmin(updated);
 }
 
-/** FR-AUTH-12 — kurulum: geçici secret şifreli saklanır, QR döner. */
+/** kurulum: geçici secret şifreli saklanır, QR döner. */
 export async function setupTwoFactor(adminId, { currentPassword }, ctx) {
   const admin = await loadAdmin(adminId);
   await requireCurrentPassword(admin, currentPassword, ctx);
@@ -260,7 +260,7 @@ export async function revokeOtherSessions(adminId, currentFamilyId, ctx) {
   return { revoked: count };
 }
 
-/** SMTP ayarları — uygulama anahtarı asla geri dönmez (US-27 AC3). */
+/** SMTP ayarları — uygulama anahtarı asla geri dönmez. */
 const toPublicMailSettings = (s) => ({
   smtpHost: s?.smtpHost ?? null,
   smtpPort: s?.smtpPort ?? null,

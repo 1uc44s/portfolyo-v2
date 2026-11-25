@@ -1,5 +1,5 @@
-// SRS FR-MED-08 — cursor hotspot'u görsel sınırları içinde olmalı (0 ≤ x < genişlik, 0 ≤ y < yükseklik).
-import { HOTSPOT_FIELDS } from '@vasquez/shared';
+// cursor hotspot'u görsel sınırları içinde olmalı (0 ≤ x < genişlik, 0 ≤ y < yükseklik).
+import { HOTSPOT_FIELDS } from '@my-portfolyo/shared';
 import { ValidationError } from '../../lib/httpError.js';
 
 /** Kayıttaki hotspot'lar; eksik olan DB varsayılanı (0). */

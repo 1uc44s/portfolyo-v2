@@ -1,10 +1,10 @@
-// CMS.md §3.2 (3) — çoklu görsel: sürükle-bırak alanı, dosya başına ilerleme, sıralama (ilk = kapak),
+// Çoklu görsel: sürükle-bırak alanı, dosya başına ilerleme, sıralama (ilk = kapak),
 // alt metin (boşsa başlık kullanılır), silme. Her dosya ayrı istekle yüklenir (bağımsız ilerleme).
 import { useId, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ImagePlus, Loader2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { acceptAttribute, PROJECT_IMAGE_ALT_MAX, precheckFile } from '@vasquez/shared';
+import { acceptAttribute, PROJECT_IMAGE_ALT_MAX, precheckFile } from '@my-portfolyo/shared';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';
 import { Badge } from '@/components/ui/badge.jsx';
 import { Button } from '@/components/ui/button.jsx';

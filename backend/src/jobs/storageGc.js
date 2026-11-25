@@ -1,4 +1,4 @@
-// SRS FR-MED-11, ARCHITECTURE.md §9 `storage.gc` — StorageDeletionJob worker'ı.
+// `storage.gc` — StorageDeletionJob worker'ı.
 // Başarısız silme 5 kez artan beklemeyle (1, 2, 4, 8, 16 dk) yeniden denenir.
 import { logger } from '../lib/logger.js';
 import { prisma } from '../lib/prisma.js';

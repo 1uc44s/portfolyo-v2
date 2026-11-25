@@ -1,8 +1,8 @@
-// F14 — iletişim formu (FR-CNT-01..06) ve gelen kutusu (FR-MSG-01..07, ROUTES.md §4.11).
+// iletişim formu ve gelen kutusu.
 // Kişisel veri: mesaj içeriği/e-posta/telefon loglara ve audit metadata'sına yazılmaz.
 import { createHmac } from 'node:crypto';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import { CAPTCHA_REQUIRED_MESSAGE, PHONE_INVALID_MESSAGE } from '@vasquez/shared';
+import { CAPTCHA_REQUIRED_MESSAGE, PHONE_INVALID_MESSAGE } from '@my-portfolyo/shared';
 import { env } from '../../config/env.js';
 import { getDailySalt } from '../../jobs/dailySalt.js';
 import { NotFoundError, ValidationError } from '../../lib/httpError.js';
@@ -77,7 +77,7 @@ async function notifyRecipient(settings) {
   return admin?.email ?? settings.fromEmail;
 }
 
-/** FR-MSG-06 — opsiyonel e-posta bildirimi. Hata yutulur; içerik loglanmaz. */
+/** opsiyonel e-posta bildirimi. Hata yutulur; içerik loglanmaz. */
 export async function notifyNewMessage(message) {
   try {
     const settings = await getMailSettings();
@@ -195,7 +195,7 @@ async function findOr404(id) {
   return message;
 }
 
-/** FR-MSG-02 — açınca okundu. */
+/** açınca okundu. */
 export async function openMessage(id) {
   const message = await findOr404(id);
   if (message.isRead) return detail(message);
@@ -210,7 +210,7 @@ export async function openMessage(id) {
 const audit = (action, { adminId, ctx, entityId, metadata }) =>
   writeAudit({ adminId, action, entityType: 'ContactMessage', entityId, metadata, ctx });
 
-/** FR-MSG-03 — PENDING ↔ REPLIED; okundu ve spam bağımsız bayraklar. */
+/** PENDING ↔ REPLIED; okundu ve spam bağımsız bayraklar. */
 export async function updateMessage(id, input, { adminId, ctx }) {
   const current = await findOr404(id);
   const data = {};
@@ -244,7 +244,7 @@ async function ownerName() {
 
 const plain = (template, vars) => render(template ?? '', vars).trim();
 
-/** FR-MSG-04 — şablonlu mailto linki sunucuda üretilir. WhatsApp yanıtı yok (CMS.md §6). */
+/** şablonlu mailto linki sunucuda üretilir. WhatsApp yanıtı yok. */
 export async function replyLinks(id, { adminId, ctx }) {
   const message = await findOr404(id);
   const [template, siteName, owner] = await Promise.all([
@@ -268,7 +268,7 @@ export async function replyLinks(id, { adminId, ctx }) {
   return { mailto };
 }
 
-/** FR-MSG-05 — saklama süresi dolanları kalıcı siler (günlük iş). */
+/** saklama süresi dolanları kalıcı siler (günlük iş). */
 export async function purgeExpiredMessages(now = new Date()) {
   const { count } = await prisma.contactMessage.deleteMany({
     where: { retentionUntil: { lt: now } },

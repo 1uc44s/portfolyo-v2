@@ -1,4 +1,4 @@
-// RULES §8.7 — hata durumu: bölüm yüksekliğini korur, yeniden deneme sunar.
+// hata durumu: bölüm yüksekliğini korur, yeniden deneme sunar.
 import { CircleAlert, RotateCw } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 import { cn } from '@/lib/utils';

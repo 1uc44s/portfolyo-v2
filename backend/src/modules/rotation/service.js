@@ -1,4 +1,4 @@
-// FR-ROT-01..09 — günlük rotasyon: seçim (idempotent, advisory lock), override, çözümleme.
+// günlük rotasyon: seçim (idempotent, advisory lock), override, çözümleme.
 import { logger } from '../../lib/logger.js';
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError, ValidationError } from '../../lib/httpError.js';
@@ -40,7 +40,7 @@ export const CATEGORIES = Object.freeze({
     ready: { normal: READY, click: READY },
     include: { normal: true, click: true },
   },
-  // 2026-11-16 — Hero isim GIF katmanı (SRS FR-HERO-05).
+  // 2026-11-16 — Hero isim GIF katmanı.
   NAME_OVERLAY: {
     model: 'nameOverlay',
     fk: 'nameOverlayId',
@@ -54,17 +54,17 @@ export const ROTATION_CATEGORIES = Object.keys(CATEGORIES);
 export const categoryOfContentType = (type) =>
   ROTATION_CATEGORIES.find((c) => CATEGORIES[c].contentType === type) ?? null;
 
-/** FR-ROT-02 — rotasyon havuzu koşulu. */
+/** rotasyon havuzu koşulu. */
 const poolWhere = (cat) => ({ isActive: true, rotationEnabled: true, ...cat.ready });
-/** Override için: aktif + hazır yeter (rotationEnabled şart değil, CMS.md §2). */
+/** Override için: aktif + hazır yeter (rotationEnabled şart değil). */
 const usableWhere = (cat) => ({ isActive: true, ...cat.ready });
 
 /**
- * FR-ROT-03 — (kategori, gün) seçimi. Kayıt varsa ve içerik hâlâ uygunsa aynen döner.
+ * (kategori, gün) seçimi. Kayıt varsa ve içerik hâlâ uygunsa aynen döner.
  * @param {string} category
  * @param {string} day "YYYY-MM-DD" (İstanbul)
  * @param {{ force?: boolean, rng?: (n: number) => number }} [options]
- *   force: geçerli seçimi bile değiştir (FR-ROT-08 "Şimdi yeniden seç")
+ *   force: geçerli seçimi bile değiştir ("Şimdi yeniden seç")
  * @returns {Promise<number|null>} seçilen içerik id'si
  */
 export async function selectForDate(category, day, { force = false, rng } = {}) {
@@ -144,7 +144,7 @@ export async function ensureToday(now = Date.now()) {
   return result;
 }
 
-/** FR-ROT-05 — içerik silindi/pasif oldu: bugünün seçimini tazele (uygunsa dokunmaz). */
+/** içerik silindi/pasif oldu: bugünün seçimini tazele (uygunsa dokunmaz). */
 export async function refreshTodayFor(contentType) {
   const category = categoryOfContentType(contentType);
   if (!category) return;
@@ -160,7 +160,7 @@ export async function refreshTodayFor(contentType) {
 export const purgeExpiredOverrides = (now = new Date()) =>
   prisma.contentOverride.deleteMany({ where: { validUntil: { lte: now } } });
 
-/** FR-ROT daily cron: süresi dolan override'lar + bugünün seçimleri. */
+/** daily cron: süresi dolan override'lar + bugünün seçimleri. */
 export async function runDailyRotation(now = Date.now()) {
   await purgeExpiredOverrides(new Date(now));
   return ensureToday(now);
@@ -175,7 +175,7 @@ async function loadUsable(category, id) {
 }
 
 /**
- * FR-ROT-07 — çözümleme: geçerli override → bugünkü otomatik seçim → null.
+ * çözümleme: geçerli override → bugünkü otomatik seçim → null.
  * @returns {Promise<{ record: object, source: 'MANUAL'|'AUTO' } | null>}
  */
 export async function resolveToday(category, now = Date.now()) {
@@ -232,7 +232,7 @@ export async function clearOverride(category, { adminId, ctx }) {
   });
 }
 
-/** FR-ROT-08 — bugünkü otomatik seçimi aynı döngüden başka bir içerikle değiştir. */
+/** bugünkü otomatik seçimi aynı döngüden başka bir içerikle değiştir. */
 export async function reselect(category, { adminId, ctx }) {
   const id = await selectForDate(category, istanbulDate(), { force: true });
   invalidateSiteCache();
@@ -260,7 +260,7 @@ function summarize(category, record) {
   };
 }
 
-/** GET /api/admin/rotation — ROUTES.md §4.4. */
+/** GET /api/admin/rotation */
 export async function getRotationOverview() {
   const day = istanbulDate();
   const overview = {};
@@ -294,7 +294,7 @@ export async function getRotationOverview() {
   return { date: day, categories: overview };
 }
 
-/** İçerik detayı için kullanım bilgisi (CMS.md §2 rozetleri). */
+/** İçerik detayı için kullanım bilgisi (rozetleri). */
 export async function rotationUsageOf(contentType, id) {
   const category = categoryOfContentType(contentType);
   if (!category) return {};

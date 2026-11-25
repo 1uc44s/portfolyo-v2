@@ -1,10 +1,10 @@
-// ADMIN.md §3.5, SRS FR-FALL-01 — Hero Section altındaki "Yağan öğeler" kartı: görsel veya metin
+// Hero Section altındaki "Yağan öğeler" kartı: görsel veya metin
 // (emoji/harf/sayı) öğe ekle, düzenle (metin, boyut, aktif), görsel değiştir, sırala, sil.
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { FALLING_LIMITS } from '@vasquez/shared';
+import { FALLING_LIMITS } from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { DragHandle, SortableList } from '@/components/common/SortableList.jsx';

@@ -1,4 +1,4 @@
-# vasquez-portfolyo
+# my-portfolyo
 
 Kişisel portfolyo ve dinamik medya CMS'i. Ziyaretçiye sinematik bir ana sayfa (günlük değişen video arka plan,
 müzik, imleç, profil), indirilebilir duvar kağıtları ve profil fotoğrafları, projeler, linkler, Discord /
@@ -8,7 +8,7 @@ yönetim panelinden yönetilir.
 **Yığın:** React 19 (Vite, Tailwind v4, shadcn/ui) · Express 5 · Prisma 7 + PostgreSQL · **yalnızca JavaScript /
 JSX, TypeScript yok.** npm workspaces (`frontend`, `backend`, `packages/shared`).
 
-> Üretime dağıtım ve işletim: [`docs/DEPLOY.md`](docs/DEPLOY.md) · güvenlik kontrolleri: [`docs/SECURITY.md`](docs/SECURITY.md).
+> Üretime dağıtım: [aşağıda](#üretime-dağıtım) · güvenlik kontrolleri ve test sonuçları: [`docs/SECURITY.md`](docs/SECURITY.md).
 
 ---
 
@@ -90,7 +90,7 @@ Komut hesap yoksa oluşturur, varsa şifresini bu değere sıfırlar (oturumlar 
 
 > **Uyarı:** Bu şifre depoda açık yazılıdır; yalnızca yerel geliştirme içindir ve komut
 > `NODE_ENV=production` iken çalışmaz. Üretimde ilk yöneticiyi `admin:create` ile güçlü, benzersiz bir
-> şifreyle oluştur ([DEPLOY.md §5](docs/DEPLOY.md)).
+> şifreyle oluştur ([Üretime dağıtım](#üretime-dağıtım)).
 
 Adresler:
 
@@ -134,7 +134,7 @@ dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için `ba
 | `npm run db:seed -w backend` | Sistem kayıtlarını oluşturur (idempotent, mevcut içeriği ezmez) |
 | `npm run db:studio -w backend` | Prisma Studio |
 | `npm run admin:dev-set -w backend -- --default` | Geliştirme: varsayılan admini (`1uc44s@github.com`) oluştur / şifresini sıfırla |
-| `npm run admin:create -w backend` | İlk süper admin (prod kurulumu, [DEPLOY.md §5](docs/DEPLOY.md)) |
+| `npm run admin:create -w backend` | İlk süper admin (prod kurulumu) |
 | `bash scripts/restore-rehearsal.sh` | Yedekten geri yükleme provası (dev DB, kaynağa yazmaz) |
 
 ---
@@ -142,7 +142,7 @@ dokümanda veya kaynak kodda yoktur.** Başlıca anahtarlar (tam liste için `ba
 ## Dizin yapısı
 
 ```text
-docs/              Üretime dağıtım (DEPLOY.md) ve güvenlik kontrolleri (SECURITY.md)
+docs/              Güvenlik kontrolleri ve test sonuçları (SECURITY.md)
 packages/shared/   Ortak sabitler, Zod şemaları (istemci + sunucu), metin yardımcıları
 backend/           Express API — src/app.js (uygulama), src/server.js (giriş), prisma/ (şema + migration)
   ├─ src/modules/  auth, admins, media, content, techstack, falling, integrations, public, analytics…
@@ -285,9 +285,24 @@ Ziyaretçi isteği hiçbir zaman dış API çağrısı tetiklemez; yalnızca sun
 
 ## Üretime dağıtım
 
-`deploy/` altında Caddyfile (TLS + güvenlik başlıkları + SSE flush), systemd servisi, deploy/backup/smoke
-betikleri ve crontab vardır. Adım adım kurulum, ilk admin, cron/rotasyon, yedekleme ve izleme:
-[DEPLOY.md](docs/DEPLOY.md).
+`deploy/` altında örnek bir tek sunucu kurulumu vardır (Ubuntu + Node 24 + PostgreSQL 17 + Caddy):
+Caddyfile (otomatik TLS, güvenlik başlıkları, SSE flush), systemd servisi (`my-portfolyo-api.service`),
+`deploy.sh` (güncelleme), `backup.sh` + `crontab` (gece yedeği), `smoke.sh` (duman testi). Yollar
+`/srv/my-portfolyo`, `/etc/my-portfolyo`, `/var/lib/my-portfolyo` varsayılır; farklıysa dosyalarda değiştir.
+
+1. Sistem kullanıcısı `my-portfolyo`, PostgreSQL veritabanı ve kaynak kodu `/srv/my-portfolyo` altında hazırla.
+2. `/etc/my-portfolyo/backend.env` ← `backend/.env.production.example` (secret'ları dosyadaki komutlarla üret;
+   `APP_ENCRYPTION_KEY`'i ayrıca sakla — kaybolursa şifreli alanlar çözülemez).
+3. `/etc/my-portfolyo/caddy.env`: `SITE_DOMAIN`, `ACME_EMAIL`, `SITE_DIST=/srv/my-portfolyo/frontend/dist`,
+   `CSP_SCRIPT_SRC='self'` (deploy.sh günceller). Caddy servisine `EnvironmentFile` olarak ekle.
+4. `deploy/my-portfolyo-api.service` → `/etc/systemd/system/`, `deploy/Caddyfile` → `/etc/caddy/Caddyfile`.
+5. `sudo -u my-portfolyo bash deploy/deploy.sh` — `npm ci` → migration → seed → build → CSP hash → yeniden
+   başlatma → duman testi. Güncellemelerde de aynı betik çalıştırılır.
+6. İlk süper admin: `npm run admin:create -w backend` (env yüklüyken; şifre etkileşimli sorulur, ilk girişte
+   değiştirilir). Ardından panelden 2FA'yı aç ve SMTP'yi ayarla.
+
+Link önizlemeleri (Discord, WhatsApp, X…) için sayfa HTML'i API'den sayfa başına meta etiketleriyle gelir;
+`backend.env` içinde `FRONTEND_DIST` tanımlı olmalıdır.
 
 ---
 
@@ -295,8 +310,7 @@ betikleri ve crontab vardır. Adım adım kurulum, ilk admin, cron/rotasyon, yed
 
 | Konu | Doküman |
 |---|---|
-| Üretime dağıtım, ilk kurulum, cron/rotasyon, izleme, yedek | [DEPLOY.md](docs/DEPLOY.md) |
-| Güvenlik kontrolleri | [SECURITY.md](docs/SECURITY.md) |
+| Güvenlik kontrolleri ve test sonuçları | [SECURITY.md](docs/SECURITY.md) |
 | Veritabanı şeması | `backend/prisma/schema.prisma` · migration'lar `backend/prisma/migrations` |
 
 Gerçek secret'lar hiçbir dokümanda ve kaynak kodda yoktur; örnekler `backend/.env.example` ve

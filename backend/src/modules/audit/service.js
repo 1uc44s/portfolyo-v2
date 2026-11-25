@@ -1,11 +1,11 @@
-// SRS §6 / RULES.md §6 — admin işlem kayıtları. Metadata yazılmadan önce redakte edilir.
+// Admin işlem kayıtları. Metadata yazılmadan önce redakte edilir.
 import { logger } from '../../lib/logger.js';
 import { prisma } from '../../lib/prisma.js';
 
 const SENSITIVE_KEY = /pass|secret|token|key|code|hash|authorization|cookie/i;
 const MAX_DEPTH = 5;
 
-/** SRS FR-AUD-03 — hassas anahtar adlı her alan "[REDACTED]" olur. */
+/** hassas anahtar adlı her alan "[REDACTED]" olur. */
 export function redact(value, depth = 0) {
   if (depth > MAX_DEPTH) return '[TRUNCATED]';
   if (Array.isArray(value)) return value.map((v) => redact(v, depth + 1));
@@ -62,7 +62,7 @@ export async function writeAudit({
 }
 
 // ---------------------------------------------------------------------------------------------
-// Okuma (ROUTES.md §4.13, FR-AUD-04/05). Kayıtlar salt okunur: güncelleme/silme ucu yoktur.
+// Okuma. Kayıtlar salt okunur: güncelleme/silme ucu yoktur.
 
 const ADMIN_SELECT = { select: { id: true, email: true, displayName: true } };
 

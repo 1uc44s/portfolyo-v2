@@ -1,4 +1,4 @@
-// FR-INT-G — GitHub profil snapshot'ı (1 saatte bir) ve istatistik kartı proxy'si (6 sa önbellek).
+// GitHub profil snapshot'ı (1 saatte bir) ve istatistik kartı proxy'si (6 sa önbellek).
 // SSRF önlemi: host'lar yalnızca env'den; kullanıcı girdisinden yalnızca encode edilmiş `username`.
 import { env } from '../../../config/env.js';
 import { httpsUrl, IntegrationError, request, requestJson } from '../http.js';
@@ -22,7 +22,7 @@ export const github = {
     }
     const headers = {
       Accept: 'application/vnd.github+json',
-      'User-Agent': 'vasquez-portfolio',
+      'User-Agent': 'my-portfolyo',
       'X-GitHub-Api-Version': '2022-11-28',
     };
     if (env.GITHUB_TOKEN) headers.Authorization = `Bearer ${env.GITHUB_TOKEN}`;
@@ -100,7 +100,7 @@ export async function getCard(card, theme, username, now = Date.now()) {
   try {
     const res = await request(cardUrl(card, theme, username), {
       service: 'İstatistik kartı',
-      headers: { Accept: 'image/svg+xml', 'User-Agent': 'vasquez-portfolio' },
+      headers: { Accept: 'image/svg+xml', 'User-Agent': 'my-portfolyo' },
     });
     const type = res.headers.get('content-type') ?? '';
     const text = await res.text();

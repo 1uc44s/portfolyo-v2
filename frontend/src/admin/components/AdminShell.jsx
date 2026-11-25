@@ -1,4 +1,4 @@
-// ADMIN.md §3.1 — sidebar (12 öğe, izin filtreli), üst bar, mobil çekmece, kullanıcı menüsü.
+// sidebar (12 öğe, izin filtreli), üst bar, mobil çekmece, kullanıcı menüsü.
 import { useState } from 'react';
 import { ExternalLink, LogOut, Menu, ShieldCheck } from 'lucide-react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router';
@@ -94,7 +94,7 @@ function SidebarContent({ onNavigate }) {
         <BrandMark className="size-8" />
         <span className="flex flex-col leading-tight">
           <span className="font-display text-[0.9375rem] font-semibold tracking-tight">
-            vasquez
+            my-portfolyo
           </span>
           <span className="type-eyebrow text-[0.6875rem]">Yönetim</span>
         </span>

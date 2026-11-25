@@ -1,4 +1,4 @@
-// SRS FR-404-01..04 — 404. Tam sayfa: menüsüz, kaydırmasız (tek ekran), TON 618 video arka planlı
+// 404. Tam sayfa: menüsüz, kaydırmasız (tek ekran), TON 618 video arka planlı
 // "dossier" tasarımı (kara delik solda, bilgi sütunu sağda; mobilde delik üstte, özet altta).
 // Video her zaman hareketli başlar (kullanıcı isteği); WCAG 2.2.2 için duraklat düğmesi var.
 // `embedded`: PublicLayout içinde (ör. /projects/:slug bulunamadı) — site kabuğu korunur.

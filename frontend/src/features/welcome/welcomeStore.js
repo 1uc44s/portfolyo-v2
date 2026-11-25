@@ -1,6 +1,6 @@
-// FR-WEL-01, FR-NAV-05 — karşılama durumu: navbar giriş animasyonu ekran kapanınca başlar.
+// karşılama durumu: navbar giriş animasyonu ekran kapanınca başlar.
 // `entered`: karşılama geçildi (ya da bu sekmede daha önce geçilmişti).
-// Karşılama açıkken (`entered` false) site bileşenleri gizlenir, yalnızca arka plan görünür (FR-WEL-07).
+// Karşılama açıkken (`entered` false) site bileşenleri gizlenir, yalnızca arka plan görünür.
 import { create } from 'zustand';
 
 export const WELCOME_KEY = 'welcomed';

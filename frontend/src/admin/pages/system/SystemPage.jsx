@@ -1,11 +1,10 @@
-// ADMIN.md §3.13 — Sistem Ayarları. F16: Yasal metinler (KVKK aydınlatma, çerez politikası;
-// "sürümü artır" → ziyaretçilere çerez bandı yeniden gösterilir). Şablonlar / işler / yöneticiler /
-// depolama sekmeleri F18–F19'da.
+// Sistem Ayarları: yasal metinler (KVKK aydınlatma, çerez politikası;
+// "sürümü artır" → ziyaretçilere çerez bandı yeniden gösterilir).
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { hasPermission, LEGAL_BODY_MAX } from '@vasquez/shared';
+import { hasPermission, LEGAL_BODY_MAX } from '@my-portfolyo/shared';
 import { ErrorState } from '@/components/common/ErrorState.jsx';
 import { FormField } from '@/components/common/FormField.jsx';
 import { SubmitButton } from '@/components/common/SubmitButton.jsx';

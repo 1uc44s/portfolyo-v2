@@ -1,6 +1,6 @@
 # SECURITY.md — Güvenlik Kontrolleri ve Test Sonuçları
 
-> Şartname §27 teslim dokümanı. Son güncelleme: 2026-11-24 (planlama belgeleri depodan kaldırıldı).
+> Son güncelleme: 2026-11-25.
 
 ## 1. Uygulanan kontroller (özet)
 

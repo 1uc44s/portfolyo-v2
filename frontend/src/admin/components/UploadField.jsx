@@ -1,9 +1,14 @@
-// ARCHITECTURE.md §8, T-MEDIA-07 — dosya yükleme alanı: istemci ön kontrolü (FR-MED-03 tablosu),
+// Dosya yükleme alanı: istemci ön kontrolü (tablosu),
 // byte bazlı ilerleme, iptal, aşama göstergesi (yükleniyor → işleniyor → tamam/hata).
 // Sunucu doğrulaması tam zinciri yine uygular; bu bileşen yalnızca erken geri bildirim verir.
 import { useEffect, useId, useRef, useState } from 'react';
 import { CheckCircle2, CircleAlert, Loader2, Upload, X } from 'lucide-react';
-import { acceptAttribute, allowedExtensions, formatBytes, precheckFile } from '@vasquez/shared';
+import {
+  acceptAttribute,
+  allowedExtensions,
+  formatBytes,
+  precheckFile,
+} from '@my-portfolyo/shared';
 import { getErrorMessage } from '@/lib/api/client.js';
 import { Button } from '@/components/ui/button.jsx';
 import { Progress } from '@/components/ui/progress.jsx';
@@ -50,7 +55,7 @@ function StatusLine({ state, percent, busy, onCancel }) {
 
 /**
  * @param {{
- *   kind: string,                       // MediaKind (FR-MED-03)
+ *   kind: string,                       // MediaKind
  *   label: string,
  *   description?: string,
  *   disabled?: boolean,

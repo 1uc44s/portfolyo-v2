@@ -1,4 +1,4 @@
-// FR-CNT-04, ROUTES.md §2 — /kvkk ve /cerez-politikasi. Lazy chunk (SafeMarkdown).
+// /kvkk ve /cerez-politikasi. Lazy chunk (SafeMarkdown).
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { SafeMarkdown } from '@/components/common/SafeMarkdown.jsx';

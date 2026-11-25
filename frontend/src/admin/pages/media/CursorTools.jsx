@@ -1,5 +1,5 @@
-// CMS.md §8 — cursor seti formu: görsel üzerinde tıklayarak hotspot seçici + canlı deneme alanı.
-// Hotspot sunucuda da görsel sınırlarıyla doğrulanır (SRS FR-MED-08).
+// cursor seti formu: görsel üzerinde tıklayarak hotspot seçici + canlı deneme alanı.
+// Hotspot sunucuda da görsel sınırlarıyla doğrulanır.
 import { useState } from 'react';
 import { Input } from '@/components/ui/input.jsx';
 import { Label } from '@/components/ui/label.jsx';

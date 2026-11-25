@@ -1,4 +1,4 @@
-// CMS.md §2 — yayın durumu modeli: public görünürlük / indirilebilirlik / rotasyon uygunluğu tek yerde.
+// yayın durumu modeli: public görünürlük / indirilebilirlik / rotasyon uygunluğu tek yerde.
 // Hem admin rozetleri (hesaplanmış durum) hem public sorgular (Prisma where) bunu kullanır.
 
 const isReady = (asset) => asset?.processingStatus === 'READY';
@@ -42,7 +42,7 @@ export function visibilityOf(type, record) {
       };
     }
     case 'name-overlays':
-      // İsim GIF katmanı: public liste yok; yalnızca rotasyon (SRS FR-HERO-05).
+      // İsim GIF katmanı: public liste yok; yalnızca rotasyon.
       return {
         isPublic: null,
         isDownloadable: null,

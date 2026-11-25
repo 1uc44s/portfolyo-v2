@@ -9,17 +9,17 @@ import { ensureStorageDirs } from '../../storage/index.js';
 import { createLink } from './service.js';
 
 export const DEFAULT_LINKS = Object.freeze([
-  { title: 'GitHub', url: 'https://github.com/1uc44s', bg: '#181717', fg: '#ffffff', mark: 'GH' },
+  { title: 'GitHub', url: 'https://github.com/', bg: '#181717', fg: '#ffffff', mark: 'GH' },
   {
     title: 'Instagram',
-    url: 'https://www.instagram.com/codecraftdevelopment/',
+    url: 'https://www.instagram.com/',
     bg: 'url(#ig)',
     fg: '#ffffff',
     mark: 'IG',
   },
   {
     title: 'Web Site',
-    url: 'https://vasquezlukii.dev/',
+    url: 'https://example.com/',
     bg: '#4f46e5',
     fg: '#ffffff',
     mark: 'WEB',

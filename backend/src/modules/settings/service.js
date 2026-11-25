@@ -1,4 +1,4 @@
-// CMS.md §9, ROUTES.md §4.4–4.5 — Site Ayarları, Hakkımda ve Hero.
+// Site Ayarları, Hakkımda ve Hero.
 import { ValidationError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 import { writeAudit } from '../audit/service.js';
@@ -69,7 +69,7 @@ export async function updateAbout(adminId, input, ctx) {
 
 /**
  * Favicon'u yeni asset ile değiştirir (null = varsayılana dön). Eski favicon başka yerde
- * kullanılmıyorsa aynı transaction'da silinir ve dosyaları silme kuyruğuna yazılır (FR-MED-11).
+ * kullanılmıyorsa aynı transaction'da silinir ve dosyaları silme kuyruğuna yazılır.
  */
 async function replaceFavicon(newAssetId) {
   const previousId = await prisma.$transaction(async (tx) => {

@@ -1,7 +1,11 @@
-// ROUTES.md §4.13 — /api/admin/audit-logs (`audit:read`). Salt okunur (FR-AUD-04): güncelleme/silme
+// /api/admin/audit-logs (`audit:read`). Salt okunur: güncelleme/silme
 // ucu yoktur. CSV dışa aktarma yalnızca SUPER_ADMIN (L5), en fazla 50 000 satır, stream.
 import { Router } from 'express';
-import { AUDIT_EXPORT_MAX_ROWS, auditFilterSchema, auditListQuerySchema } from '@vasquez/shared';
+import {
+  AUDIT_EXPORT_MAX_ROWS,
+  auditFilterSchema,
+  auditListQuerySchema,
+} from '@my-portfolyo/shared';
 import { requirePermission, requireSuper } from '../../middleware/auth.js';
 import { validate } from '../../middleware/validate.js';
 import {

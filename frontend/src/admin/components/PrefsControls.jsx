@@ -1,4 +1,4 @@
-// FR-THM — tema, yüzey ve efekt anahtarları (admin üst bar + giriş ekranı).
+// tema, yüzey ve efekt anahtarları (admin üst bar + giriş ekranı).
 import { Layers, Moon, Sparkles, Square, Sun, Wind } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.jsx';

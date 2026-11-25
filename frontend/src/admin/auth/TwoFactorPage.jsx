@@ -1,4 +1,4 @@
-// FR-AUTH-02 — ikinci adım: TOTP veya kurtarma kodu. mfaToken yalnızca bellekte (router state).
+// ikinci adım: TOTP veya kurtarma kodu. mfaToken yalnızca bellekte (router state).
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

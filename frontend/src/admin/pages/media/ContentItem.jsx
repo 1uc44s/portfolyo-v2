@@ -1,4 +1,4 @@
-// CMS.md §8 — içerik kartı (ızgara) ve tablo hücreleri: önizleme, başlık, meta, rozetler,
+// içerik kartı (ızgara) ve tablo hücreleri: önizleme, başlık, meta, rozetler,
 // aktif/indirilebilir/rotasyon anahtarları, Düzenle/Sil menüsü, sıralama tutamacı.
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';

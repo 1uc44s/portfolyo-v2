@@ -1,4 +1,4 @@
-// ROUTES.md §4.6 — /api/admin/media/{backgrounds,musics,pfps,cursors} (`media:*`).
+// /api/admin/media/{backgrounds,musics,pfps,cursors} (`media:*`).
 // Oluşturma/dosya değiştirme multipart (dosya yuvaları + düz alanlar); PATCH ve reorder JSON.
 import { Router } from 'express';
 import { z } from 'zod';
@@ -7,7 +7,7 @@ import {
   mediaReplaceSchema,
   mediaUpdateSchema,
   reorderSchema,
-} from '@vasquez/shared';
+} from '@my-portfolyo/shared';
 import { requirePermission } from '../../middleware/auth.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
 import { validate } from '../../middleware/validate.js';

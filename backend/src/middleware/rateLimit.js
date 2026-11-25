@@ -1,5 +1,5 @@
-// SRS SEC-08, ROUTES.md §6 — hız sınırları. v1: tek instance, bellek içi
-// (çoklu instance'ta RateLimiterRedis'e geçilir — ARCHITECTURE.md §9.1).
+// hız sınırları. v1: tek instance, bellek içi
+// (çoklu instance'ta RateLimiterRedis'e geçilir).
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { AppError } from '../lib/httpError.js';
 
@@ -16,10 +16,10 @@ export const RATE_LIMITS = Object.freeze({
   publicGlobal: { points: 300, duration: 60 },
   upload: { points: 60, duration: 10 * 60 },
   download: { points: 30, duration: 10 * 60 },
-  // FR-CNT-02 — iletişim: IP başına 3 / 10 dk ve 10 / gün.
+  // iletişim: IP başına 3 / 10 dk ve 10 / gün.
   contact10m: { points: 3, duration: 10 * 60 },
   contactDay: { points: 10, duration: 24 * 60 * 60 },
-  // F16 — ROUTES.md §6: çerez tercihi 20/saat, analitik 120/dk (IP).
+  // çerez tercihi 20/saat, analitik 120/dk (IP).
   consent: { points: 20, duration: 60 * 60 },
   analytics: { points: 120, duration: 60 },
 });

@@ -1,4 +1,4 @@
-// ARCHITECTURE.md §8 — yükleme alımı: doğrula → işle → kalıcı depoya taşı → MediaAsset.
+// yükleme alımı: doğrula → işle → kalıcı depoya taşı → MediaAsset.
 // Video: doğrulanır, kaynak kuyruk dizinine taşınır, kayıt PENDING oluşturulur (mediaQueue işler).
 import { createHash, randomUUID } from 'node:crypto';
 import { createReadStream } from 'node:fs';
@@ -29,7 +29,7 @@ const TR_MAP = {
   Ü: 'u',
 };
 
-/** FR-MED-09 — indirme adı: Türkçe harfler sadeleşir, yalnızca [a-z0-9-], ≤ 80 karakter. */
+/** indirme adı: Türkçe harfler sadeleşir, yalnızca [a-z0-9-], ≤ 80 karakter. */
 export function safeFilenameOf(originalName) {
   const stem = String(originalName ?? '')
     .split(/[\\/]/)
@@ -57,7 +57,7 @@ export function sha256File(file) {
   });
 }
 
-/** Varyant anahtarları (FR-MED-09): `<dizin>/<assetId>.<ext>`, türevler thumbnails/ ve posters/. */
+/** Varyant anahtarları: `<dizin>/<assetId>.<ext>`, türevler thumbnails/ ve posters/. */
 export function variantKey(kind, assetId, role, ext) {
   if (role === 'thumb') return `thumbnails/${assetId}.${ext}`;
   if (role === 'poster') return `posters/${assetId}.${ext}`;
@@ -97,7 +97,7 @@ export async function removeKeys(keys) {
   }
 }
 
-/** FR-MED-10 — aynı türde aynı hash varsa uyarı bilgisi (engellemez). */
+/** aynı türde aynı hash varsa uyarı bilgisi (engellemez). */
 async function findDuplicate(kind, sha256) {
   const existing = await prisma.mediaAsset.findFirst({
     where: { kind, sha256 },
@@ -228,7 +228,7 @@ export function assetKeys(asset) {
   ].filter(Boolean);
 }
 
-/** DATABASE.md §5.1 — hiçbir sahibe bağlı olmayan asset koşulu. */
+/** hiçbir sahibe bağlı olmayan asset koşulu. */
 export const ORPHAN_WHERE = Object.freeze({
   background: null,
   musicAudio: null,
@@ -245,7 +245,7 @@ export const ORPHAN_WHERE = Object.freeze({
 });
 
 /**
- * FR-MED-11 — transaction içinde asset'leri "hâlâ yetimse" koşuluyla siler (yarışa dayanıklı) ve
+ * transaction içinde asset'leri "hâlâ yetimse" koşuluyla siler (yarışa dayanıklı) ve
  * dosyalarını StorageDeletionJob'a yazar. Kullanımdaki asset: skipInUse ise atlanır, değilse 409.
  * Commit sonrası `hooks.onDeletionQueued()` çağrılmalı (çağıran yapar).
  * @param {import('@prisma/client').Prisma.TransactionClient} tx

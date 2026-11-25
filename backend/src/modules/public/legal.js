@@ -1,4 +1,4 @@
-// ROUTES.md §3 — GET /api/public/legal/:key (FR-CNT-04). Düzenleme ekranı F16 (Sistem > Yasal metinler).
+// GET /api/public/legal/:key. Düzenleme ekranı (Sistem > Yasal metinler).
 import { NotFoundError } from '../../lib/httpError.js';
 import { prisma } from '../../lib/prisma.js';
 
